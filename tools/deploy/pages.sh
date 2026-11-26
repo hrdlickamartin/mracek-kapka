@@ -38,6 +38,7 @@ i=0
 while [ $i -lt 60 ]; do
   if curl -s "$URL?deploy=$i" | grep -q "$HASH"; then
     echo "Živě: $URL ($HASH)"
+    trap - EXIT
     rm -rf "$WORK"
     exit 0
   fi
