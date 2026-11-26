@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<title>Mráček Kapka – UI Style Guide</title>
+<link rel="stylesheet" href="styl.css">
+<style>
+.tl { display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; color: #fff; font-weight: 900; position: relative; }
+.tl-hlavni { width: 88px; height: 88px; background: radial-gradient(circle at 35% 30%, #8fd3ff 0%, #3baefd 45%, #1c7fcb 100%); box-shadow: 0 7px 0 #155f99, 0 10px 14px rgba(28,127,203,.35); }
+.tl-zelene { width: 88px; height: 88px; background: radial-gradient(circle at 35% 30%, #d6ee7a 0%, #a8c729 45%, #75a023 100%); box-shadow: 0 7px 0 #557a14, 0 10px 14px rgba(117,160,35,.35); }
+.tl-mrak { width: 72px; height: 72px; background: radial-gradient(circle at 35% 30%, #fff 0%, #fefcfc 50%, #dfe7f5 100%); box-shadow: 0 6px 0 #b9c7df, 0 9px 12px rgba(35,57,91,.18); color: var(--nebe-tmave); }
+.tl-stisk { transform: translateY(6px) scale(.95); box-shadow: 0 1px 0 #155f99, 0 3px 6px rgba(28,127,203,.3); }
+.tl-zamc { filter: saturate(.25) brightness(1.1); opacity: .7; }
+.tl svg { width: 46%; height: 46%; }
+.tl-mrak svg { width: 52%; height: 52%; }
+.stavy { display: flex; gap: 22px; align-items: flex-end; flex-wrap: wrap; margin: 10px 0 14px; break-inside: avoid; }
+.stavy figure { margin: 0; text-align: center; }
+.stavy figcaption { margin-top: 12px; text-align: center; }
+.ikony { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; break-inside: avoid; margin: 8px 0 12px; }
+.ikony div { text-align: center; font-size: 8.3pt; }
+.ikony .tl { display: flex; margin: 0 auto 8px; }
+.obrazovka { position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; border: 6px solid #23395b; background: linear-gradient(#bfe6fd, #e9f7fe 55%, #b9d75a 56%, #8fb52a); break-inside: avoid; margin: 6px 0 4px; }
+.obrazovka .p { position: absolute; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 7.5pt; font-weight: 800; color: var(--inkoust); }
+.obrazovka .zona { border: 2px dashed rgba(237,62,29,.55); border-radius: 10px; }
+.obrazovka .bezpecna { border: 2px dashed rgba(35,57,91,.35); border-radius: 12px; }
+.obrazovka .bublina { border-radius: 50%; background: #fff; box-shadow: 0 4px 0 #b9c7df; }
+.obrazovka .kv { border-radius: 50%; }
+.dvojice { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.dvojice > div { break-inside: avoid; }
+.zaskrt { list-style: none; padding-left: 0; }
+.dvojice > div p { font-size: 9pt; }
+.typo { border: 1px solid #dceaf5; border-radius: 12px; padding: 10px 14px; margin: 6px 0; break-inside: avoid; }
+.typo .ukazka { font-family: "Nunito"; color: var(--inkoust); }
+.typo .meta { font-size: 8pt; color: var(--sede); }
+.pohyb { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; break-inside: avoid; }
+.pohyb .karta b { display: block; font-size: 15pt; color: var(--nebe-tmave); }
+.brana { display: flex; gap: 16px; align-items: center; break-inside: avoid; }
+.brana .kruh { width: 92px; height: 92px; border-radius: 50%; background: conic-gradient(var(--nebe) 0 65%, #e2edf5 65% 100%); display: flex; align-items: center; justify-content: center; flex: none; }
+.brana .kruh div { width: 70px; height: 70px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="i-domek" viewBox="0 0 48 48"><path d="M8 22 L24 8 L40 22 V38 a4 4 0 0 1 -4 4 H12 a4 4 0 0 1 -4 -4 Z" fill="currentColor"/><rect x="19" y="28" width="10" height="14" rx="4" fill="#fff" opacity=".85"/></symbol>
+    <symbol id="i-mapa" viewBox="0 0 48 48"><circle cx="12" cy="34" r="6" fill="currentColor"/><circle cx="24" cy="18" r="6" fill="currentColor"/><circle cx="37" cy="30" r="6" fill="currentColor"/><path d="M12 34 Q16 22 24 18 Q32 18 37 30" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round" stroke-dasharray="1 7"/></symbol>
+    <symbol id="i-album" viewBox="0 0 48 48"><rect x="8" y="7" width="32" height="36" rx="6" fill="currentColor"/><circle cx="24" cy="22" r="8" fill="#fff" opacity=".9"/><circle cx="21" cy="21" r="1.8" fill="currentColor"/><circle cx="27" cy="21" r="1.8" fill="currentColor"/></symbol>
+    <symbol id="i-satnik" viewBox="0 0 48 48"><path d="M10 30 a14 14 0 0 1 28 0 Z" fill="currentColor"/><rect x="7" y="29" width="34" height="7" rx="3.5" fill="currentColor"/><circle cx="24" cy="12" r="4" fill="currentColor"/></symbol>
+    <symbol id="i-zahradka" viewBox="0 0 48 48"><path d="M24 42 V24" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M24 30 Q14 30 12 22 Q22 20 24 30Z M24 28 Q34 26 36 18 Q26 17 24 28Z" fill="currentColor"/><circle cx="24" cy="14" r="7" fill="currentColor"/></symbol>
+    <symbol id="i-hrat" viewBox="0 0 48 48"><path d="M17 10 Q14 10 14 14 V34 Q14 38 17 38 Q19 38 21 37 L37 27 Q40 24 37 21 L21 11 Q19 10 17 10Z" fill="currentColor"/></symbol>
+    <symbol id="i-zpet" viewBox="0 0 48 48"><path d="M30 10 L14 24 L30 38" stroke="currentColor" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-rodic" viewBox="0 0 48 48"><circle cx="24" cy="24" r="8" fill="none" stroke="currentColor" stroke-width="5"/><g stroke="currentColor" stroke-width="5" stroke-linecap="round"><path d="M24 6v5M24 37v5M6 24h5M37 24h5M11 11l3.5 3.5M33.5 33.5L37 37M11 37l3.5-3.5M33.5 14.5L37 11"/></g></symbol>
+    <symbol id="i-kapka" viewBox="0 0 48 48"><path d="M24 6 Q36 22 36 30 a12 12 0 0 1 -24 0 Q12 22 24 6Z" fill="currentColor"/><ellipse cx="19" cy="28" rx="3" ry="5" fill="#fff" opacity=".7"/></symbol>
+    <symbol id="i-mrak" viewBox="0 0 48 48"><path d="M14 36 a8 8 0 0 1 0 -16 a10 10 0 0 1 19 -3 a8 8 0 0 1 2 19 Z" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<section class="titulka">
+  <div>
+    <div class="obraz"><img src="img/hero.png" alt="" style="object-position: 30% 22%"></div>
+    <div class="nadpis">UI Style Guide · verze 1.0</div>
+    <h1>Mráček Kapka</h1>
+    <div class="podnadpis">Rozhraní pro děti, které ještě nečtou: principy, barvy, písmo, ikony, komponenty, obrazovky, pohyb, zvuk a rodičovská zóna.</div>
+  </div>
+  <div class="meta"><span>děti 3–5 let</span><span>jeden prst</span><span>bez textu ve hře</span><span>bez skóre a časovačů</span><span>bez reklam a nákupů</span><span>listopad 2026</span></div>
+</section>
+
+<section>
+<h2>Obsah</h2>
+<div class="obsah">
+  <div><b>1</b> Účel a vztah k Art Bible</div>
+  <div><b>2</b> Principy rozhraní</div>
+  <div><b>3</b> Zakázané vzory</div>
+  <div><b>4</b> Orientace, mřížka a bezpečné zóny</div>
+  <div><b>5</b> Dotykové cíle a gesta</div>
+  <div><b>6</b> Barevné tokeny</div>
+  <div><b>7</b> Typografie</div>
+  <div><b>8</b> Ikonografie</div>
+  <div><b>9</b> Komponenty</div>
+  <div><b>10</b> HUD a zpětná vazba ve scéně</div>
+  <div><b>11</b> Obrazovky</div>
+  <div><b>12</b> Postup bez čísel</div>
+  <div><b>13</b> Pohyb</div>
+  <div><b>14</b> Zvuk, hlas a haptika</div>
+  <div><b>15</b> Nápověda a onboarding</div>
+  <div><b>16</b> Rodičovská zóna</div>
+  <div><b>17</b> Přístupnost</div>
+  <div><b>18</b> Velikosti zařízení</div>
+  <div><b>19</b> Kontrolní seznam</div>
+</div>
+
+<h3>1 · Účel a vztah k Art Bible</h3>
+<p>UI Style Guide popisuje vše, co hráč vidí a čeho se dotýká mimo samotnou krajinu: tlačítka, ikony, přechody, obrazovky, nápovědu, zvukovou odezvu a rodičovskou zónu. Výtvarný styl, paleta a postavy se řídí <b>Game Art Bible</b> (<code>docs/game-art-bible.pdf</code>); tento dokument z nich vychází a nikde jim neodporuje.</p>
+<p>Platí stejná pevná identita: <b>3–5 let, jeden prst, žádné prohrávání, skóre, časové limity, reklamy ani nákupy</b>, smyčka <b>nabrat vodu → zalít → sledovat růst → získat odměnu</b>. Rozšířené prvky (Oblačná rodina, mapa údolí, sbírky, další světy) jsou označené jako návrh stejně jako v Art Bible.</p>
+</section>
+
+<section class="kapitola">
+<h2><span class="cislo">2</span>Principy rozhraní</h2>
+<div class="mrizka m2">
+  <div class="karta"><h4>1. Svět je rozhraní</h4>Co jde ukázat v krajině, neukazuje panel. Množství vody nese velikost Kapky, žízeň nese rostlinka, postup nese rozkvetlá scéna. Na obrazovce hry jsou nejvýš dvě tlačítka.</div>
+  <div class="karta"><h4>2. Žádné čtení</h4>Ve hře není text. Význam nese obrázek, pohyb, zvuk a hlas Žabky Žofky. Text existuje jen v rodičovské zóně.</div>
+  <div class="karta"><h4>3. Každý dotek odpoví</h4>Do 100 ms přijde viditelná a slyšitelná odezva. Dotek „mimo“ není chyba: rozprskne kapičky nebo rozhoupe trávu.</div>
+  <div class="karta"><h4>4. Nic se nedá pokazit</h4>Neexistuje chybový stav, potvrzovací dialog pro dítě ani ztráta postupu. Vše se automaticky ukládá. Odchod ze scény nic nemaže.</div>
+  <div class="karta"><h4>5. Klid a předvídatelnost</h4>Tlačítka jsou vždy na stejném místě. Žádná vyskakovací okna, žádné nečekané zvuky, žádné blikání. Hra nikdy sama nespěchá.</div>
+  <div class="karta"><h4>6. Odolné proti náhodnému doteku</h4>Malé děti drží tablet celou dlaní. Okraje obrazovky nespouštějí akce, opuštění hry vyžaduje záměr, rodičovská zóna je za bránou.</div>
+</div>
+
+<h2 style="margin-top:18px"><span class="cislo">3</span>Zakázané vzory</h2>
+<p>Seznam je závazný pro každou obrazovku, včetně sbírek a dlouhodobé motivace.</p>
+<div class="ano-ne">
+  <div class="ne"><h4>Nikdy</h4><ul>
+    <li>čísla, skóre, body, procenta, „3/10“, žebříčky</li>
+    <li>mince, drahokamy, energie, životy, jakákoli měna</li>
+    <li>časovače, odpočítávání, ukazatele „dojde ti“</li>
+    <li>prohra, „zkus to znovu“, červené křížky, smutné výrazy jako trest</li>
+    <li>zámky, řetězy, šedé „nedostupné“ karty, otazníky</li>
+    <li>reklamy, nákupy, odkazy ven, sdílení na sítě</li>
+    <li>denní série, „vrať se zítra, jinak…“, notifikace</li>
+    <li>náhodné odměny (truhly, kola štěstí)</li>
+    <li>text ve hře, malá tlačítka, gesta pro dva prsty</li>
+  </ul></div>
+  <div class="ano"><h4>Místo toho</h4><ul>
+    <li>rozkvetlá krajina a zvířátka, která přišla</li>
+    <li>samolepky, duhové pruhy, nalezení členové rodiny</li>
+    <li>vše v klidném tempu, hra čeká na dítě</li>
+    <li>jemná pomoc: Žofka ukáže, kde je žízeň</li>
+    <li>neobjevená místa skrytá v mlze</li>
+    <li>žádné vnější odkazy; vše uvnitř hry</li>
+    <li>„návštěva dne“ bez povinnosti</li>
+    <li>pevně daná odměna za každou scénu</li>
+    <li>obrázek, hlas, velký cíl, tažení jedním prstem</li>
+  </ul></div>
+</div>
+</section>
+
+<section class="kapitola">
+<h2><span class="cislo">4</span>Orientace, mřížka a bezpečné zóny</h2>
+<ul>
+  <li><b>Pouze na šířku</b> (landscape). Hra se při otočení zařízení neotáčí na výšku; přirozené držení tabletu dvěma rukama.</li>
+  <li><b>Referenční plátno</b> 1600 × 900 bodů (16:9). Celé plátno je vždy vidět: na širších displejích se škáluje podle výšky a přibude krajina po stranách, na užších (4:3) podle šířky a přibude obloha nahoře a tráva dole.</li>
+  <li><b>Mřížka</b> 12 sloupců, žlab 24 pt, okraj 48 pt. Základní jednotka rozestupů je <b>8 pt</b> (8, 16, 24, 32, 48, 64).</li>
+  <li>Respektují se systémové bezpečné oblasti (výřez, zaoblené rohy, gesto domů). Žádný ovládací prvek nesmí ležet pod systémovým gestem.</li>
+</ul>
+<div class="obrazovka">
+  <div class="p bezpecna" style="left:12.5%;right:12.5%;top:3%;bottom:3%;color:rgba(35,57,91,.5);align-items:flex-start;padding-top:4px">plátno 1600 × 900 – vždy celé vidět</div>
+  <div class="p zona" style="left:0;top:0;bottom:0;width:8%;color:#c9341b">okraj<br>bez akcí</div>
+  <div class="p zona" style="right:0;top:0;bottom:0;width:8%;color:#c9341b">okraj<br>bez akcí</div>
+  <div class="p" style="left:9%;top:6%;width:7%;aspect-ratio:1;border-radius:50%;background:#fff;box-shadow:0 4px 0 #b9c7df;font-size:6.5pt">domů</div>
+  <div class="p" style="right:9%;top:6%;width:4%;aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.6);font-size:5.5pt">rodič</div>
+  <div class="p" style="left:30%;right:30%;top:16%;height:30%;border:2px dashed rgba(28,127,203,.5);border-radius:14px;color:var(--nebe-tmave)">prostor letu Kapky</div>
+  <div class="p" style="left:18%;right:18%;bottom:8%;height:30%;border:2px dashed rgba(79,145,18,.7);border-radius:14px;color:#3d6e0e">hrací pás: rostlinky, voda, zvířátka</div>
+</div>
+<figcaption>Rozvržení scény na 16:9. Rohy nahoře patří dvěma trvalým tlačítkům; okraje 8 % šířky nespouštějí žádné akce.</figcaption>
+
+<h2 style="margin-top:18px"><span class="cislo">5</span>Dotykové cíle a gesta</h2>
+<table>
+  <tr><th>Prvek</th><th>Minimální velikost</th><th>Doporučeno</th><th>Rozestup</th></tr>
+  <tr><td>Hlavní tlačítko (hrát, pokračovat)</td><td>88 pt</td><td>120–140 pt</td><td>≥ 48 pt</td></tr>
+  <tr><td>Trvalé tlačítko ve scéně (domů)</td><td>72 pt</td><td>80 pt</td><td>≥ 48 pt od okraje i od hrací plochy</td></tr>
+  <tr><td>Herní objekt (rostlinka, zvířátko, schovávačka)</td><td>96 pt zóna doteku</td><td>1,5× velikost obrázku</td><td>≥ 200 b. (12,5 % plátna)</td></tr>
+  <tr><td>Karta na mapě / samolepka v albu</td><td>120 pt</td><td>160 pt</td><td>≥ 24 pt</td></tr>
+  <tr><td>Rodičovská zóna (dospělí)</td><td>44 pt</td><td>52 pt</td><td>≥ 12 pt</td></tr>
+</table>
+<h4>Podporovaná gesta</h4>
+<ul>
+  <li><b>Tažení jedním prstem</b> – vedení Kapky. Kapka sleduje prst i mimo tlačítka; puštění prstu ji nechá vznášet na místě.</li>
+  <li><b>Ťuknutí</b> – tlačítka, objekty, přeháňka pro radost. Ťuknutí se vyhodnocuje při <b>položení</b> prstu, ne při zvednutí (malé děti prst často sjedou).</li>
+  <li><b>Podržení</b> – jen tam, kde je potřeba záměr: odchod ze scény (1 s), rodičovská brána (3 s).</li>
+  <li><b>Nepoužívá se:</b> dvojité ťuknutí, štípnutí, švihnutí, více prstů, náklon zařízení. Doteky dalších prstů a dlaně se ignorují; platí první prst.</li>
+</ul>
+</section>
+
+<section>
+<h2 style="margin-top:18px"><span class="cislo">6</span>Barevné tokeny</h2>
+<p>UI tokeny vycházejí z palety Art Bible. Pojmenování odpovídá roli, ne barvě, aby šlo upravit odstín bez změny kódu.</p>
+<div class="paleta">
+  <div class="vzorek"><div class="barva" style="background:#3baefd"></div><div class="popis"><b>akce.primarni</b><code>#3BAEFD</code> hlavní tlačítka</div></div>
+  <div class="vzorek"><div class="barva" style="background:#155f99"></div><div class="popis"><b>akce.primarni.hrana</b><code>#155F99</code> spodní hrana 3D tlačítka</div></div>
+  <div class="vzorek"><div class="barva" style="background:#a8c729"></div><div class="popis"><b>akce.pokracovat</b><code>#A8C729</code> pokračovat, hrát</div></div>
+  <div class="vzorek"><div class="barva" style="background:#557a14"></div><div class="popis"><b>akce.pokracovat.hrana</b><code>#557A14</code></div></div>
+  <div class="vzorek"><div class="barva" style="background:#fefcfc"></div><div class="popis"><b>povrch.mrak</b><code>#FEFCFC</code> obláčková tlačítka a karty</div></div>
+  <div class="vzorek"><div class="barva" style="background:#b9c7df"></div><div class="popis"><b>povrch.mrak.hrana</b><code>#B9C7DF</code></div></div>
+  <div class="vzorek"><div class="barva" style="background:#fff9ef"></div><div class="popis"><b>povrch.papir</b><code>#FFF9EF</code> album, rodičovská zóna</div></div>
+  <div class="vzorek"><div class="barva" style="background:#23395b"></div><div class="popis"><b>obsah.inkoust</b><code>#23395B</code> ikony, text rodičů</div></div>
+  <div class="vzorek"><div class="barva" style="background:#f9ba0a"></div><div class="popis"><b>zvyrazneni.slunce</b><code>#F9BA0A</code> nápověda, záře</div></div>
+  <div class="vzorek"><div class="barva" style="background:#8dd9fa"></div><div class="popis"><b>stav.voda</b><code>#8DD9FA</code> žízeň, kapka</div></div>
+  <div class="vzorek"><div class="barva" style="background:#fca19e"></div><div class="popis"><b>zvyrazneni.rumenec</b><code>#FCA19E</code> radost, slavnost</div></div>
+  <div class="vzorek"><div class="barva" style="background:#e6ebf6"></div><div class="popis"><b>stav.mlha</b><code>#E6EBF6</code> neobjevené, prázdné místo</div></div>
+</div>
+<ul>
+  <li>Barva nikdy nenese význam sama: každý stav má i tvar, ikonu nebo pohyb.</li>
+  <li>Text v rodičovské zóně: inkoust na papíru, kontrast ≥ 7 : 1. Ikony na tlačítkách: kontrast ≥ 3 : 1 vůči ploše tlačítka.</li>
+  <li><b>Červená se v UI nepoužívá.</b> Mák patří krajině, ne varování.</li>
+</ul>
+
+<h2 style="margin-top:18px"><span class="cislo">7</span>Typografie</h2>
+<p>Dítě text nečte, proto se písmo objevuje jen v rodičovské zóně, v titulcích obchodů s aplikacemi a v lokalizovaných popiscích pro čtečky obrazovky. Písmo je <b>Nunito</b> (Google Fonts, licence OFL): zaoblené konce tahů ladí s tvaroslovím a sada obsahuje všechny české znaky (ěščřžýáíéůú ĚŠČŘŽÝÁÍÉŮÚ ďťň). Do aplikace se vkládá jako soubor, nespoléhá se na síť.</p>
+<div class="typo"><div class="ukazka" style="font-size:28pt;font-weight:900">Mráček Kapka</div><div class="meta">Nadpis · Nunito Black 900 · 28/32 pt · jen logo a název</div></div>
+<div class="typo"><div class="ukazka" style="font-size:20pt;font-weight:800">Nastavení pro rodiče</div><div class="meta">Nadpis obrazovky · Nunito ExtraBold 800 · 20/26 pt</div></div>
+<div class="typo"><div class="ukazka" style="font-size:15pt;font-weight:700">Hlasitost hudby</div><div class="meta">Popisek ovládacího prvku · Nunito Bold 700 · 15/20 pt</div></div>
+<div class="typo"><div class="ukazka" style="font-size:12pt;font-weight:400">Hra se ukládá sama. Postup se nikdy neztratí, ani když dítě aplikaci zavře.</div><div class="meta">Běžný text · Nunito Regular 400 · 12/18 pt · nejmenší velikost textu 12 pt</div></div>
+<div class="pozor">Logo „Mráček Kapka“ je jediný text, který vidí dítě. Je součástí titulní ilustrace a funguje jako obrázek, ne jako informace.</div>
+</section>
+
+<section>
+<h2 style="margin-top:18px"><span class="cislo">8</span>Ikonografie</h2>
+<p>Ikony jsou měkké, plné, bez tenkých linek; tloušťka tahu nejméně 1/10 velikosti ikony. Ikona leží na kulatém tlačítku a zabírá 46–52 % jeho průměru. Každá ikona znázorňuje <b>předmět z herního světa</b> (domek, mapa, knížka, čepička), ne abstraktní symbol.</p>
+<div class="ikony">
+  <div><span class="tl tl-mrak"><svg><use href="#i-domek"/></svg></span>Domů<br><small>zpět na Moji zahrádku</small></div>
+  <div><span class="tl tl-zelene" style="width:72px;height:72px"><svg><use href="#i-hrat"/></svg></span>Hrát<br><small>pokračovat v příběhu</small></div>
+  <div><span class="tl tl-mrak"><svg><use href="#i-mapa"/></svg></span>Mapa údolí</div>
+  <div><span class="tl tl-mrak"><svg><use href="#i-album"/></svg></span>Album zvířátek</div>
+  <div><span class="tl tl-mrak"><svg><use href="#i-satnik"/></svg></span>Šatník Kapky</div>
+  <div><span class="tl tl-mrak"><svg><use href="#i-zahradka"/></svg></span>Moje zahrádka</div>
+  <div><span class="tl tl-mrak"><svg><use href="#i-zpet"/></svg></span>Zpět<br><small>jen uvnitř nabídek</small></div>
+  <div><span class="tl tl-mrak" style="width:48px;height:48px;opacity:.7"><svg><use href="#i-rodic"/></svg></span>Rodičovská zóna<br><small>malé, nenápadné</small></div>
+  <div><span class="tl tl-mrak" style="color:#3baefd"><svg><use href="#i-kapka"/></svg></span>Žízeň<br><small>bublina nad rostlinkou</small></div>
+  <div><span class="tl tl-mrak" style="color:#9fb3d6"><svg><use href="#i-mrak"/></svg></span>Mlha<br><small>neobjevené místo</small></div>
+</div>
+<ul>
+  <li>Výroba: vektorový zdroj (SVG) + export PNG @1x–@3x se stínem a odleskem podle Art Bible (měkké 3D).</li>
+  <li>Ikony v nabídkách mohou být nahrazené miniaturou skutečného objektu (např. album jako knížka s fotkou ježka).</li>
+  <li>Každé tlačítko má hlasový popisek pro dítě (Žofka: „Album!“) při prvním ťuknutí v nové nabídce a textový popisek pro čtečky obrazovky.</li>
+</ul>
+
+<h2 style="margin-top:18px"><span class="cislo">9</span>Komponenty</h2>
+<h3>Bublinové tlačítko</h3>
+<p>Kulaté 3D tlačítko jako kapka nebo obláček. Odlesk vlevo nahoře, spodní hrana 6–7 pt v tmavším tónu, měkký stín pod ním.</p>
+<div class="stavy">
+  <figure><span class="tl tl-hlavni"><svg><use href="#i-hrat"/></svg></span><figcaption>Výchozí</figcaption></figure>
+  <figure><span class="tl tl-hlavni tl-stisk"><svg><use href="#i-hrat"/></svg></span><figcaption>Stisknuté<br>−6 pt, 95 %</figcaption></figure>
+  <figure><span class="tl tl-hlavni" style="box-shadow:0 7px 0 #155f99,0 0 0 8px rgba(249,186,10,.55),0 10px 14px rgba(28,127,203,.35)"><svg><use href="#i-hrat"/></svg></span><figcaption>Nápověda<br>pulzující záře</figcaption></figure>
+  <figure><span class="tl tl-zelene"><svg><use href="#i-hrat"/></svg></span><figcaption>Pokračovat</figcaption></figure>
+  <figure><span class="tl tl-mrak"><svg><use href="#i-album"/></svg></span><figcaption>Obláčkové<br>(nabídky)</figcaption></figure>
+  <figure><span class="tl tl-mrak" style="filter:blur(.6px);opacity:.55"><svg><use href="#i-mapa"/></svg></span><figcaption>V mlze<br>(ještě neobjeveno)</figcaption></figure>
+</div>
+<table>
+  <tr><th>Stav</th><th>Vzhled</th><th>Pohyb a zvuk</th></tr>
+  <tr><td>Výchozí</td><td>plná barva, odlesk, spodní hrana</td><td>jemné „dýchání“ 98–102 %, 3 s</td></tr>
+  <tr><td>Stisknuté</td><td>posun o 6 pt dolů, hrana zmizí, 95 %</td><td>„blup“, haptika lehká, okamžitě při položení prstu</td></tr>
+  <tr><td>Uvolněné</td><td>návrat s překmitem 105 %</td><td>pružina 250 ms</td></tr>
+  <tr><td>Nápověda</td><td>žlutá záře kolem</td><td>pulz 1,2 s, max. 3 opakování, pak pauza</td></tr>
+  <tr><td>V mlze</td><td>rozmazané, průsvitné, bez ikony zámku</td><td>po ťuknutí se mlha zavlní a Žofka řekne, kudy dál</td></tr>
+</table>
+<h3>Další komponenty</h3>
+<div class="mrizka m3">
+  <div class="karta"><h4>Karta místa</h4>Kulatý „ostrůvek“ na mapě s miniaturou scény. Hotová scéna ukazuje rozkvetlou krajinu a zvířátko; neobjevená je v mlze.</div>
+  <div class="karta"><h4>Samolepka</h4>Zvířátko s bílým okrajem 6 pt a jemným stínem, mírně natočené (±4°). Prázdné místo je obrys v mlze.</div>
+  <div class="karta"><h4>Bublina myšlenky</h4>Obláček nad postavou nebo rostlinkou s jedním obrázkem (kapička, zvířátko, semínko). Nikdy text.</div>
+  <div class="karta"><h4>Držák „podrž“</h4>Kroužek, který se při podržení plní modrou kolem tlačítka. Použití: odchod ze scény (1 s).</div>
+  <div class="karta"><h4>Přepínač (rodiče)</h4>Velký zaoblený přepínač 52 × 32 pt, zapnuto = zelená, s ikonou i textem.</div>
+  <div class="karta"><h4>Posuvník (rodiče)</h4>Hlasitost a délka hraní. Kolečko 32 pt, ikony na koncích, bez čísel jen pro dítě viditelných.</div>
+</div>
+</section>
+
+<section>
+<h2 style="margin-top:18px"><span class="cislo">10</span>HUD a zpětná vazba ve scéně</h2>
+<p>Klasický HUD neexistuje. Ve scéně jsou jen <b>dvě trvalá tlačítka</b>: Domů (vlevo nahoře, podržet 1 s) a malá ikona rodičovské zóny (vpravo nahoře, podržet 3 s). Vše ostatní je přímo ve světě.</p>
+<h3>Co mám právě udělat</h3>
+<p>Dítě vidí svůj další krok pořád, ne až po nečinnosti. Cíl počítá engine (<code>state.goal</code>) podle situace: když má Kapka málo vody nebo se právě nasává, je cílem voda, jinak nejbližší žíznivá rostlinka.</p>
+<ul>
+  <li><b>Šipka nad cílem</b> poskakuje (modrá u vody, žlutá u rostlinky) a pod cílem se z kroužku šíří vlna. Zmizí, jakmile Kapka dělá, co má (nasává se, prší).</li>
+  <li><b>Přání Kapky</b>: myšlenková bublina u Kapky ukazuje kapičku, nebo kytičku. Je to totéž co šipka, jen řečeno postavou.</li>
+  <li>V menu, na mapě, ve výběru obrázku a ve slavnosti ukáže <b>animovaná ručička</b>, kam ťuknout (Hrát, další ostrov, další obrázek, Pokračovat).</li>
+  <li>V režimu Méně pohybu šipka ani ručička neposkakují, jen zůstanou na místě.</li>
+</ul>
+<p>Další informace nese svět:</p>
+<table>
+  <tr><th>Informace</th><th>Jak ji dítě vidí</th><th>Nikdy ne</th></tr>
+  <tr><td>Kolik má Kapka vody</td><td>velikost a barva Kapky: prázdná je menší a světlá, plná je větší, modřejší a drží kapku</td><td>ukazatel, procenta, ikonka nádrže</td></tr>
+  <tr><td>Kde je voda</td><td>lesklé jezírko, vlnky, občas z něj vyskočí kapička</td><td>šipka přes obrazovku</td></tr>
+  <tr><td>Která rostlinka má žízeň</td><td>svěšené listy, suchá hlína, bublina s kapičkou</td><td>vykřičník, červené zvýraznění</td></tr>
+  <tr><td>Že zalévání funguje</td><td>déšť, mokrá hlína, rostlinka povyroste s pružinou a zazvoní</td><td>číselné přičítání</td></tr>
+  <tr><td>Postup ve scéně</td><td>počet rozkvetlých rostlinek je vidět v krajině; zeleň se šíří</td><td>lišta postupu, hvězdičky</td></tr>
+  <tr><td>Scéna dokončena</td><td>všechny rostlinky zahrají melodii, přiletí zvířátko, slavnost</td><td>„Úroveň splněna“, skóre</td></tr>
+</table>
+
+<h2 class="kapitola"><span class="cislo">11</span>Obrazovky</h2>
+<p>Navigace má nejvýš dvě úrovně. Domovem je <b>herní menu</b>. Z každé obrazovky na něj vede tlačítko Domů: v nabídkách stačí ťuknout, ve scéně a v zahrádce se podrží 1 s, aby dítě hru neopustilo omylem.</p>
+<pre>Úvod ──▶ Herní menu (domov) ──▶ [Hrát] další obrázek ──▶ Slavnost ──▶ Mapa údolí ──▶ Scéna
+               │
+               ├──▶ Moje zahrádka
+               ├──▶ Mapa údolí ──▶ výběr obrázku ──▶ Scéna
+               ├──▶ Album zvířátek
+               ├──▶ Šatník Kapky
+               └──▶ [podržet 3 s] Rodičovská zóna</pre>
+<div class="drz" style="margin:6px 0 12px">
+  <div class="obrazovka">
+    <div class="p" style="left:40%;top:4%;width:20%;height:34%;border-radius:50%;background:#fff;box-shadow:0 4px 0 #c9d6ea">Kapka mává</div>
+    <div class="p" style="left:43%;top:56%;width:14%;aspect-ratio:1;border-radius:50%;background:#a8c729;box-shadow:0 6px 0 #557a14;color:#fff;font-size:8pt">Hrát</div>
+    <div class="p" style="left:53%;top:74%;width:5%;aspect-ratio:0.7;border-radius:12px;background:#ffe3cf;border:2px solid #e8b89a;font-size:5pt">ruka</div>
+    <div class="p bublina" style="left:6%;top:62%;width:9%;aspect-ratio:1;font-size:6pt">zahrádka</div>
+    <div class="p bublina" style="left:17%;top:62%;width:9%;aspect-ratio:1;font-size:6pt">mapa</div>
+    <div class="p bublina" style="right:17%;top:62%;width:9%;aspect-ratio:1;font-size:6pt">album</div>
+    <div class="p bublina" style="right:6%;top:62%;width:9%;aspect-ratio:1;font-size:6pt">šatník</div>
+  </div>
+  <h4>Herní menu (domov)</h4><p>Mávající Kapka (s doplňky ze šatníku) a jedno velké zelené tlačítko <b>Hrát</b>, které pustí rovnou další neodehraný obrázek, takže dítě nemusí nic vybírat. Po stranách čtyři menší tlačítka: zahrádka, mapa, album, šatník. Na Hrát po chvíli ukáže animovaná ručička. Žofka sedí vpravo dole.</p>
+</div>
+<div class="dvojice">
+  <div>
+    <div class="obrazovka" style="background:linear-gradient(#8fd3ff,#d2f0fd)">
+      <div class="p" style="left:30%;top:14%;width:40%;height:38%;border-radius:50% 50% 45% 45%;background:#fff;box-shadow:0 6px 0 #c9d6ea">Kapka spí<br>(ťukni a probudí se)</div>
+      <div class="p" style="left:25%;top:60%;width:50%;font-size:12pt;font-weight:900;color:#1c7fcb">Mráček Kapka</div>
+      <div class="p" style="left:43%;bottom:6%;width:14%;aspect-ratio:1;border-radius:50%;background:#a8c729;box-shadow:0 5px 0 #557a14;color:#fff">hrát</div>
+    </div>
+    <h4>Úvod</h4><p>Spící Kapka, logo, jedno zelené tlačítko. Ťuknutí na Kapku ji probudí (mrknutí, „juuu!“) a také spustí hru. Při dalším spuštění se rovnou otevře Moje zahrádka s návštěvou dne.</p>
+  </div>
+  <div>
+    <div class="obrazovka" style="background:linear-gradient(#bfe6fd,#e9f7fe 60%,#fff 61%)">
+      <div class="p bublina" style="left:5%;top:6%;width:8%;aspect-ratio:1;font-size:5.5pt">domů</div>
+      <div class="p" style="left:34%;right:12%;top:8%;height:14%;border-radius:99px;background:linear-gradient(90deg,#ed3e1d,#f9ba0a,#fbcc03,#a8c729,#3baefd,#bd8efa);opacity:.45;color:#fff">duha nad zahrádkou (pruhy za světy)</div>
+      <div class="p" style="left:18%;right:18%;top:40%;height:30%;border-radius:40px;background:#a8c729;color:#fff">zahrádka s rostlinkami a zvířátky</div>
+    </div>
+    <h4>Moje zahrádka (domov)</h4><p>Volně hratelná zahrádka. Nahoře duha, která roste s příběhem, u obzoru nalezená Oblačná rodina, v trávě návštěva dne. Jediné tlačítko je Domů vlevo nahoře (podržet 1 s), aby nic nezakrývalo jezírko a rostlinky.</p>
+  </div>
+  <div>
+    <div class="obrazovka" style="background:linear-gradient(160deg,#d2f0fd,#e9f7e0)">
+      <div class="p bublina" style="left:5%;top:8%;width:8%;aspect-ratio:1;font-size:5.5pt">domů</div>
+      <div class="p kv" style="left:10%;top:55%;width:15%;aspect-ratio:1;background:#a8c729;color:#fff">Louka ✓</div>
+      <div class="p kv" style="left:28%;top:32%;width:15%;aspect-ratio:1;background:#cb7035;color:#fff">Zahrádka</div>
+      <div class="p kv" style="left:47%;top:50%;width:15%;aspect-ratio:1;background:#e6ebf6;color:#8798b5;filter:blur(.3px)">mlha</div>
+      <div class="p kv" style="left:66%;top:28%;width:15%;aspect-ratio:1;background:#e6ebf6;color:#8798b5">mlha</div>
+      <div class="p" style="left:30%;top:16%;width:12%;height:14%;border-radius:50%;background:#fff;box-shadow:0 3px 0 #c9d6ea;font-size:6pt">Kapka</div>
+    </div>
+    <h4>Mapa údolí</h4><p>Ostrůvky světů spojené tečkovanou řekou. Kapka čeká u dalšího místa. Ťuknutí na ostrůvek otevře výběr pěti scén (stejná mapa, přiblížená). Neobjevené části jsou v mlze, žádné zámky.</p>
+  </div>
+  <div>
+    <div class="obrazovka">
+      <div class="p bublina" style="left:5%;top:8%;width:8%;aspect-ratio:1;font-size:5.5pt">domů</div>
+      <div class="p" style="right:5%;top:8%;width:4%;aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.55);font-size:4.5pt">rodič</div>
+      <div class="p" style="left:38%;top:16%;width:22%;height:22%;border-radius:50%;background:#fff;box-shadow:0 4px 0 #c9d6ea">Kapka</div>
+      <div class="p" style="left:6%;bottom:6%;width:22%;height:16%;border-radius:50%;background:#8dd9fa">voda</div>
+      <div class="p kv" style="left:38%;bottom:10%;width:9%;aspect-ratio:1;background:#fbcc03">květ</div>
+      <div class="p kv" style="left:56%;bottom:12%;width:9%;aspect-ratio:1;background:#cb7035;color:#fff">žízeň</div>
+      <div class="p kv" style="left:74%;bottom:9%;width:9%;aspect-ratio:1;background:#cb7035;color:#fff">žízeň</div>
+    </div>
+    <h4>Scéna</h4><p>Celá obrazovka patří krajině. Dvě trvalá tlačítka v horních rozích. Žofka sedí na kraji hracího pásu a ozve se jen s nápovědou.</p>
+  </div>
+</div>
+</section>
+
+<section>
+<div class="dvojice" style="margin-top:12px">
+  <div>
+    <div class="obrazovka" style="background:radial-gradient(circle at 50% 40%,#fff8d9,#bfe6fd 70%)">
+      <div class="p" style="left:30%;top:12%;width:40%;height:36%;border-radius:50%;background:#fff;box-shadow:0 0 0 10px rgba(249,186,10,.35)">zvířátko přilétá</div>
+      <div class="p" style="left:15%;right:15%;bottom:12%;height:22%;border-radius:20px;background:#a8c729;color:#fff">rozkvetlé rostlinky hrají melodii</div>
+    </div>
+    <h4>Slavnost</h4><p>3–4 s bez ovládání: hudba, jiskry, příchod zvířátka. Pak samolepka „přiletí“ do ikony alba. Nakonec se ukáže jedno zelené tlačítko Pokračovat (na mapu). Hra na něj klidně čeká; mezitím si dítě může hrát se zvířátkem.</p>
+  </div>
+  <div>
+    <div class="obrazovka" style="background:#fff9ef">
+      <div class="p bublina" style="left:5%;top:8%;width:8%;aspect-ratio:1;font-size:5.5pt">domů</div>
+      <div class="p" style="left:16%;right:16%;top:12%;bottom:12%;border-radius:12px;background:#fff;box-shadow:0 4px 0 #e6dcc6;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:8px;align-items:stretch;justify-items:stretch">
+        <div style="background:#fca19e;border-radius:10px"></div><div style="background:#fbcc03;border-radius:10px"></div><div style="background:#e6ebf6;border-radius:10px"></div><div style="background:#e6ebf6;border-radius:10px"></div>
+        <div style="background:#a8c729;border-radius:10px"></div><div style="background:#e6ebf6;border-radius:10px"></div><div style="background:#e6ebf6;border-radius:10px"></div><div style="background:#e6ebf6;border-radius:10px"></div>
+      </div>
+      <div class="p bublina" style="right:5%;top:42%;width:8%;aspect-ratio:1;font-size:5.5pt">listovat</div>
+    </div>
+    <h4>Album zvířátek</h4><p>Knížka, jedna stránka = jeden svět, místo pro každé jeho zvířátko a objevy ze schovávaček. Ťuknutí na samolepku ji rozpohybuje a zvířátko promluví. Listuje se velkou šipkou nebo tažením stránky; prázdná místa jsou obrysy v mlze.</p>
+  </div>
+  <div>
+    <div class="obrazovka" style="background:linear-gradient(#d2f0fd,#fff)">
+      <div class="p bublina" style="left:5%;top:8%;width:8%;aspect-ratio:1;font-size:5.5pt">domů</div>
+      <div class="p" style="left:12%;top:18%;width:36%;height:60%;border-radius:50%;background:#fff;box-shadow:0 5px 0 #c9d6ea">Kapka s doplňkem</div>
+      <div class="p" style="left:56%;right:8%;top:16%;bottom:16%;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;align-items:stretch;justify-items:stretch">
+        <div class="bublina"></div><div class="bublina"></div><div class="bublina"></div><div class="bublina"></div><div class="bublina" style="opacity:.4"></div><div class="bublina" style="opacity:.4"></div>
+      </div>
+    </div>
+    <h4>Šatník Kapky</h4><p>Vlevo Kapka, vpravo velké kulaté doplňky. Ťuknutí doplněk nasadí (Kapka se zatočí a zasměje), další ťuknutí sundá. Neodemčené doplňky jsou v mlze.</p>
+  </div>
+  <div>
+    <div class="obrazovka" style="background:#fff9ef;border-color:#6b7b8c">
+      <div class="p" style="left:6%;top:8%;font-size:8pt;font-weight:900">Pro rodiče</div>
+      <div class="p" style="left:6%;right:6%;top:26%;height:12%;border-radius:8px;background:#fff;justify-content:space-between;padding:0 8px">Hlasitost hudby <span>━━━●──</span></div>
+      <div class="p" style="left:6%;right:6%;top:42%;height:12%;border-radius:8px;background:#fff;justify-content:space-between;padding:0 8px">Připomínka spánku <span>20 min</span></div>
+      <div class="p" style="left:6%;right:6%;top:58%;height:12%;border-radius:8px;background:#fff;justify-content:space-between;padding:0 8px">Méně pohybu <span>vyp.</span></div>
+      <div class="p" style="left:6%;bottom:8%;width:22%;height:12%;border-radius:8px;background:#a8c729;color:#fff">Zpět do hry</div>
+    </div>
+    <h4>Rodičovská zóna</h4><p>Jediná obrazovka s textem. Klidný papírový vzhled, standardní velikosti ovládacích prvků pro dospělé. Viz kapitola 16.</p>
+  </div>
+</div>
+
+<h2 style="margin-top:18px"><span class="cislo">12</span>Postup bez čísel</h2>
+<div class="navrh">Dlouhodobou motivaci nesou příběh a sbírky z Art Bible: nalezení členové <b>Oblačné rodiny</b>, <b>duha</b> nad zahrádkou (pruh za každý svět), <b>album</b>, <b>šatník</b> a <b>Moje zahrádka</b>. Všechno je vidět jako obraz, nic se nepočítá.</div>
+<table>
+  <tr><th>Úroveň</th><th>Vizuál postupu</th></tr>
+  <tr><td>Scéna</td><td>rozkvetlé rostlinky v krajině; po dokončení scény se miniatura na mapě vybarví</td></tr>
+  <tr><td>Svět</td><td>pět miniatur kolem ostrůvku na mapě; když jsou všechny barevné, objeví se člen rodiny (na Louce slaví Žabka Žofka)</td></tr>
+  <tr><td>Kampaň</td><td>duha nad zahrádkou (pět pruhů, jeden za svět) a rodinná fotka; pátý pruh otevře most na Duhovou slavnost</td></tr>
+  <tr><td>Sbírky</td><td>zaplněné samolepky v albu, doplňky v šatníku, nové rostliny v zahrádce</td></tr>
+</table>
+</section>
+
+<section>
+<h2 style="margin-top:18px"><span class="cislo">13</span>Pohyb</h2>
+<div class="pohyb">
+  <div class="karta"><b>100 ms</b>reakce na dotek (zmáčknutí, zvuk)</div>
+  <div class="karta"><b>250 ms</b>pružina tlačítka, malé přechody</div>
+  <div class="karta"><b>500 ms</b>otevření nabídky, růst rostlinky</div>
+  <div class="karta"><b>800 ms</b>přechod mezi obrazovkami (strop)</div>
+</div>
+<ul>
+  <li><b>Křivky:</b> pružina (tlumení 0,7, překmit do 10 %) pro vše, co se dotýká dítě; ease-in-out pro kameru a přechody.</li>
+  <li><b>Přechod obrazovek:</b> Kapka přelétne přes obraz a „rozfoukne“ novou obrazovku zleva doprava. Zpět na domov: obráceně.</li>
+  <li><b>Vstup prvků:</b> tlačítka „vyskočí“ ze spodu s postupným zpožděním 60 ms; nikdy nepřilétají zboku přes hrací plochu.</li>
+  <li><b>Nečinnost:</b> nápověda přidává animace postupně od 4 s klidu (viz kapitola 15).</li>
+  <li><b>Méně pohybu:</b> v rodičovské zóně se dá zapnout; přechody se změní na prolínání, vypne se parallax a třpytky, odezva tlačítek zůstává.</li>
+  <li>Žádné blikání rychlejší než 3× za sekundu a žádné třesení obrazovkou.</li>
+</ul>
+
+<h2 style="margin-top:18px"><span class="cislo">14</span>Zvuk, hlas a haptika</h2>
+<h3>Zvukové vrstvy</h3>
+<table>
+  <tr><th>Vrstva</th><th>Obsah</th><th>Pravidlo</th></tr>
+  <tr><td>Hudba</td><td>klidná smyčka světa; s každou rozkvetlou rostlinkou přibude nástroj</td><td>−18 LUFS, bez náhlých nástupů</td></tr>
+  <tr><td>Hlas</td><td>Žabka Žofka (vypravěčka), citoslovce Kapky a postav</td><td>při hlasu se hudba ztlumí o 6 dB</td></tr>
+  <tr><td>Efekty světa</td><td>déšť, nasávání, rozkvět (tón rostlinky), zvířátka</td><td>tóny rostlinek v jedné stupnici (pentatonika C dur), nikdy disonance</td></tr>
+  <tr><td>Efekty UI</td><td>„blup“ tlačítka, šustnutí stránky, „vžum“ přechodu</td><td>krátké (&lt; 300 ms), měkké, bez pípání</td></tr>
+</table>
+<h3>Hlas a mluvené pokyny</h3>
+<ul>
+  <li>Věty nejvýš 5 slov, přítomný čas, oslovení „my“: „Kytička má žízeň!“, „Poletíme pro vodu?“, „Hurá, přiletěl motýl!“</li>
+  <li>Hlas nikdy nehodnotí výkon („výborně, jsi nejrychlejší“), ale popisuje dění a radost.</li>
+  <li>Každá věta má 2–3 varianty, aby se neopakovala. Stejná nápověda nejvýš jednou za 20 s.</li>
+  <li>Nahrává se v češtině; lokalizace mění jen zvuk, ne obraz.</li>
+</ul>
+<h3>Haptika</h3>
+<p>Volitelná, výchozí zapnuto. Lehký impuls při stisku tlačítka, střední při rozkvětu, žádná vibrace delší než 50 ms.</p>
+</section>
+
+<section class="kapitola">
+<h2><span class="cislo">15</span>Nápověda a onboarding</h2>
+<p>Hra se učí hraním, bez tutoriálových obrazovek. První scéna louky je výuková a vede ji Žofka.</p>
+<table>
+  <tr><th>Krok</th><th>Co se děje</th><th>Vizuální nápověda</th></tr>
+  <tr><td>1</td><td>Kapka se probudí, Žofka: „Ahoj! Pojď si se mnou hrát.“</td><td>—</td></tr>
+  <tr><td>2</td><td>„Leť k vodě!“</td><td>animovaná ručička táhne od Kapky k jezírku</td></tr>
+  <tr><td>3</td><td>Kapka se nasaje sama, nafoukne se</td><td>vlnky stoupají ke Kapce</td></tr>
+  <tr><td>4</td><td>„Kytička má žízeň!“</td><td>bublina s kapičkou, ručička k rostlince</td></tr>
+  <tr><td>5</td><td>Prší, rostlinka roste. „Hurá!“</td><td>záře a tón</td></tr>
+  <tr><td>6</td><td>Další rostlinky už bez ručičky</td><td>nápověda jen při nečinnosti</td></tr>
+</table>
+<h3>Nápověda při nečinnosti</h3>
+<ol>
+  <li>Šipka nad cílem a přání Kapky jsou vidět pořád (kapitola 10).</li>
+  <li>Po <b>4 s</b> bez doteku: žíznivá rostlinka zamává lístkem, bublina s kapičkou zapulzuje.</li>
+  <li>Po <b>8 s</b>: Žofka řekne nápovědu podle situace („Kapka má prázdno, leť k vodě“).</li>
+  <li>Po <b>12 s</b>: ručička táhne od Kapky k cíli, dokud se dítě nedotkne.</li>
+  <li>Po <b>30 s</b>: Kapka usne, hudba se ztiší. Dotek ji probudí; nic se neztratí.</li>
+</ol>
+
+<h2 style="margin-top:18px"><span class="cislo">16</span>Rodičovská zóna</h2>
+<div class="brana">
+  <div class="kruh"><div><span class="tl tl-mrak" style="width:48px;height:48px;box-shadow:none"><svg><use href="#i-rodic"/></svg></span></div></div>
+  <div><h4 style="margin-top:0">Brána: podržet 3 sekundy</h4>Malá ikona vpravo nahoře. Při podržení se kolem ní plní kroužek. Uvolnění dřív nic nespustí ani nevydá zvuk. Po otevření brány se zobrazí jednoduchá úloha pro dospělé (například „Ťukněte na třetí kytičku zleva“, náhodné pořadí), která brání náhodnému vstupu.</div>
+</div>
+<h3>Obsah</h3>
+<ul>
+  <li><b>Zvuk:</b> hlasitost hudby, hlasu a efektů zvlášť; haptika zap./vyp.</li>
+  <li><b>Připomínka spánku:</b> vypnuto / 10 / 20 / 30 min. Po uplynutí Kapka zívne, popřeje dobrou noc a hra se uspí (ne nečekaně uprostřed slavnosti).</li>
+  <li><b>Méně pohybu</b> (kapitola 13) a <b>vyšší kontrast</b> (světlá záře kolem interaktivních objektů).</li>
+  <li><b>Jazyk hlasu</b> (čeština výchozí).</li>
+  <li><b>O hře:</b> bez reklam, bez nákupů, bez sběru dat, funguje offline; kontakt na vývojáře.</li>
+  <li><b>Začít znovu:</b> vymaže postup, chráněno dalším potvrzením s textem.</li>
+</ul>
+<p>Rozvržení: jeden sloupec, max. šířka 640 pt, nadpis 20 pt, popisky 15 pt, text 12 pt, ovládací prvky 44–52 pt. Velké tlačítko „Zpět do hry“ vlevo dole.</p>
+</section>
+
+<section>
+<h2 style="margin-top:18px"><span class="cislo">17</span>Přístupnost</h2>
+<ul>
+  <li><b>Barvoslepost:</b> stav vždy i tvarem nebo ikonou (žízeň = svěšené listy + kapička). Testuje se v simulaci protanopie, deuteranopie a tritanopie.</li>
+  <li><b>Motorika:</b> velké cíle, tolerantní tažení (Kapka dojede i za nepřesným prstem), žádná nutnost rychlosti ani přesnosti.</li>
+  <li><b>Sluch:</b> každý zvukový pokyn má i vizuální obdobu (bublina, ručička). Hra je hratelná bez zvuku.</li>
+  <li><b>Zrak a čtečky:</b> všechna tlačítka mají přístupový popisek (např. „Album zvířátek“); režim vyššího kontrastu přidá interaktivním objektům světlou záři. Je to jediná povolená výjimka ze zákazu kontur v Art Bible a platí jen v tomto režimu.</li>
+  <li><b>Citlivost na pohyb:</b> režim Méně pohybu, žádné blikání, žádné třesení.</li>
+  <li><b>Kognitivní zátěž:</b> v jednu chvíli nejvýš jeden úkol a jedna nápověda; na obrazovce nejvýš tři volby.</li>
+</ul>
+
+<h2 style="margin-top:18px"><span class="cislo">18</span>Velikosti zařízení</h2>
+<table>
+  <tr><th>Zařízení</th><th>Logická velikost (na šířku)</th><th>Poměr</th><th>Úprava</th></tr>
+  <tr><td>iPad 10,9″</td><td>1180 × 820 pt</td><td>~4:3</td><td>přibude obloha a tráva; tlačítka 80 pt</td></tr>
+  <tr><td>iPad mini</td><td>1133 × 744 pt</td><td>~3:2</td><td>beze změny</td></tr>
+  <tr><td>Android tablet 10″</td><td>1280 × 800 dp</td><td>16:10</td><td>beze změny</td></tr>
+  <tr><td>iPhone 15</td><td>852 × 393 pt</td><td>~19,5:9</td><td>víc krajiny po stranách; tlačítka min. 72 pt</td></tr>
+  <tr><td>Samsung S21 FE</td><td>800 × 360 dp</td><td>20:9</td><td>Kapka 22 % výšky; hrací pás zabírá 60 % výšky</td></tr>
+  <tr><td>Kompaktní telefon</td><td>740 × 320 dp</td><td>~21:9</td><td>trvalá tlačítka zůstávají 72 pt; mapa ukáže 3–4 ostrůvky a posouvá se tažením</td></tr>
+  <tr><td>Web (prohlížeč)</td><td>libovolná</td><td>—</td><td>plátno 16:9 se škálováním, kurzor = prst, na výšku zobrazit obrázek „otoč zařízení“</td></tr>
+</table>
+<p>Na telefonech se hrací objekty nezmenšují pod minimální velikosti z kapitoly 5; plátno se škáluje podle výšky a vedlejší krajina se jen přidá po stranách.</p>
+
+<h2 style="margin-top:18px"><span class="cislo">19</span>Kontrolní seznam</h2>
+<div class="pravidlo">Každá nová obrazovka nebo prvek musí projít těmito body, než se pustí do vývoje.</div>
+<ul class="zaskrt">
+  <li>☐ Neobsahuje nic z kapitoly 3 (čísla, měna, časovače, zámky, text pro dítě, reklamy, nákupy).</li>
+  <li>☐ Dotykové cíle splňují minima z kapitoly 5 na kompaktním telefonu 740 × 320.</li>
+  <li>☐ Žádná akce v okrajích 8 % šířky; trvalá tlačítka jen v horních rozích.</li>
+  <li>☐ Každý dotek má odezvu do 100 ms (obraz + zvuk).</li>
+  <li>☐ Stav nese tvar nebo ikona, ne jen barva.</li>
+  <li>☐ Obrazovka má jen pár voleb (menu: jedno velké Hrát a čtyři menší) a vede z ní tlačítko Domů do menu.</li>
+  <li>☐ Dítě v každé chvíli vidí, co má udělat (šipka, přání, ručička).</li>
+  <li>☐ Funguje bez zvuku i v režimu Méně pohybu.</li>
+  <li>☐ Výtvarně odpovídá Game Art Bible (paleta, světlo, tvarosloví).</li>
+  <li>☐ Hlasové věty mají nejvýš 5 slov a varianty.</li>
+</ul>
+
+<div class="paticka">Mráček Kapka · UI Style Guide 1.0 · listopad 2026 · navazuje na <code>docs/game-art-bible.pdf</code> a <code>tools/docs/StyleGuide.png</code></div>
+</section>
+</body>
+</html>

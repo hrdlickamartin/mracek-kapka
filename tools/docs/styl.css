@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap");
+@page { size: A4; margin: 16mm 15mm 16mm; }
+:root {
+  --nebe: #3baefd; --nebe-tmave: #1c7fcb; --nebe-svetle: #d2f0fd; --mrak: #fefcfc; --mrak-stin: #e6ebf6;
+  --tvare: #fca19e; --inkoust: #23395b; --text: #2c3a4a; --sede: #6b7b8c; --krem: #fff9ef;
+  --trava: #a8c729; --trava-stin: #75a023; --list: #4f9112; --les: #176b52; --voda: #8dd9fa;
+  --mak: #ed3e1d; --slunce: #f9ba0a; --kvet: #fbcc03; --hlina: #853b0f; --hlina-svetla: #cb7035;
+  --poust: #fecd6d; --poust-stin: #e7862e; --zvonek: #bd8efa; --tulipan: #ec8fbb; --snih: #e5effc;
+}
+* { box-sizing: border-box; }
+body { font-family: "Nunito", -apple-system, "Helvetica Neue", Arial, sans-serif; color: var(--text); font-size: 10pt; line-height: 1.5; margin: 0; background: #fff; }
+h1, h2, h3, h4 { font-family: "Nunito", sans-serif; color: var(--inkoust); line-height: 1.2; }
+h2 { font-size: 17pt; font-weight: 900; color: var(--nebe-tmave); margin: 0 0 10px; padding-bottom: 6px; border-bottom: 3px solid var(--nebe-svetle); break-after: avoid; }
+h2 .cislo { display: inline-block; background: var(--nebe); color: #fff; border-radius: 10px; padding: 0 9px; margin-right: 8px; font-size: 13pt; vertical-align: 2px; }
+h3 { font-size: 12pt; font-weight: 800; margin: 16px 0 6px; break-after: avoid; }
+h4 { font-size: 10.5pt; font-weight: 800; margin: 10px 0 4px; break-after: avoid; }
+p { margin: 4px 0 8px; }
+ul, ol { margin: 4px 0 8px; padding-left: 18px; }
+li { margin: 2px 0; }
+b { color: var(--inkoust); }
+.kapitola { break-before: page; }
+.drz { break-inside: avoid; }
+
+.titulka { height: 262mm; display: flex; flex-direction: column; justify-content: space-between; break-after: page; }
+.titulka .obraz { border-radius: 22px; overflow: hidden; height: 150mm; background: var(--nebe-svetle); }
+.titulka .obraz img { width: 100%; height: 100%; object-fit: cover; object-position: 30% 30%; }
+.titulka .nadpis { font-size: 12pt; font-weight: 800; color: var(--nebe-tmave); text-transform: uppercase; letter-spacing: 2px; margin: 10mm 0 2mm; }
+.titulka h1 { font-size: 38pt; font-weight: 900; margin: 0; letter-spacing: -1px; }
+.titulka .podnadpis { font-size: 13pt; color: var(--sede); margin-top: 3mm; }
+.titulka .meta { display: flex; gap: 8px; flex-wrap: wrap; }
+.titulka .meta span { border: 1.5px solid #bcd9ee; border-radius: 99px; padding: 3px 12px; font-size: 9pt; font-weight: 700; color: var(--nebe-tmave); }
+
+.obsah { columns: 2; column-gap: 12mm; font-size: 10.5pt; }
+.obsah div { break-inside: avoid; padding: 4px 0; border-bottom: 1px dotted #c9d9e6; display: flex; gap: 8px; }
+.obsah div b { color: var(--nebe); min-width: 22px; }
+
+figure { margin: 8px 0 12px; break-inside: avoid; }
+figure img { display: block; width: 100%; border-radius: 14px; }
+figcaption { font-size: 8.5pt; color: var(--sede); margin-top: 4px; }
+.mrizka { display: grid; gap: 8px; break-inside: avoid; }
+.m2 { grid-template-columns: 1fr 1fr; } .m3 { grid-template-columns: repeat(3, 1fr); } .m4 { grid-template-columns: repeat(4, 1fr); } .m5 { grid-template-columns: repeat(5, 1fr); }
+.karta { background: #f6fafd; border: 1px solid #dceaf5; border-radius: 14px; padding: 10px 12px; break-inside: avoid; }
+.karta h4 { margin-top: 0; }
+.karta img { width: 100%; border-radius: 10px; display: block; margin-bottom: 6px; }
+
+.pozor { border-left: 5px solid var(--slunce); background: #fff7e3; padding: 8px 12px; border-radius: 0 10px 10px 0; margin: 8px 0; break-inside: avoid; }
+.navrh { border-left: 5px solid var(--zvonek); background: #f5efff; padding: 8px 12px; border-radius: 0 10px 10px 0; margin: 8px 0; break-inside: avoid; }
+.navrh::before { content: "NÁVRH ROZŠÍŘENÍ"; display: block; font-size: 7.5pt; font-weight: 900; letter-spacing: 1.5px; color: #7d55c7; }
+.pravidlo { border-left: 5px solid var(--trava-stin); background: #f2f8e6; padding: 8px 12px; border-radius: 0 10px 10px 0; margin: 8px 0; break-inside: avoid; }
+
+table { width: 100%; border-collapse: collapse; font-size: 9pt; margin: 6px 0 12px; break-inside: avoid; }
+th { background: var(--nebe-tmave); color: #fff; text-align: left; padding: 6px 8px; font-weight: 800; }
+th:first-child { border-top-left-radius: 8px; } th:last-child { border-top-right-radius: 8px; }
+td { padding: 5px 8px; border-bottom: 1px solid #e2edf5; vertical-align: top; }
+tr:nth-child(even) td { background: #f7fbfe; }
+code { font-family: "SF Mono", Menlo, monospace; background: #eef2f5; padding: 1px 4px; border-radius: 4px; font-size: 8.3pt; color: #33475e; }
+pre { font-family: "SF Mono", Menlo, monospace; background: #f2f5f8; border-radius: 10px; padding: 10px 12px; font-size: 8pt; white-space: pre-wrap; break-inside: avoid; margin: 6px 0 10px; }
+
+.paleta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 6px 0 12px; break-inside: avoid; }
+.vzorek { border-radius: 12px; overflow: hidden; border: 1px solid #e0e6ee; font-size: 8pt; background: #fff; }
+.vzorek .barva { height: 40px; }
+.vzorek .popis { padding: 5px 8px; }
+.vzorek .popis b { display: block; font-size: 8.8pt; }
+.vzorek .popis code { background: none; padding: 0; }
+
+.ano-ne { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; break-inside: avoid; }
+.ano, .ne { border-radius: 14px; padding: 10px 12px; }
+.ano { background: #eef7e1; border: 1.5px solid #b9d98a; }
+.ne { background: #fdecea; border: 1.5px solid #f2b3aa; }
+.ano h4 { color: #4b7a12; margin-top: 0; } .ne h4 { color: #b8321d; margin-top: 0; }
+
+.paticka { margin-top: 18px; font-size: 8pt; color: var(--sede); text-align: center; }

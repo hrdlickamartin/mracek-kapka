@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "Mráček Kapka",
+    "slug": "mracek-kapka",
+    "version": "0.1.0",
+    "orientation": "landscape",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#D2F0FD",
+    "ios": {
+      "supportsTablet": true,
+      "requireFullScreen": true
+    },
+    "android": {
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "name": "Mráček Kapka",
+      "themeColor": "#3BAEFD",
+      "backgroundColor": "#D2F0FD"
+    },
+    "plugins": ["expo-audio", "expo-font", "expo-asset"]
+  }
+}
