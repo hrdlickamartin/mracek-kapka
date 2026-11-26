@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { KAPKA_FINGER_OFFSET, SCENE_W } from '../src/game/constants';
 import { createGame, step } from '../src/game/engine';
-import { sceneById, scenesOf, WORLDS } from '../src/game/worlds';
+import { GARDEN_SCENE, sceneById, scenesOf, WORLDS } from '../src/game/worlds';
 import type { GameEvent, GameState, Input } from '../src/game/types';
 
 const DT = 1 / 30;
@@ -149,4 +149,29 @@ test('při nasávání cíl zůstane u vody, dokud není Kapka plná', () => {
   for (let t = 0; t < 1.2; t += DT) step(state, { pointer: { x: state.source.x, y: 430 }, tap: null }, DT);
   assert.ok(state.kapka.sipping || state.kapka.water >= 1);
   if (state.kapka.water < 1) assert.equal(state.goal?.kind, 'voda');
+});
+
+test('v zahrádce po rozkvetu všech kytiček přijde slavnost, ale postup se neukládá', () => {
+  const garden = [
+    { kind: 'kopretina' as const, x: 650, stage: 0 as const },
+    { kind: 'mak' as const, x: 950, stage: 2 as const },
+  ];
+  const state = createGame(GARDEN_SCENE, { mode: 'zahradka', garden, guest: 'jezek' });
+  const events = play(state, 240, (s) => (s.phase === 'hraje' ? botInput(s) : idle()));
+  play(state, 6, idle);
+  assert.ok(events.some((e) => e.type === 'celebrate'));
+  assert.ok(!events.some((e) => e.type === 'complete'));
+  assert.equal(state.phase, 'hotovo');
+  assert.ok(state.visitors.some((v) => v.celebrant && v.animal === 'jezek'));
+});
+
+test('úplně rozkvetlá zahrádka začne při dalším příchodu znovu od semínek', () => {
+  const garden = [
+    { kind: 'kopretina' as const, x: 650, stage: 3 as const },
+    { kind: 'mak' as const, x: 950, stage: 3 as const },
+  ];
+  const state = createGame(GARDEN_SCENE, { mode: 'zahradka', garden });
+  assert.ok(state.plants.every((p) => p.stage === 0));
+  const partial = createGame(GARDEN_SCENE, { mode: 'zahradka', garden: [{ ...garden[0] }, { ...garden[1], stage: 1 as const }] });
+  assert.deepEqual(partial.plants.map((p) => p.stage), [3, 1]);
 });

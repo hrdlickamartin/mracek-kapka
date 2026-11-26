@@ -86,11 +86,36 @@ function updateTutorial(state: GameState, goal: ReturnType<typeof hintGoal>) {
   }
 }
 
+function gardenParty(state: GameState) {
+  state.phase = 'slavnost';
+  state.phaseTime = 0;
+  state.hintTarget = null;
+  const spot = { x: SCENE_W / 2 + 120, y: GROUND_Y + 70 };
+  const guest = state.visitors[0];
+  if (guest) {
+    guest.celebrant = true;
+    guest.tx = spot.x;
+    guest.ty = spot.y;
+    guest.arrive = 0;
+  } else {
+    addVisitor(state, state.scene.visitor, spot, true);
+  }
+  state.events.push({ type: 'celebrate', animal: guest ? guest.animal : state.scene.visitor, family: null });
+  sfx(state, 'slavnost');
+  haptic(state, 'stredni');
+  setMood(state, 'radost', CELEBRATION_TIME);
+  for (const p of state.plants) burst(state, 'jiskra', p.x, GROUND_Y - 160, 8, 240, 10);
+  say(state, 'slavnost', undefined, true);
+}
+
 export function updateCelebration(state: GameState, dt: number) {
-  if (state.mode !== 'scena') return;
   state.phaseTime += dt;
   if (state.phase === 'hraje') {
     if (!state.plants.length || state.plants.some((p) => p.stage < 3)) return;
+    if (state.mode === 'zahradka') {
+      gardenParty(state);
+      return;
+    }
     state.phase = 'slavnost';
     state.phaseTime = 0;
     state.hintTarget = null;

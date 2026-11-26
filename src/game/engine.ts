@@ -13,7 +13,9 @@ export interface GameOptions {
 
 export function createGame(scene: SceneDef, options: GameOptions = {}): GameState {
   const mode = options.mode ?? 'scena';
-  const plantDefs = mode === 'zahradka' ? (options.garden ?? []) : scene.plants.map((p) => ({ ...p, stage: 0 as const }));
+  const garden = options.garden ?? [];
+  const rested = garden.length > 0 && garden.every((p) => p.stage >= 3) ? garden.map((p) => ({ ...p, stage: 0 as const })) : garden;
+  const plantDefs = mode === 'zahradka' ? rested : scene.plants.map((p) => ({ ...p, stage: 0 as const }));
   const state: GameState = {
     mode,
     scene,

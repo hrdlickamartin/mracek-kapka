@@ -14,9 +14,12 @@ import { familyFound, guestOfDay, nextScene, rainbowStripes, toggleWear, type Sc
 import type { SaveData, Settings } from './progression/saveData';
 import { useProgress } from './progression/useProgress';
 import { SceneView } from './render/SceneView';
+import { SIZES } from './ui/theme';
 import { Stage, useViewport } from './render/Stage';
 import { Album } from './ui/Album';
+import { BubbleButton } from './ui/BubbleButton';
 import { Celebration } from './ui/Celebration';
+import { HintHand } from './ui/HintHand';
 import { HomeButton, ParentButton } from './ui/Hud';
 import { Menu } from './ui/Menu';
 import { ParentGate, ParentZone } from './ui/Parents';
@@ -192,6 +195,12 @@ export function GameScreen() {
     [go],
   );
 
+  const playNext = useCallback(() => {
+    const next = nextScene(saveRef.current);
+    if (next) playScene(next.world, next.index);
+    else go('mapa');
+  }, [playScene, go]);
+
   const onContinue = useCallback(() => {
     const s = summary;
     setSummary(null);
@@ -237,8 +246,20 @@ export function GameScreen() {
           <Live>{() => (game.phase === 'hotovo' && summary ? <Celebration summary={summary} animal={game.scene.visitor} onContinue={onContinue} reducedMotion={settings.reducedMotion} /> : null)}</Live>
         </>
       )}
-      {screen === 'zahradka' && (
-        <HomeButton onHome={() => go('menu')} hold reducedMotion={settings.reducedMotion} />
+      {screen === 'zahradka' && game && (
+        <>
+          <HomeButton onHome={() => go('menu')} hold reducedMotion={settings.reducedMotion} />
+          <Live>
+            {() =>
+              game.phase === 'hotovo' ? (
+                <View style={styles.gardenGo} pointerEvents="box-none">
+                  <BubbleButton label="Hrát další obrázek" icon="hrat" size={SIZES.main} variant="go" onPress={playNext} pulse reducedMotion={settings.reducedMotion} />
+                  <HintHand x={(SIZES.main + 20) * 0.62} y={(SIZES.main + 20) * 0.6} size={60} delay={1200} reducedMotion={settings.reducedMotion} />
+                </View>
+              ) : null
+            }
+          </Live>
+        </>
       )}
       {screen === 'uvod' && (
         <Intro
@@ -253,11 +274,7 @@ export function GameScreen() {
       {screen === 'menu' && (
         <Menu
           save={save}
-          onPlay={() => {
-            const next = nextScene(save);
-            if (next) playScene(next.world, next.index);
-            else go('mapa');
-          }}
+          onPlay={playNext}
           onGarden={() => go('zahradka')}
           onMap={() => go('mapa')}
           onAlbum={() => go('album')}
@@ -281,4 +298,5 @@ export function GameScreen() {
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: '#D2F0FD', overflow: 'hidden' },
+  gardenGo: { position: 'absolute', bottom: '6%', right: '10%' },
 });

@@ -31,6 +31,7 @@ Ven engine mluví jen přes `state.events`. `say` hlídá odstup 20 s na větu, 
 - **Cíl:** `state.goal` je voda, když má Kapka málo vody nebo se právě nasává, jinak nejbližší žíznivá rostlinka; `busy` znamená, že ho Kapka právě plní. Mimo fázi `hraje` je `null`.
 - Nečinnost (`HINT_TIMES`): 4 s mávne rostlinka, 8 s nápověda hlasem, 12 s ručička (`hintTarget`), 30 s Kapka usne. Výuka (`tutorial`) běží jen v `louka-1`, dokud není `tutorialDone`.
 - **Slavnost:** když rozkvetou všechny rostlinky, fáze `slavnost`, zvířátko (`celebrant`) přiletí do popředí a hned se pošle `complete` (postup se uloží okamžitě). Po `CELEBRATION_TIME` fáze `hotovo` a hra čeká.
+- **Zahrádka** (`mode: 'zahradka'`) má stejnou slavnost bez `complete`: tančí host zahrádky (nebo `GARDEN_SCENE.visitor`) a UI ukáže tlačítko na další obrázek. `createGame` vrátí úplně rozkvetlou zahrádku na semínka, aby bylo pořád co zalévat.
 
 ## Data místo kódu
 

@@ -39,7 +39,7 @@ export function SceneView({ state, world, view, worn, reducedMotion, highContras
   const rainbowOpacity = state.rainbowFound ? Math.min(1, (state.rainbow - RAINBOW_TIME) / 1.2) : 0;
   const gust = state.wind.gust;
   const thirsty = (stage: number) => stage < 3;
-  const party = state.mode === 'scena' && state.phase !== 'hraje';
+  const party = state.phase !== 'hraje';
   const partyTime = party ? state.phaseTime : 0;
   const motion = reducedMotion ? 0 : 1;
   const celebrant = party ? state.visitors.find((v) => v.celebrant) : undefined;

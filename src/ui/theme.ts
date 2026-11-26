@@ -27,6 +27,7 @@ export const SIZES = {
   main: 120,
   permanent: 80,
   permanentMin: 72,
+  corner: 54,
   menu: 104,
   card: 140,
   parent: 52,
