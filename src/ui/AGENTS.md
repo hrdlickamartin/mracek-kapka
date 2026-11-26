@@ -6,7 +6,7 @@ Prezentační komponenty. Data a callbacky dostávají z `src/GameScreen.tsx`, s
 
 | Obrazovka | Soubor | Poznámka |
 |---|---|---|
-| úvod | `Screens.tsx` `Intro` | jen poprvé, ťuknutí probudí Kapku |
+| úvod | `Screens.tsx` `Intro` | jen poprvé, ťuknutí probudí Kapáčka |
 | menu (domov) | `Menu.tsx` | velké Hrát = další neodehraný obrázek (`nextScene`), čtyři menší tlačítka, ručička na Hrát |
 | scéna a zahrádka | `GameScreen` + `TouchSurface` + `Hud.tsx` | Domů (54, v rohu) se drží 1 s; zahrádka má po rozkvetu slavnost a tlačítko Hrát |
 | slavnost | `Celebration.tsx` | samolepky vyskočí a kývají se, Pokračovat čeká |
@@ -21,7 +21,7 @@ Prezentační komponenty. Data a callbacky dostávají z `src/GameScreen.tsx`, s
 - `BubbleButton`: `variant` (`primary | go | cloud | paper`), `hold` v sekundách (kroužek postupu, předčasné puštění nic neudělá), `pulse` (žlutá záře, 3 opakování), `mist` (ještě neobjevené). Každé tlačítko potřebuje `label` pro čtečky.
 - `TouchSurface` bere jen první prst a ignoruje doteky začínající v krajních 8 % šířky. Překryvné vrstvy nad scénou mají `pointerEvents="box-none"`.
 - Velikosti ber z `SIZES` v `theme.ts` (hlavní 120, nabídky 80–104, rohová tlačítka ve hře 54). Na telefonu 740 × 320 se tlačítka nezmenšují pod tato minima.
-- Nic, co leží nad hrací plochou scény, nesmí zasahovat mimo pás u okraje (8 % šířky): Domů a rodičovská ikona sedí až v rozích (`Hud.tsx`), jinak dítě místo vedení Kapky k vodě nebo semínku trefí tlačítko.
+- Nic, co leží nad hrací plochou scény, nesmí zasahovat mimo pás u okraje (8 % šířky): Domů a rodičovská ikona sedí až v rozích (`Hud.tsx`), jinak dítě místo vedení Kapáčka k vodě nebo semínku trefí tlačítko.
 
 ## Navádění
 

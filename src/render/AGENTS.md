@@ -16,7 +16,7 @@ Pořadí potomků určuje překrytí:
 3. `Dryness` – vybledlá kopie pozadí s filtrem barev a maskou, která se kolem rostlinek s fází > 0 otevírá; průhlednost podle `state.bloom`;
 4. zdroj vody, schovávačky, rostlinky, cíl (`GoalMarker`), Žofka, rodina;
 5. paprsky slavnosti, zvířátka, srdíčka a noty, hvězdičky;
-6. Kapka a její přání (`Wish`), částice, Fuk při větru, ručička nápovědy, konfety.
+6. Kapáček a jeho přání (`Wish`), částice, Fuk při větru, ručička nápovědy, konfety.
 
 Nový prvek zařaď podle toho, co má překrývat; interaktivní věci patří nad `Dryness`.
 
@@ -29,7 +29,7 @@ Nový prvek zařaď podle toho, co má překrývat; interaktivní věci patří 
 | `Animal.tsx` | `AnimalFigure`: sprite z `animalSprites.ts` + poskok (`react`), tanec (`dance`), vznášení létajících, dýchání; `animalHeight` určuje velikost |
 | `Characters.tsx` | Žofka, Oblačná rodina, Fuk, sluníčko, měsíc, ručička nápovědy |
 | `Props.tsx` | zdroje vody, schovávačky, částice, duha |
-| `Guide.tsx` | `GoalMarker` (poskakující šipka a vlna u cíle), `Wish` (myšlenková bublina Kapky) |
+| `Guide.tsx` | `GoalMarker` (poskakující šipka a vlna u cíle), `Wish` (myšlenková bublina Kapáčka) |
 | `Party.tsx` | slavnost: `Rays`, `Confetti`, `Joy` (srdíčka a noty), `Stars` |
 | `Scenery.tsx` | `SCENE_IMAGES`, `Backdrop`, `Dryness` |
 | `animalSprites.ts` | **generovaný** skriptem `tools/assets/animals.py`, ručně neupravuj |

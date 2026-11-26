@@ -1,5 +1,5 @@
-import { SAY_COOLDOWN } from '../constants';
-import type { GameState, LineId, ParticleKind, SfxName } from '../types';
+import { CUE_COOLDOWN } from '../constants';
+import type { GameState, ParticleKind, SfxName } from '../types';
 
 export function sfx(state: GameState, name: SfxName) {
   state.events.push({ type: 'sfx', name });
@@ -9,12 +9,11 @@ export function haptic(state: GameState, strength: 'lehka' | 'stredni') {
   state.events.push({ type: 'haptic', strength });
 }
 
-export function say(state: GameState, line: LineId, subject?: string, force = false) {
-  const last = state.said[line];
-  if (!force && last !== undefined && state.time - last < SAY_COOLDOWN) return false;
-  state.said[line] = state.time;
-  state.events.push({ type: 'say', line, subject });
-  return true;
+export function cue(state: GameState, name: SfxName, force = false) {
+  const last = state.cooldown[name];
+  if (!force && last !== undefined && state.time - last < CUE_COOLDOWN) return;
+  state.cooldown[name] = state.time;
+  sfx(state, name);
 }
 
 export function spawn(

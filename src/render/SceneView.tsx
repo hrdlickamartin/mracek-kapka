@@ -29,9 +29,9 @@ export interface SceneViewProps {
 export function SceneView({ state, world, view, worn, reducedMotion, highContrast, stripes = 0, family = [] }: SceneViewProps) {
   const t = state.time;
   const k = state.kapka;
-  const said = Object.values(state.said).filter((v): v is number => v !== undefined);
-  const lastSay = said.length ? Math.max(...said) : -10;
-  const hop = t - lastSay < 0.7 ? (t - lastSay) / 0.7 : 0;
+  const cues = Object.values(state.cooldown).filter((v): v is number => v !== undefined);
+  const lastCue = cues.length ? Math.max(...cues) : -10;
+  const hop = t - lastCue < 0.7 ? (t - lastCue) / 0.7 : 0;
   const zofkaX = state.source.x + (state.source.x < SCENE_W / 2 ? 175 : -175);
   const sunny = world.scenery === 'poust';
   const showFamily = state.scene.family && state.phase !== 'hraje' ? state.scene.family : null;

@@ -70,7 +70,7 @@ test('po slavnosti hra čeká a sama nepokračuje', () => {
   assert.ok(!later.some((e) => e.type === 'complete'));
 });
 
-test('slunce Kapku vysuší, ale nikdy nezmizí', () => {
+test('slunce Kapáčka vysuší, ale nikdy nezmizí', () => {
   const state = createGame(sceneById('poust-1'));
   state.kapka.water = 1;
   play(state, 60, () => ({ pointer: { x: 800, y: 200 }, tap: null }));
@@ -79,7 +79,7 @@ test('slunce Kapku vysuší, ale nikdy nezmizí', () => {
   assert.equal(state.kapka.mood === 'vysusena' || state.kapka.mood === 'prazdna', true);
 });
 
-test('poryv větru posune Kapku nejvýš o 10 % šířky', () => {
+test('poryv větru posune Kapáčka nejvýš o 10 % šířky', () => {
   const state = createGame(sceneById('hory-1'));
   state.kapka.x = 800;
   state.wind.next = 0.01;
@@ -101,10 +101,10 @@ test('ťuknutí na schovávačku odhalí odměnu', () => {
   assert.ok(h.found);
 });
 
-test('nápověda přichází postupně a po 30 s Kapka usne a dotek ji probudí', () => {
+test('nápověda přichází postupně a po 30 s Kapáček usne a dotek ho probudí', () => {
   const state = createGame(sceneById('louka-2'));
   const events = play(state, 31, idle);
-  assert.ok(events.some((e) => e.type === 'say'));
+  assert.ok(events.some((e) => e.type === 'sfx' && e.name === 'napoveda'));
   assert.ok(state.kapka.asleep);
   assert.ok(events.some((e) => e.type === 'sleep'));
   const woke = step(state, { pointer: { x: 800, y: 400 }, tap: null }, DT);
@@ -129,7 +129,7 @@ test('v poušti vznikne duha při dešti na slunci', () => {
   assert.ok(done && done.type === 'complete' && done.result.rainbow);
 });
 
-test('cíl vždy ukazuje, co má Kapka právě udělat', () => {
+test('cíl vždy ukazuje, co má Kapáček právě udělat', () => {
   const state = createGame(sceneById('louka-2'));
   step(state, idle(), DT);
   assert.equal(state.goal?.kind, 'voda');
@@ -144,7 +144,7 @@ test('cíl vždy ukazuje, co má Kapka právě udělat', () => {
   assert.equal(state.goal, null);
 });
 
-test('při nasávání cíl zůstane u vody, dokud není Kapka plná', () => {
+test('při nasávání cíl zůstane u vody, dokud není Kapáček plný', () => {
   const state = createGame(sceneById('louka-2'));
   for (let t = 0; t < 1.2; t += DT) step(state, { pointer: { x: state.source.x, y: 430 }, tap: null }, DT);
   assert.ok(state.kapka.sipping || state.kapka.water >= 1);

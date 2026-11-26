@@ -19,7 +19,7 @@
 - Odemykání: první svět vždy, další po dohrání předchozího, světy rozšíření po `ending`; scéna po dohrání předchozí ve stejném světě. Neobjevené se v UI ukazuje mlhou, ne zámkem.
 - Zahrádka má 7 míst (`GARDEN_SLOTS`); semínka navíc se neukážou. Stav rostlinek zahrádky se ukládá při každém růstu (event `tone` v `GameScreen`).
 - **Nové pole v save:** přidej ho do `SaveData`, výchozí hodnotu do `DEFAULT_SAVE` a v `migrateSave` zajisti, že starý save bez pole dostane výchozí hodnotu. Klíč `mracek-kapka-save-v1` neměň, ztratil by se postup dětí.
-- Nastavení jsou úrovně 0–4 (`music`, `voice`, `sfx`), `sleepMinutes` 0/10/20/30, přepínače `haptics`, `reducedMotion`, `highContrast`.
+- Nastavení jsou úrovně 0–4 (`music`, `sfx`); `migrateSave` zahazuje neznámá nastavení (staré `voice`), `sleepMinutes` 0/10/20/30, přepínače `haptics`, `reducedMotion`, `highContrast`.
 
 ## Testy
 

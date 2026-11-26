@@ -17,6 +17,9 @@ const SFX: Record<SfxName, number> = {
   cak: require('../../assets/audio/cak.wav'),
   juuu: require('../../assets/audio/juuu.wav'),
   slavnost: require('../../assets/audio/slavnost.wav'),
+  napoveda: require('../../assets/audio/napoveda.wav'),
+  prazdno: require('../../assets/audio/prazdno.wav'),
+  objev: require('../../assets/audio/objev.wav'),
 };
 
 const TONES: number[] = [
@@ -34,7 +37,6 @@ const TONES: number[] = [
 const LAYERS: number[] = [require('../../assets/audio/music_pad.wav'), require('../../assets/audio/music_pluck.wav'), require('../../assets/audio/music_bells.wav')];
 
 const MUSIC_MAX = 0.45;
-const DUCK = 0.5;
 
 class AudioManager {
   private sfx = new Map<SfxName, AudioPlayer>();
@@ -45,7 +47,6 @@ class AudioManager {
   private musicLevel = 0.75;
   private sfxLevel = 0.75;
   private bloom = 0;
-  private ducked = false;
   private wantMusic = false;
 
   async init() {
@@ -127,11 +128,6 @@ class AudioManager {
     this.applyMusic();
   }
 
-  duck(on: boolean) {
-    this.ducked = on;
-    this.applyMusic();
-  }
-
   pauseAll() {
     this.layers.forEach((p) => p.pause());
     this.playing = false;
@@ -139,7 +135,7 @@ class AudioManager {
 
   private applyMusic() {
     if (!this.layers.length) return;
-    const base = MUSIC_MAX * this.musicLevel * (this.ducked ? DUCK : 1);
+    const base = MUSIC_MAX * this.musicLevel;
     const mix = [1, this.bloom >= 0.33 ? 0.8 : 0, this.bloom >= 0.66 ? 0.7 : 0];
     try {
       this.layers.forEach((p, i) => {

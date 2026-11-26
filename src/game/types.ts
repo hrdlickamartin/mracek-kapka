@@ -186,30 +186,16 @@ export type SfxName =
   | 'zvire'
   | 'cak'
   | 'juuu'
-  | 'slavnost';
-
-export type LineId =
-  | 'pozdrav'
-  | 'let-k-vode'
-  | 'zizen'
-  | 'hura'
-  | 'prazdno'
   | 'slavnost'
-  | 'objev'
-  | 'slunicko'
-  | 'vitr'
-  | 'snih'
-  | 'dobrou-noc'
-  | 'rodina'
-  | 'zvire'
-  | 'kudy-dal';
+  | 'napoveda'
+  | 'prazdno'
+  | 'objev';
 
 export type Phase = 'hraje' | 'slavnost' | 'hotovo';
 
 export type GameEvent =
   | { type: 'sfx'; name: SfxName }
   | { type: 'tone'; plant: PlantKind; stage: number }
-  | { type: 'say'; line: LineId; subject?: string }
   | { type: 'haptic'; strength: 'lehka' | 'stredni' }
   | { type: 'bloom'; plant: number }
   | { type: 'found'; reward: Reward }
@@ -258,7 +244,7 @@ export interface GameState {
   hintTarget: Point | null;
   goal: Goal | null;
   tutorial: number | null;
-  said: Partial<Record<LineId, number>>;
+  cooldown: Partial<Record<SfxName, number>>;
   found: { animals: AnimalKind[]; seeds: PlantKind[] };
   bloom: number;
   events: GameEvent[];

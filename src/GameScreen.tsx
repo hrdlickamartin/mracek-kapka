@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { audio } from './audio/audio';
 import { feedback } from './audio/feedback';
-import { voice } from './audio/voice';
 import { PLANTS, TONE_COUNT } from './game/catalog';
 import { createGame, gardenSnapshot, step } from './game/engine';
 import type { AnimalKind, GameEvent, GameState, Input, WorldId } from './game/types';
@@ -94,9 +93,8 @@ export function GameScreen() {
 
   useEffect(() => {
     audio.setLevels(settings.music / 4, settings.sfx / 4);
-    voice.setLevel(settings.voice / 4);
     feedback.setHaptics(settings.haptics);
-  }, [settings.music, settings.sfx, settings.voice, settings.haptics]);
+  }, [settings.music, settings.sfx, settings.haptics]);
 
   useEffect(() => {
     audio.setMusic(!!screen && MUSIC.includes(screen));
@@ -109,7 +107,6 @@ export function GameScreen() {
       if (!minutes || !screen || ['spanek', 'rodic', 'uvod'].includes(screen) || gate) return;
       if (screen === 'scena' && gameRef.current && gameRef.current.phase === 'slavnost') return;
       if (Date.now() - sessionStart.current < minutes * 60000) return;
-      voice.say('dobrou-noc');
       audio.play('zivani');
       go('spanek');
     }, 3000);
@@ -132,9 +129,6 @@ export function GameScreen() {
             }
             break;
           }
-          case 'say':
-            voice.say(e.line, e.subject);
-            break;
           case 'haptic':
             feedback.haptic(e.strength);
             break;
@@ -282,7 +276,7 @@ export function GameScreen() {
           reducedMotion={settings.reducedMotion}
         />
       )}
-      {screen === 'mapa' && <WorldMap save={save} onPlay={playScene} onHome={() => go('menu')} onEnding={() => go('konec')} onMist={() => voice.say('kudy-dal')} reducedMotion={settings.reducedMotion} />}
+      {screen === 'mapa' && <WorldMap save={save} onPlay={playScene} onHome={() => go('menu')} onEnding={() => go('konec')} onMist={() => audio.play('napoveda')} reducedMotion={settings.reducedMotion} />}
       {screen === 'album' && <Album save={save} onHome={() => go('menu')} reducedMotion={settings.reducedMotion} />}
       {screen === 'satnik' && <Wardrobe save={save} onToggle={(id) => update((s) => toggleWear(s, id))} onHome={() => go('menu')} reducedMotion={settings.reducedMotion} />}
       {screen === 'konec' && <Ending album={save.album} worn={save.worn} onDone={() => go('menu')} reducedMotion={settings.reducedMotion} />}

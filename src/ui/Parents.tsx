@@ -92,7 +92,6 @@ export function ParentZone({ save, onSettings, onReset, onClose }: { save: SaveD
         <Text style={styles.h1}>Pro rodiče</Text>
         <Text style={styles.h2}>Zvuk</Text>
         <Row label="Hlasitost hudby"><Steps label="Hudba" value={s.music} onChange={(v) => onSettings({ music: v })} /></Row>
-        <Row label="Hlasitost hlasu"><Steps label="Hlas" value={s.voice} onChange={(v) => onSettings({ voice: v })} /></Row>
         <Row label="Hlasitost efektů"><Steps label="Efekty" value={s.sfx} onChange={(v) => onSettings({ sfx: v })} /></Row>
         <Row label="Vibrace"><Toggle label="Vibrace" value={s.haptics} onChange={(v) => onSettings({ haptics: v })} /></Row>
         <Text style={styles.h2}>Hraní</Text>
@@ -101,10 +100,9 @@ export function ParentZone({ save, onSettings, onReset, onClose }: { save: SaveD
         </Row>
         <Row label="Méně pohybu"><Toggle label="Méně pohybu" value={s.reducedMotion} onChange={(v) => onSettings({ reducedMotion: v })} /></Row>
         <Row label="Vyšší kontrast"><Toggle label="Vyšší kontrast" value={s.highContrast} onChange={(v) => onSettings({ highContrast: v })} /></Row>
-        <Row label="Jazyk hlasu"><Text style={styles.value}>Čeština</Text></Row>
         <Text style={styles.h2}>O hře</Text>
         <Text style={styles.text}>Mráček Kapáček je hra pro děti od 3 do 5 let. Nemá reklamy ani nákupy, nesbírá žádná data a funguje bez internetu. Hra se ukládá sama a postup se nikdy neztratí, ani když dítě aplikaci zavře. Nedá se prohrát, nemá skóre ani časové limity.</Text>
-        <Text style={styles.text}>Hlas Žabky Žofky používá syntézu řeči zařízení. Pokud zařízení nemá český hlas, hra zůstane plně hratelná díky obrázkovým nápovědám.</Text>
+        <Text style={styles.text}>Hra nemluví. Co má dítě udělat, ukazují obrázky, pohyb, hudba a zvuky.</Text>
         <Text style={styles.h2}>Začít znovu</Text>
         {!confirm ? (
           <Pressable accessibilityRole="button" onPress={() => setConfirm(true)} style={styles.secondary}>

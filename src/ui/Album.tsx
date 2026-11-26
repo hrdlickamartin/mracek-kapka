@@ -1,7 +1,6 @@
 import { PressDown } from './PressDown';
 import { useEffect, useState } from 'react';
 import { StyleSheet, View, useWindowDimensions } from 'react-native';
-import { voice } from '../audio/voice';
 import { audio } from '../audio/audio';
 import { ANIMALS, FAMILY_ORDER } from '../game/catalog';
 import type { AnimalKind } from '../game/types';
@@ -40,7 +39,6 @@ function Sticker({ kind, owned, size }: { kind: AnimalKind; owned: boolean; size
         setReact(1);
         audio.unlock();
         audio.play('zvire');
-        voice.say('zvire', ANIMALS[kind].name);
       }}
       style={[styles.sticker, { width: size, height: size, transform: [{ rotate: `${(kind.length % 5) - 2}deg` }] }]}
     >

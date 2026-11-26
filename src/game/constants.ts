@@ -30,6 +30,6 @@ export const CELEBRATION_TIME = 3.6;
 export const RAINBOW_TIME = 1.6;
 
 export const HINT_TIMES = [4, 8, 12, 30] as const;
-export const SAY_COOLDOWN = 20;
+export const CUE_COOLDOWN = 20;
 
 export const MAX_DT = 0.05;

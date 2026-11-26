@@ -39,7 +39,7 @@ Nové zvířátko: popis do `animals.json`, `AnimalKind` + `ANIMALS` v enginu, p
 
 ## Zvuk (`audio/generate.py`)
 
-Čistý Python bez závislostí, deterministický (`random.seed(7)`). Tóny jsou pentatonika C dur, hudba tři 8s smyčky (pad, pluck, zvonky) se stejnými akordy, aby šly vrstvit. Nový zvuk viz `src/audio/AGENTS.md`.
+Čistý Python bez závislostí, deterministický (`random.seed(7)`). Tóny jsou pentatonika C dur, hudba tři 8s smyčky (pad, pluck, zvonky) se stejnými akordy, aby šly vrstvit. Nové zvuky přidávej do `cues()`, která běží až po `music()`: přidáním doprostřed by se posunula náhoda a změnily by se i hotové soubory. Nový zvuk viz `src/audio/AGENTS.md`.
 
 ## Nasazení (`deploy/pages.sh`)
 

@@ -27,7 +27,7 @@ export function Menu({ save, onPlay, onGarden, onMap, onAlbum, onWardrobe, reduc
       <Svg style={StyleSheet.absoluteFill} width={width} height={height}>
         <Zofka x={width * 0.8} y={height * 0.86} hop={0} time={t} scale={height / 900} />
       </Svg>
-      <View style={{ position: 'absolute', left: width / 2 - kapka / 2, top: height * 0.02, transform: [{ translateY: Math.sin(t * 2) * 6 }] }} accessibilityLabel="Kapka">
+      <View style={{ position: 'absolute', left: width / 2 - kapka / 2, top: height * 0.02, transform: [{ translateY: Math.sin(t * 2) * 6 }] }} accessibilityLabel="Kapáček">
         <MiniKapka size={kapka} mood="mavani" worn={save.worn} time={t} />
       </View>
       <View style={[styles.play, { left: playX - (play + 20) / 2, top: playY - (play + 20) / 2 }]}>
@@ -39,7 +39,7 @@ export function Menu({ save, onPlay, onGarden, onMap, onAlbum, onWardrobe, reduc
       </View>
       <View style={[styles.side, { right: width * 0.06, top: playY - tile / 2 - 10 }]}>
         <BubbleButton label="Album zvířátek" icon="album" size={tile} variant="cloud" onPress={onAlbum} reducedMotion={reducedMotion} />
-        <BubbleButton label="Šatník Kapky" icon="satnik" size={tile} variant="cloud" onPress={onWardrobe} reducedMotion={reducedMotion} />
+        <BubbleButton label="Šatník Kapáčka" icon="satnik" size={tile} variant="cloud" onPress={onWardrobe} reducedMotion={reducedMotion} />
       </View>
       <HintHand x={playX + play * 0.18} y={playY + play * 0.12} size={Math.min(70, play * 0.45)} reducedMotion={reducedMotion} />
     </View>

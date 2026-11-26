@@ -109,6 +109,18 @@ def effects():
     write('slavnost', d, 0.7)
 
 
+def cues():
+    d = buf(0.7)
+    bell(d, 0, PENTA[2], 0.5, 0.5, decay=5)
+    bell(d, 0.18, PENTA[4], 0.5, 0.5, decay=5)
+    write('napoveda', d, 0.55)
+    d = buf(0.6); glide(d, 0, 700, 330, 0.5, 0.5, vibrato=6); write('prazdno', d, 0.45)
+    d = buf(0.9)
+    for k, f in enumerate([PENTA[3], PENTA[5], PENTA[6], PENTA[8]]):
+        bell(d, k * 0.07, f, 0.6, 0.35, decay=6)
+    write('objev', d, 0.6)
+
+
 CHORDS = [[261.63, 329.63, 392.0], [220.0, 261.63, 329.63], [174.61, 220.0, 261.63], [196.0, 246.94, 293.66]]
 LOOP = 8.0
 
@@ -143,4 +155,5 @@ if __name__ == '__main__':
     tones()
     effects()
     music()
+    cues()
     print('hotovo:', len(os.listdir(OUT)), 'souborů')

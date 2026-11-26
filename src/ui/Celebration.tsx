@@ -75,7 +75,7 @@ export function Celebration({ summary, animal, onContinue, reducedMotion }: { su
   );
   summary.newItems.forEach((id) =>
     rewards.push(
-      <View key={`w-${id}`} style={[styles.sticker, { minWidth: box, minHeight: box }]} accessibilityLabel="Nový doplněk pro Kapku">
+      <View key={`w-${id}`} style={[styles.sticker, { minWidth: box, minHeight: box }]} accessibilityLabel="Nový doplněk pro Kapáčka">
         <WardrobeIcon id={id} size={80 * k} />
       </View>,
     ),

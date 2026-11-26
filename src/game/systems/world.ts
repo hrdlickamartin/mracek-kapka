@@ -2,7 +2,7 @@ import { ANIMALS } from '../catalog';
 import { GROUND_Y, KAPKA_RADIUS, SCENE_W, WIND_GUST_TIME } from '../constants';
 import type { AnimalKind, GameState, Hideout, Input, Point } from '../types';
 import { joyShower, kapkaScale } from './kapka';
-import { burst, haptic, say, setMood, sfx, spawn } from './effects';
+import { burst, haptic, setMood, sfx, spawn } from './effects';
 
 const HIDEOUT_REACH = 105;
 const VISITOR_REACH = 90;
@@ -20,20 +20,18 @@ function reveal(state: GameState, hideout: Hideout) {
   hideout.open = 1;
   setMood(state, 'uzas', 1);
   sfx(state, 'sustnuti');
+  sfx(state, 'objev');
   haptic(state, 'lehka');
   state.events.push({ type: 'found', reward: hideout.reward });
   const reward = hideout.reward;
   if (reward.type === 'animal') {
     state.found.animals.push(reward.animal);
     addVisitor(state, reward.animal, { x: hideout.x + 60, y: hideout.y + 40 }, false, { x: hideout.x, y: hideout.y });
-    say(state, 'objev', ANIMALS[reward.animal].name, true);
   } else if (reward.type === 'seed') {
     state.found.seeds.push(reward.plant);
     burst(state, 'jiskra', hideout.x, hideout.y - 20, 8, 160, 9);
-    say(state, 'objev', undefined, true);
   } else {
     for (let i = 0; i < 6; i++) spawn(state, 'motyl', hideout.x, hideout.y - 20, (Math.random() - 0.5) * 220, -80 - Math.random() * 90, 3.5, 22, i);
-    say(state, 'objev', undefined, true);
   }
 }
 
@@ -45,7 +43,6 @@ export function handleTap(state: GameState, tap: Point) {
       v.react = 1;
       sfx(state, 'zvire');
       haptic(state, 'lehka');
-      say(state, 'zvire', ANIMALS[v.animal].name);
       return;
     }
   }
@@ -102,7 +99,6 @@ export function updateWeather(state: GameState, dt: number) {
     w.dir = state.kapka.x > SCENE_W / 2 ? -1 : 1;
     w.next = 6 + Math.random() * 3;
     sfx(state, 'vitr');
-    say(state, 'vitr');
   }
 }
 

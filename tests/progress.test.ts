@@ -97,5 +97,5 @@ test('návštěva dne vybírá jen z alba', () => {
 
 test('poškozený save se nahradí výchozím', () => {
   assert.deepEqual(migrateSave(null), DEFAULT_SAVE);
-  assert.equal(migrateSave({ scenes: ['louka-1'] }).settings.voice, DEFAULT_SAVE.settings.voice);
+  assert.deepEqual(migrateSave({ scenes: ['louka-1'], settings: { voice: 2, music: 1 } }).settings, { ...DEFAULT_SAVE.settings, music: 1 });
 });

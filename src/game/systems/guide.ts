@@ -1,7 +1,6 @@
-import { FAMILY } from '../catalog';
 import { CELEBRATION_TIME, GROUND_Y, HINT_TIMES, SCENE_W } from '../constants';
 import type { GameState, Point } from '../types';
-import { burst, haptic, say, setMood, sfx } from './effects';
+import { burst, cue, haptic, setMood, sfx } from './effects';
 import { addVisitor } from './world';
 
 function hintGoal(state: GameState): { point: Point; kind: 'voda' | 'rostlina' } | null {
@@ -48,7 +47,10 @@ export function updateHints(state: GameState, active: boolean, dt: number) {
       const plant = state.plants.find((p) => p.stage < 3 && Math.abs(p.x - goal.point.x) < 1);
       if (plant) plant.wave = 1.2;
     }
-    if (level === 2 && goal) say(state, goal.kind === 'voda' ? 'let-k-vode' : 'zizen');
+    if (level === 2 && goal) {
+      cue(state, 'napoveda', true);
+      setMood(state, 'mavani', 1.2);
+    }
     if (level === 4) {
       state.kapka.asleep = true;
       sfx(state, 'zivani');
@@ -62,7 +64,7 @@ function updateTutorial(state: GameState, goal: ReturnType<typeof hintGoal>) {
   const step = state.tutorial ?? 0;
   if (step === 0) {
     if (state.time > 0.6) {
-      say(state, 'pozdrav', undefined, true);
+      cue(state, 'hihi', true);
       setMood(state, 'mavani', 1.4);
       state.tutorial = 1;
     }
@@ -70,11 +72,11 @@ function updateTutorial(state: GameState, goal: ReturnType<typeof hintGoal>) {
     return;
   }
   if (step === 1) {
-    if (state.time > 3 && !state.said['let-k-vode']) say(state, 'let-k-vode', undefined, true);
+    if (state.time > 3) cue(state, 'napoveda');
     state.hintTarget = state.time > 3 ? { x: state.source.x, y: GROUND_Y - 40 } : null;
     if (state.kapka.water >= 0.9) {
       state.tutorial = 2;
-      say(state, 'zizen', undefined, true);
+      cue(state, 'napoveda', true);
     }
     return;
   }
@@ -105,7 +107,6 @@ function gardenParty(state: GameState) {
   haptic(state, 'stredni');
   setMood(state, 'radost', CELEBRATION_TIME);
   for (const p of state.plants) burst(state, 'jiskra', p.x, GROUND_Y - 160, 8, 240, 10);
-  say(state, 'slavnost', undefined, true);
 }
 
 export function updateCelebration(state: GameState, dt: number) {
@@ -126,7 +127,6 @@ export function updateCelebration(state: GameState, dt: number) {
     haptic(state, 'stredni');
     setMood(state, 'radost', CELEBRATION_TIME);
     for (const p of state.plants) burst(state, 'jiskra', p.x, GROUND_Y - 160, 8, 240, 10);
-    say(state, state.scene.family ? 'rodina' : 'slavnost', state.scene.family ? FAMILY[state.scene.family].name : undefined, true);
     const animals = [state.scene.visitor, ...state.found.animals].filter((a, i, all) => all.indexOf(a) === i);
     state.events.push({
       type: 'complete',

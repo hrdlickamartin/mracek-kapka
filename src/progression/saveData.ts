@@ -6,7 +6,6 @@ export type SleepMinutes = 0 | 10 | 20 | 30;
 
 export interface Settings {
   music: number;
-  voice: number;
   sfx: number;
   haptics: boolean;
   sleepMinutes: SleepMinutes;
@@ -37,7 +36,6 @@ export interface SaveData {
 
 export const DEFAULT_SETTINGS: Settings = {
   music: 3,
-  voice: 4,
   sfx: 3,
   haptics: true,
   sleepMinutes: 0,
@@ -64,6 +62,18 @@ export const DEFAULT_SAVE: SaveData = {
   settings: DEFAULT_SETTINGS,
 };
 
+function settingsOf(raw: Partial<Settings> | undefined): Settings {
+  const merged = { ...DEFAULT_SETTINGS, ...(raw ?? {}) };
+  return {
+    music: merged.music,
+    sfx: merged.sfx,
+    haptics: merged.haptics,
+    sleepMinutes: merged.sleepMinutes,
+    reducedMotion: merged.reducedMotion,
+    highContrast: merged.highContrast,
+  };
+}
+
 export function migrateSave(raw: unknown): SaveData {
   if (!raw || typeof raw !== 'object') return DEFAULT_SAVE;
   const data = raw as Partial<SaveData>;
@@ -71,7 +81,7 @@ export function migrateSave(raw: unknown): SaveData {
     ...DEFAULT_SAVE,
     ...data,
     version: 1,
-    settings: { ...DEFAULT_SETTINGS, ...(data.settings ?? {}) },
+    settings: settingsOf(data.settings),
     garden: Array.isArray(data.garden) ? data.garden : DEFAULT_SAVE.garden,
     worn: data.worn ?? {},
   };

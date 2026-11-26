@@ -27,7 +27,7 @@ export function Wardrobe({ save, onToggle, onHome, reducedMotion }: { save: Save
   const cell = Math.min(110, (height * 0.7) / 3 - 12, (width * 0.5) / 4 - 12);
   return (
     <View style={[StyleSheet.absoluteFill, { backgroundColor: '#E4F4FD' }]}>
-      <View style={[styles.kapka, { left: width * 0.08, top: height * 0.18 }]} accessibilityLabel="Kapka">
+      <View style={[styles.kapka, { left: width * 0.08, top: height * 0.18 }]} accessibilityLabel="Kapáček">
         <MiniKapka size={Math.min(width * 0.38, height * 0.75)} mood={mood} worn={save.worn} time={time} />
       </View>
       <View style={[styles.grid, { left: width * 0.5, right: width * 0.08, top: height * 0.14, bottom: height * 0.1 }]}>

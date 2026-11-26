@@ -55,7 +55,7 @@ export function createGame(scene: SceneDef, options: GameOptions = {}): GameStat
     hintTarget: null,
     goal: null,
     tutorial: options.tutorial && scene.tutorial ? 0 : null,
-    said: {},
+    cooldown: {},
     found: { animals: [], seeds: [] },
     bloom: 0,
     events: [],

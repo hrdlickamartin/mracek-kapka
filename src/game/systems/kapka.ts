@@ -20,7 +20,7 @@ import {
   WIND_GUST_SPEED,
 } from '../constants';
 import type { GameState, Input, Plant } from '../types';
-import { burst, haptic, say, setMood, sfx, spawn } from './effects';
+import { burst, cue, haptic, setMood, sfx, spawn } from './effects';
 
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
 
@@ -112,7 +112,6 @@ function grow(state: GameState, plant: Plant, dt: number) {
     burst(state, 'jiskra', plant.x, GROUND_Y - 150, 10, 220, 10);
     burst(state, 'pyl', plant.x, GROUND_Y - 150, 6, 90, 7, PLANTS[plant.kind].tone);
     setMood(state, 'radost', 0.9);
-    say(state, 'hura');
   } else {
     sfx(state, 'pop');
   }
@@ -143,7 +142,6 @@ export function updateWater(state: GameState, dt: number) {
       k.raining = true;
       k.water = Math.max(0, k.water - RAIN_USE * dt);
       rainParticles(state, dt, 150);
-      if (state.mechanics.includes('snih')) say(state, 'snih');
       grow(state, plant, dt);
       if (sun) {
         state.rainbow += dt;
@@ -154,14 +152,11 @@ export function updateWater(state: GameState, dt: number) {
           setMood(state, 'uzas', 1.2);
         }
       }
-      if (k.water <= 0.02) say(state, 'prazdno');
-    } else if (plant && k.water <= 0.02 && Math.random() < dt) {
-      say(state, 'prazdno');
+      if (k.water <= 0.02) cue(state, 'prazdno');
     }
     if (sun && k.water > 0) {
       k.water = Math.max(0, k.water - SUN_DRY_RATE * dt);
       k.dryness = Math.min(1, k.dryness + dt * 0.25);
-      say(state, 'slunicko');
     }
   }
   if (k.showering > 0) {

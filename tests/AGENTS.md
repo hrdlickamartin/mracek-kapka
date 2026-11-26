@@ -9,7 +9,7 @@
   - rozmístění scén: 3–5 rostlinek, rozestup aspoň 200, nic u vody ani v okrajích;
   - 4 fáze růstu a tón za každou fázi; po slavnosti hra čeká; `complete` přijde hned na začátku slavnosti;
   - slunce nesníží vodu pod nulu, vítr posune nejvýš o 10 % šířky;
-  - schovávačka se odhalí ťuknutím, nápověda přichází postupně, po 30 s Kapka usne a dotek ji probudí;
+  - schovávačka se odhalí ťuknutím, nápověda přichází postupně, po 30 s Kapáček usne a dotek ho probudí;
   - výuka vede k vodě a pak k rostlince; v poušti vznikne duha; cíl (`state.goal`) ukazuje správný další krok.
 - `progress.test.ts`: odemykání od začátku, **celá kampaň botem** (rodina, 5 pruhů duhy, celý šatník, album, rozšíření, zahrádka max. 7), idempotence `applyScene`, šatník, návštěva dne, migrace poškozeného save.
 
@@ -18,4 +18,4 @@
 - Simuluj s `DT = 1 / 30` a helperem `play(state, seconds, input)`; vstup je `{ pointer, tap }` ve scénových souřadnicích, `pointer.y` počítej s `KAPKA_FINGER_OFFSET`.
 - Náhoda v enginu (`Math.random`) ovlivňuje jen částice a varianty, ne výsledek; test na konkrétní hodnotu částic nepiš.
 - Každá nová mechanika nebo svět potřebuje test chování a musí projít bot přes všechny scény. Když bot scénu nedohraje, je chyba v datech nebo ladění, ne v testu.
-- Názvy testů česky, popisují chování („slunce Kapku vysuší, ale nikdy nezmizí“).
+- Názvy testů česky, popisují chování („slunce Kapáčka vysuší, ale nikdy nezmizí“).

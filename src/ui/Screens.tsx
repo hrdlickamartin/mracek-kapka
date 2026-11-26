@@ -42,7 +42,7 @@ export function Intro({ onStart, reducedMotion }: { onStart: () => void; reduced
         <Circle cx={width * 0.5} cy={height * 1.25} r={height * 0.5} fill="#A8C729" />
       </Svg>
       <View style={styles.introColumn}>
-        <PressDown label="Probudit Kapku" onDown={wake}>
+        <PressDown label="Probudit Kapáčka" onDown={wake}>
           <MiniKapka size={Math.min(width * 0.42, height * 0.5)} mood={awake ? 'mrk' : 'spanek'} time={t} />
         </PressDown>
         <Text style={[styles.logo, { fontSize: Math.min(56, height * 0.1) }]} accessibilityRole="header">
@@ -57,7 +57,7 @@ export function Intro({ onStart, reducedMotion }: { onStart: () => void; reduced
 export function SleepScreen({ worn }: { worn: Partial<Record<WardrobeSlot, WardrobeId>> }) {
   const { width, height } = useWindowDimensions();
   return (
-    <View style={[StyleSheet.absoluteFill, { backgroundColor: '#2B3F73' }]} accessibilityLabel="Kapka spí">
+    <View style={[StyleSheet.absoluteFill, { backgroundColor: '#2B3F73' }]} accessibilityLabel="Kapáček spí">
       <Svg style={StyleSheet.absoluteFill} width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
         {Array.from({ length: 40 }, (_, i) => (
           <Circle key={i} cx={(i * 137.5) % width} cy={(i * 71.3) % (height * 0.8)} r={1.5 + (i % 3)} fill="#FFF6C9" opacity={0.6} />
