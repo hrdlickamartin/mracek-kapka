@@ -16,8 +16,13 @@
     "web": {
       "name": "Mráček Kapka",
       "themeColor": "#3BAEFD",
-      "backgroundColor": "#D2F0FD"
+      "backgroundColor": "#D2F0FD",
+      "favicon": "./assets/favicon.png"
     },
-    "plugins": ["expo-audio", "expo-font", "expo-asset"]
+    "plugins": [
+      "expo-audio",
+      "expo-font",
+      "expo-asset"
+    ]
   }
 }
