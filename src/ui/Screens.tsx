@@ -41,14 +41,14 @@ export function Intro({ onStart, reducedMotion }: { onStart: () => void; reduced
         <Circle cx={width * 0.85} cy={height * 1.1} r={height * 0.5} fill="#8CC152" />
         <Circle cx={width * 0.5} cy={height * 1.25} r={height * 0.5} fill="#A8C729" />
       </Svg>
-      <PressDown label="Probudit Kapku" onDown={wake} style={[styles.introKapka, { top: height * 0.08 }]}>
-        <MiniKapka size={Math.min(width * 0.42, height * 0.6)} mood={awake ? 'mrk' : 'spanek'} time={t} />
-      </PressDown>
-      <Text style={[styles.logo, { top: height * 0.62, fontSize: Math.min(56, height * 0.1) }]} accessibilityRole="header">
-        Mráček Kapáček
-      </Text>
-      <View style={[styles.introGo, { bottom: height * 0.04 }]}>
-        <BubbleButton label="Hrát" icon="hrat" size={Math.min(SIZES.main, height * 0.24)} variant="go" onPress={wake} pulse reducedMotion={reducedMotion} />
+      <View style={styles.introColumn}>
+        <PressDown label="Probudit Kapku" onDown={wake}>
+          <MiniKapka size={Math.min(width * 0.42, height * 0.5)} mood={awake ? 'mrk' : 'spanek'} time={t} />
+        </PressDown>
+        <Text style={[styles.logo, { fontSize: Math.min(56, height * 0.1) }]} accessibilityRole="header">
+          Mráček Kapáček
+        </Text>
+        <BubbleButton label="Hrát" icon="hrat" size={Math.min(SIZES.main, height * 0.22)} variant="go" onPress={wake} pulse reducedMotion={reducedMotion} />
       </View>
     </View>
   );
@@ -223,9 +223,8 @@ export class ErrorBoundary extends Component<{ children: ReactNode; onReset: () 
 }
 
 const styles = StyleSheet.create({
-  introKapka: { position: 'absolute', alignSelf: 'center' },
-  logo: { position: 'absolute', alignSelf: 'center', fontFamily: FONTS.black, color: '#1C7FCB', textShadowColor: '#FFFFFF', textShadowRadius: 8, textShadowOffset: { width: 0, height: 2 } },
-  introGo: { position: 'absolute', alignSelf: 'center' },
+  introColumn: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, alignItems: 'center', justifyContent: 'space-evenly', paddingVertical: 8 },
+  logo: { fontFamily: FONTS.black, color: '#1C7FCB', textShadowColor: '#FFFFFF', textShadowRadius: 8, textShadowOffset: { width: 0, height: 2 } },
   familyRow: { position: 'absolute', left: 0, right: 0, flexDirection: 'row', justifyContent: 'center', gap: 6 },
   parade: { position: 'absolute', left: 0, right: 0, flexDirection: 'row', justifyContent: 'center', gap: 6 },
   endGo: { position: 'absolute', right: '8%', bottom: '8%' },
