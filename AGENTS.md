@@ -40,7 +40,9 @@ useGameLoop (rAF) → step(state, input, dt) → GameEvent[] → GameScreen.hand
 
 ## Grafika
 
-Postavy, rostliny a krajina jsou zatím vektorové placeholdery kreslené v kódu (`src/render/`). Ostrovy na mapě používají výřezy z referenčního obrázku (`assets/svety/`). Až přijdou assety podle Art Bible, nahrazují se komponenty v `src/render/` při zachování jejich props.
+- Pozadí kol (`assets/scenes/<scenery>.jpg`, 16:9) jsou vygenerovaná přes fal `nano-banana-2/edit` s obrázkem světa a `StyleGuide.png` jako stylovou předlohou; prompty a reference jsou v `tools/assets/scenes.json`. Nové pozadí musí mít horizont kolem 60 % výšky a volný spodní pás, protože rostlinky, voda a schovávačky se kreslí přes něj. Suchou krajinu dělá `Dryness` filtrem barev s maskou, která se kolem rozkvetlých rostlinek otevírá, takže stačí jedna verze obrázku.
+- Postavy, zvířátka, rostliny a rekvizity jsou vektorové, kreslené v kódu (`src/render/`). Při náhradě rastrovými sprity zachovej props komponent.
+- Slavnost: `Party.tsx` (paprsky, konfety, srdíčka a noty, hvězdičky) a `dance` u zvířátka, rostlin a Kapky; časuje se z `state.phaseTime`.
 
 ## Ověření v prohlížeči
 

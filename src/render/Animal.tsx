@@ -254,11 +254,15 @@ export interface AnimalProps {
   flying?: boolean;
   scale?: number;
   glow?: boolean;
+  dance?: number;
 }
 
-export const AnimalFigure = memo(function AnimalFigure({ kind, x, y, react, time, flip = false, flying = false, scale = 1, glow = false }: AnimalProps) {
+export const AnimalFigure = memo(function AnimalFigure({ kind, x, y, react, time, flip = false, flying = false, scale = 1, glow = false, dance = 0 }: AnimalProps) {
   const a = ANIMALS[kind];
-  const hop = react > 0 ? Math.sin(react * Math.PI) * 34 : 0;
+  const beat = Math.abs(Math.sin(time * 4.2));
+  const hop = (react > 0 ? Math.sin(react * Math.PI) * 34 : 0) + beat * 46 * dance;
+  const squash = 1 + (1 - beat) * 0.14 * dance;
+  const sway = Math.sin(time * 4.2) * 10 * dance;
   const bob = flying || a.flies ? Math.sin(time * 3 + x) * 6 : 0;
   const flap = time * (flying ? 22 : 8);
   const s = scale * (1 + Math.sin(react * Math.PI) * 0.08);
@@ -302,7 +306,7 @@ export const AnimalFigure = memo(function AnimalFigure({ kind, x, y, react, time
       break;
   }
   return (
-    <G transform={tr(x, y - hop - bob, 0, flip ? -s : s, s)}>
+    <G transform={tr(x, y - hop - bob, sway, (flip ? -s : s) * squash, s / squash)}>
       <Ellipse cy={2 + hop + bob} rx={30} ry={7} fill="#2A3A20" opacity={flying ? 0.08 : 0.16} />
       {glow && <Circle cy={-40} r={64} fill="#FFFFFF" opacity={0.3} />}
       {body}

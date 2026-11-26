@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Animated, Platform, StyleSheet, View, useWindowDimensions } from 'react-native';
+import { Animated, Easing, Platform, StyleSheet, View, useWindowDimensions } from 'react-native';
+import Svg, { Path } from 'react-native-svg';
 import type { SceneSummary } from '../progression/progress';
 import { BubbleButton } from './BubbleButton';
 import { HintHand } from './HintHand';
@@ -9,12 +10,47 @@ import { WardrobeIcon } from './WardrobeIcon';
 
 const native = Platform.OS !== 'web';
 
-function Pop({ delay, children }: { delay: number; children: React.ReactNode }) {
+function Pop({ delay, children, reducedMotion, rays = false }: { delay: number; children: React.ReactNode; reducedMotion: boolean; rays?: boolean }) {
   const v = useState(() => new Animated.Value(0))[0];
+  const wiggle = useState(() => new Animated.Value(0))[0];
+  const spin = useState(() => new Animated.Value(0))[0];
   useEffect(() => {
-    Animated.sequence([Animated.delay(delay), Animated.spring(v, { toValue: 1, friction: 5, useNativeDriver: native })]).start();
-  }, [v, delay]);
-  return <Animated.View style={{ transform: [{ scale: v }], opacity: v }}>{children}</Animated.View>;
+    Animated.sequence([Animated.delay(delay), Animated.spring(v, { toValue: 1, friction: 4, tension: 70, useNativeDriver: native })]).start();
+    if (reducedMotion) return;
+    const loop = Animated.loop(
+      Animated.sequence([
+        Animated.timing(wiggle, { toValue: 1, duration: 520, easing: Easing.inOut(Easing.sin), useNativeDriver: native }),
+        Animated.timing(wiggle, { toValue: 0, duration: 520, easing: Easing.inOut(Easing.sin), useNativeDriver: native }),
+      ]),
+    );
+    const turn = Animated.loop(Animated.timing(spin, { toValue: 1, duration: 9000, easing: Easing.linear, useNativeDriver: native }));
+    const start = setTimeout(() => {
+      loop.start();
+      turn.start();
+    }, delay + 500);
+    return () => {
+      clearTimeout(start);
+      loop.stop();
+      turn.stop();
+    };
+  }, [v, wiggle, spin, delay, reducedMotion]);
+  const rotate = wiggle.interpolate({ inputRange: [0, 1], outputRange: ['-7deg', '7deg'] });
+  const lift = wiggle.interpolate({ inputRange: [0, 0.5, 1], outputRange: [0, -10, 0] });
+  const turnDeg = spin.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] });
+  return (
+    <Animated.View style={{ transform: [{ scale: v }, { translateY: lift }, { rotate }], opacity: v, alignItems: 'center', justifyContent: 'center' }}>
+      {rays && (
+        <Animated.View pointerEvents="none" style={[styles.rays, { transform: [{ rotate: turnDeg }] }]}>
+          <Svg width={260} height={260} viewBox="-130 -130 260 260">
+            {Array.from({ length: 12 }, (_, i) => (
+              <Path key={i} d="M-14 0 L0 -128 L14 0 Z" fill={i % 2 ? '#FFE37A' : '#FFFFFF'} opacity={0.85} transform={`rotate(${i * 30})`} />
+            ))}
+          </Svg>
+        </Animated.View>
+      )}
+      {children}
+    </Animated.View>
+  );
 }
 
 export function Celebration({ summary, animal, onContinue, reducedMotion }: { summary: SceneSummary; animal: SceneSummary['newAnimals'][number] | null; onContinue: () => void; reducedMotion: boolean }) {
@@ -64,7 +100,7 @@ export function Celebration({ summary, animal, onContinue, reducedMotion }: { su
     <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
       <View style={styles.row} pointerEvents="none">
         {rewards.slice(0, 6).map((r, i) => (
-          <Pop key={i} delay={reducedMotion ? 0 : 250 * i}>
+          <Pop key={i} delay={reducedMotion ? 0 : 400 + 250 * i} reducedMotion={reducedMotion} rays={i === 0}>
             {r}
           </Pop>
         ))}
@@ -83,4 +119,5 @@ const styles = StyleSheet.create({
   stripes: { width: 90, height: 60, justifyContent: 'center', gap: 3 },
   stripe: { height: 9, borderRadius: 5 },
   go: { position: 'absolute', bottom: '6%', right: '10%' },
+  rays: { position: 'absolute', width: 260, height: 260 },
 });

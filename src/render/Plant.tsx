@@ -285,12 +285,14 @@ export interface PlantProps {
   bubble: boolean;
   glow?: boolean;
   time: number;
+  dance?: number;
 }
 
-export const PlantFigure = memo(function PlantFigure({ kind, x, y, stage, pop, thirsty, wave, bubble, glow, time }: PlantProps) {
-  const sy = 1 + pop * 0.22;
-  const sx = 1 - pop * 0.1;
-  const sway = stage >= 3 ? Math.sin(time * 1.6 + x) * 3 : wave > 0 ? Math.sin(time * 14) * 8 : 0;
+export const PlantFigure = memo(function PlantFigure({ kind, x, y, stage, pop, thirsty, wave, bubble, glow, time, dance = 0 }: PlantProps) {
+  const bounce = dance * Math.abs(Math.sin(time * 4.2 + x * 0.01)) * 0.08;
+  const sy = 1 + pop * 0.22 + bounce;
+  const sx = 1 - pop * 0.1 - bounce * 0.5;
+  const sway = (stage >= 3 ? Math.sin(time * 1.6 + x) * 3 : wave > 0 ? Math.sin(time * 14) * 8 : 0) + dance * Math.sin(time * 4.2 + x * 0.01) * 9;
   const special = SPECIAL.includes(kind);
   return (
     <G transform={`translate(${x} ${y})`}>

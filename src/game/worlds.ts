@@ -75,7 +75,7 @@ export const WORLDS: WorldDef[] = [
     source: 'oaza',
     mechanics: ['slunce'],
     family: 'duhacek',
-    hideouts: ['kamen', 'dutina', 'krtina'],
+    hideouts: ['kamen', 'krtina', 'kamen'],
     palette: { skyTop: '#47B3FC', skyBottom: '#FCEFD2', far: '#E7A86A', mid: '#E7862E', groundDry: '#FFE2A3', groundLush: '#FECD6D', accent: '#EC8FBB' },
     expansion: false,
     scenery: 'poust',

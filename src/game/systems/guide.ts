@@ -94,7 +94,7 @@ export function updateCelebration(state: GameState, dt: number) {
     state.phase = 'slavnost';
     state.phaseTime = 0;
     state.hintTarget = null;
-    const spot = { x: SCENE_W / 2 + (state.source.x < SCENE_W / 2 ? 120 : -120), y: GROUND_Y - 10 };
+    const spot = { x: SCENE_W / 2 + (state.source.x < SCENE_W / 2 ? 120 : -120), y: GROUND_Y + 70 };
     addVisitor(state, state.scene.visitor, spot, true);
     state.events.push({ type: 'celebrate', animal: state.scene.visitor, family: state.scene.family });
     sfx(state, 'slavnost');

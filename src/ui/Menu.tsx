@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, View, useWindowDimensions } from 'react-native';
-import Svg, { Circle, Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
+import { Image, StyleSheet, View, useWindowDimensions } from 'react-native';
+import Svg from 'react-native-svg';
 import type { SaveData } from '../progression/saveData';
 import { Zofka } from '../render/Characters';
+import { SCENE_IMAGES } from '../render/Scenery';
 import { BubbleButton } from './BubbleButton';
 import { HintHand } from './HintHand';
 import { MiniKapka } from './Mini';
@@ -22,17 +23,8 @@ export function Menu({ save, onPlay, onGarden, onMap, onAlbum, onWardrobe, reduc
   const playY = height * 0.7;
   return (
     <View style={StyleSheet.absoluteFill}>
+      <Image source={SCENE_IMAGES.louka} style={{ position: 'absolute', left: 0, top: 0, width, height }} resizeMode="cover" />
       <Svg style={StyleSheet.absoluteFill} width={width} height={height}>
-        <Defs>
-          <LinearGradient id="menu-nebe" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0" stopColor="#3BAEFD" />
-            <Stop offset="1" stopColor="#D2F0FD" />
-          </LinearGradient>
-        </Defs>
-        <Rect width={width} height={height} fill="url(#menu-nebe)" />
-        <Circle cx={width * 0.15} cy={height * 1.05} r={height * 0.45} fill="#8CC152" />
-        <Circle cx={width * 0.88} cy={height * 1.1} r={height * 0.5} fill="#8CC152" />
-        <Circle cx={width * 0.5} cy={height * 1.3} r={height * 0.55} fill="#A8C729" />
         <Zofka x={width * 0.8} y={height * 0.86} hop={0} time={t} scale={height / 900} />
       </Svg>
       <View style={{ position: 'absolute', left: width / 2 - kapka / 2, top: height * 0.02, transform: [{ translateY: Math.sin(t * 2) * 6 }] }} accessibilityLabel="Kapka">

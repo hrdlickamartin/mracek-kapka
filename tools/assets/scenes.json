@@ -1,0 +1,74 @@
+{
+  "model": "fal-ai/nano-banana-2/edit",
+  "settings": {
+    "aspect_ratio": "16:9",
+    "resolution": "1K",
+    "output_format": "jpeg"
+  },
+  "scenes": {
+    "louka": {
+      "file": "assets/scenes/louka.jpg",
+      "references": [
+        "assets/svety/svet_louka.png",
+        "tools/docs/StyleGuide.png"
+      ],
+      "prompt": "Using the first image as the exact art style and world (soft painterly 3D children storybook illustration, warm sunlight, vibrant gentle colors), paint a WIDE 16:9 background for a 2D children game level set in a sunny flower meadow. Composition: blue sky with a few soft clouds in the top half, distant snowy mountains and rolling green hills with a few round trees and a tiny cottage on the horizon at about 60 percent height. The bottom 40 percent is an open, flat, calm grassy meadow with only tiny sparse flowers near the very bottom edge, leaving the lower middle EMPTY for gameplay objects. No characters, no animals, no ponds or rivers in the foreground, no big flowers in the foreground, no text, no UI, no frame. Sun at top right."
+    },
+    "zahradka": {
+      "file": "assets/scenes/zahradka.jpg",
+      "references": [
+        "assets/svety/svet_zahradka.png",
+        "tools/docs/StyleGuide.png"
+      ],
+      "prompt": "A cosy cottage garden: a cream cottage with a red roof on the right side in the middle distance, a low wooden fence, a sunflower and fruit trees, green hills behind, blue sky with soft clouds and sun top right. Foreground: open soft lawn with a hint of garden soil, no vegetable beds in the lower middle. soft painterly 3D children storybook illustration, warm light, vibrant gentle colors, same art style as the first image. WIDE 16:9 background for a 2D children game level. Horizon line at about 60 percent of the height. The bottom 40 percent is open and calm, leaving the lower middle EMPTY for gameplay objects, only tiny sparse details near the very bottom edge. No characters, no animals, no text, no UI, no frame."
+    },
+    "les": {
+      "file": "assets/scenes/les.jpg",
+      "references": [
+        "assets/svety/svet_les.png",
+        "tools/docs/StyleGuide.png"
+      ],
+      "prompt": "A friendly sunny forest clearing: tall leafy and pine trees framing the left and right edges, soft golden sunbeams through the canopy, a small wooden bridge far away, red mushrooms only at the far edges. Foreground: open mossy green forest floor, no stream in the lower middle. soft painterly 3D children storybook illustration, warm light, vibrant gentle colors, same art style as the first image. WIDE 16:9 background for a 2D children game level. Horizon line at about 60 percent of the height. The bottom 40 percent is open and calm, leaving the lower middle EMPTY for gameplay objects, only tiny sparse details near the very bottom edge. No characters, no animals, no text, no UI, no frame."
+    },
+    "poust": {
+      "file": "assets/scenes/poust.jpg",
+      "references": [
+        "assets/svety/svet_poust.png",
+        "tools/docs/StyleGuide.png"
+      ],
+      "prompt": "A warm friendly desert: orange sandstone mesas and rounded dunes in the distance, a few green cacti and a palm far away, clear blue sky with soft clouds, NO sun in the sky. Foreground: open smooth golden sand, no oasis or water in the lower middle. soft painterly 3D children storybook illustration, warm light, vibrant gentle colors, same art style as the first image. WIDE 16:9 background for a 2D children game level. Horizon line at about 60 percent of the height. The bottom 40 percent is open and calm, leaving the lower middle EMPTY for gameplay objects, only tiny sparse details near the very bottom edge. No characters, no animals, no text, no UI, no frame."
+    },
+    "hory": {
+      "file": "assets/scenes/hory.jpg",
+      "references": [
+        "assets/svety/svet_hory.png",
+        "tools/docs/StyleGuide.png"
+      ],
+      "prompt": "A gentle alpine valley: big snowy mountain peaks in the distance, pine trees at the left and right edges, a small waterfall far away, blue sky with soft clouds and sun top right. Foreground: open alpine meadow with short grass and a few small grey stones at the very edges. soft painterly 3D children storybook illustration, warm light, vibrant gentle colors, same art style as the first image. WIDE 16:9 background for a 2D children game level. Horizon line at about 60 percent of the height. The bottom 40 percent is open and calm, leaving the lower middle EMPTY for gameplay objects, only tiny sparse details near the very bottom edge. No characters, no animals, no text, no UI, no frame."
+    },
+    "rybnicek": {
+      "file": "assets/scenes/rybnicek.jpg",
+      "references": [
+        "assets/svety/svet_louka.png",
+        "tools/docs/StyleGuide.png"
+      ],
+      "prompt": "A peaceful countryside by an old mill: a wooden mill house with a water wheel on the right in the middle distance, willow trees and reeds, green hills, blue sky with soft clouds and sun top right. Foreground: open grassy shore, no pond or water in the lower middle. soft painterly 3D children storybook illustration, warm light, vibrant gentle colors, same art style as the first image. WIDE 16:9 background for a 2D children game level. Horizon line at about 60 percent of the height. The bottom 40 percent is open and calm, leaving the lower middle EMPTY for gameplay objects, only tiny sparse details near the very bottom edge. No characters, no animals, no text, no UI, no frame."
+    },
+    "more": {
+      "file": "assets/scenes/more.jpg",
+      "references": [
+        "assets/svety/svet_poust.png",
+        "tools/docs/StyleGuide.png"
+      ],
+      "prompt": "A sunny seaside: calm turquoise sea horizon with soft gentle waves in the middle distance, a palm tree at the right edge, a few rocks, blue sky with soft clouds and sun top right. Foreground: open smooth light sandy beach, no water in the lower middle. soft painterly 3D children storybook illustration, warm light, vibrant gentle colors, same art style as the first image. WIDE 16:9 background for a 2D children game level. Horizon line at about 60 percent of the height. The bottom 40 percent is open and calm, leaving the lower middle EMPTY for gameplay objects, only tiny sparse details near the very bottom edge. No characters, no animals, no text, no UI, no frame."
+    },
+    "noc": {
+      "file": "assets/scenes/noc.jpg",
+      "references": [
+        "assets/svety/svet_zahradka.png",
+        "tools/docs/StyleGuide.png"
+      ],
+      "prompt": "A magical calm night garden for bedtime: deep blue starry sky, a big friendly glowing moon top right, soft glowing fireflies, dark hedges and round trees, a small cottage with a warm lit window in the distance. Never scary, soft and cosy. Foreground: open dark green lawn. soft painterly 3D children storybook illustration, warm light, vibrant gentle colors, same art style as the first image. WIDE 16:9 background for a 2D children game level. Horizon line at about 60 percent of the height. The bottom 40 percent is open and calm, leaving the lower middle EMPTY for gameplay objects, only tiny sparse details near the very bottom edge. No characters, no animals, no text, no UI, no frame."
+    }
+  }
+}
