@@ -1,6 +1,6 @@
-# Mráček Kapka
+# Mráček Kapáček
 
-Hra pro děti 3–5 let (Expo SDK 58, React Native 0.88, React 19, TypeScript) pro iOS, Android a web. Mráček Kapka nabírá vodu, zalévá rostlinky a ty rostou ve čtyřech fázích. Za rozkvetlý obrázek přiletí zvířátko a dítě dostane odměnu. Kolem toho je 5 světů kampaně, 3 světy rozšíření, album, Moje zahrádka, šatník, Oblačná rodina a Duhová slavnost.
+Hra pro děti 3–5 let (Expo SDK 58, React Native 0.88, React 19, TypeScript) pro iOS, Android a web. Hlavní postava, mráček Kapka, nabírá vodu, zalévá rostlinky a ty rostou ve čtyřech fázích. Za rozkvetlý obrázek přiletí zvířátko a dítě dostane odměnu. Kolem toho je 5 světů kampaně, 3 světy rozšíření, album, Moje zahrádka, šatník, Oblačná rodina a Duhová slavnost.
 
 Web: https://hrdlickamartin.github.io/mracek-kapka/ · repo `hrdlickamartin/mracek-kapka` (`main` = zdroj, `gh-pages` = statický build).
 

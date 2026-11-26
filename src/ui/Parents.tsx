@@ -103,7 +103,7 @@ export function ParentZone({ save, onSettings, onReset, onClose }: { save: SaveD
         <Row label="Vyšší kontrast"><Toggle label="Vyšší kontrast" value={s.highContrast} onChange={(v) => onSettings({ highContrast: v })} /></Row>
         <Row label="Jazyk hlasu"><Text style={styles.value}>Čeština</Text></Row>
         <Text style={styles.h2}>O hře</Text>
-        <Text style={styles.text}>Mráček Kapka je hra pro děti od 3 do 5 let. Nemá reklamy ani nákupy, nesbírá žádná data a funguje bez internetu. Hra se ukládá sama a postup se nikdy neztratí, ani když dítě aplikaci zavře. Nedá se prohrát, nemá skóre ani časové limity.</Text>
+        <Text style={styles.text}>Mráček Kapáček je hra pro děti od 3 do 5 let. Nemá reklamy ani nákupy, nesbírá žádná data a funguje bez internetu. Hra se ukládá sama a postup se nikdy neztratí, ani když dítě aplikaci zavře. Nedá se prohrát, nemá skóre ani časové limity.</Text>
         <Text style={styles.text}>Hlas Žabky Žofky používá syntézu řeči zařízení. Pokud zařízení nemá český hlas, hra zůstane plně hratelná díky obrázkovým nápovědám.</Text>
         <Text style={styles.h2}>Začít znovu</Text>
         {!confirm ? (

@@ -45,7 +45,7 @@ export function Intro({ onStart, reducedMotion }: { onStart: () => void; reduced
         <MiniKapka size={Math.min(width * 0.42, height * 0.6)} mood={awake ? 'mrk' : 'spanek'} time={t} />
       </PressDown>
       <Text style={[styles.logo, { top: height * 0.62, fontSize: Math.min(56, height * 0.1) }]} accessibilityRole="header">
-        Mráček Kapka
+        Mráček Kapáček
       </Text>
       <View style={[styles.introGo, { bottom: height * 0.04 }]}>
         <BubbleButton label="Hrát" icon="hrat" size={Math.min(SIZES.main, height * 0.24)} variant="go" onPress={wake} pulse reducedMotion={reducedMotion} />

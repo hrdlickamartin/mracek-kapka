@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Mráček Kapka",
+    "name": "Mráček Kapáček",
     "slug": "mracek-kapka",
     "version": "0.1.0",
     "orientation": "landscape",
@@ -14,7 +14,7 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "name": "Mráček Kapka",
+      "name": "Mráček Kapáček",
       "themeColor": "#3BAEFD",
       "backgroundColor": "#D2F0FD",
       "favicon": "./assets/favicon.png"

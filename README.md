@@ -1,4 +1,4 @@
-# Mráček Kapka
+# Mráček Kapáček
 
 Hra pro děti 3–5 let: malý mráček Kapka nabírá vodu, zalévá rostlinky a krajina rozkvétá. Ovládá se jedním prstem, nedá se prohrát a nemá skóre, časové limity, reklamy ani nákupy.
 
