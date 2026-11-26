@@ -30,48 +30,41 @@ export const PLANTS: Record<PlantKind, PlantInfo> = {
   'nocni-fialka': { name: 'noční fialka', tone: 5, color: '#9C7BEA' },
 };
 
-export type AnimalShape = 'motyl' | 'brouk' | 'vcela' | 'cvrcek' | 'ptak' | 'savec' | 'snek' | 'zizala' | 'jesterka' | 'zelva' | 'krab' | 'rybka';
-
 export interface AnimalInfo {
   name: string;
-  shape: AnimalShape;
-  body: string;
-  accent: string;
-  ears?: 'dlouhe' | 'kulate' | 'spicate' | 'rohy' | 'bodliny' | 'parozi' | 'chomacky';
-  tail?: 'chlupaty' | 'kratky' | 'zadny';
   flies?: boolean;
   glow?: boolean;
 }
 
 export const ANIMALS: Record<AnimalKind, AnimalInfo> = {
-  motyl: { name: 'motýl', shape: 'motyl', body: '#5B3A1E', accent: '#F9BA0A', flies: true },
-  beruska: { name: 'beruška', shape: 'brouk', body: '#E5322A', accent: '#23395B' },
-  vcelka: { name: 'včelka', shape: 'vcela', body: '#FBCC03', accent: '#3A2A1A', flies: true },
-  cvrcek: { name: 'cvrček', shape: 'cvrcek', body: '#6B8E23', accent: '#3E5A12' },
-  sykorka: { name: 'sýkorka', shape: 'ptak', body: '#F9D648', accent: '#3B7FD0', flies: true },
-  zajicek: { name: 'zajíček', shape: 'savec', body: '#D88E66', accent: '#FBECDB', ears: 'dlouhe', tail: 'kratky' },
-  vrabec: { name: 'vrabec', shape: 'ptak', body: '#A9744A', accent: '#E8D4B8', flies: true },
-  snek: { name: 'šnek', shape: 'snek', body: '#E9C89A', accent: '#C07A3A' },
-  zizala: { name: 'žížala', shape: 'zizala', body: '#E79A8E', accent: '#D27B6E' },
-  jezek: { name: 'ježek', shape: 'savec', body: '#FAC995', accent: '#84401A', ears: 'bodliny', tail: 'zadny' },
-  veverka: { name: 'veverka', shape: 'savec', body: '#D2691E', accent: '#F8E3C8', ears: 'chomacky', tail: 'chlupaty' },
-  sova: { name: 'sova', shape: 'ptak', body: '#9C7A55', accent: '#F3E2C4', ears: 'chomacky', flies: true },
-  srnka: { name: 'srnka', shape: 'savec', body: '#C68A52', accent: '#F6E2C8', ears: 'spicate', tail: 'kratky' },
-  jesterka: { name: 'ještěrka', shape: 'jesterka', body: '#8BC34A', accent: '#F9BA0A' },
-  velbloudik: { name: 'velbloudík', shape: 'savec', body: '#E2B77A', accent: '#F6E2C8', ears: 'kulate', tail: 'kratky' },
-  zelvicka: { name: 'želvička', shape: 'zelva', body: '#9CCB5A', accent: '#A0642E' },
-  kamzik: { name: 'kamzík', shape: 'savec', body: '#8A5A3A', accent: '#F3E2C4', ears: 'rohy', tail: 'kratky' },
-  svist: { name: 'svišť', shape: 'savec', body: '#B08458', accent: '#EAD3B2', ears: 'kulate', tail: 'kratky' },
-  orlik: { name: 'orlík', shape: 'ptak', body: '#7A5233', accent: '#FFF4E0', flies: true },
-  kachnicka: { name: 'kachnička', shape: 'ptak', body: '#FDE26B', accent: '#F39B05' },
-  vazka: { name: 'vážka', shape: 'motyl', body: '#3BAEFD', accent: '#BDE9FF', flies: true },
-  rybka: { name: 'rybka', shape: 'rybka', body: '#F39B05', accent: '#FFE1A8' },
-  krab: { name: 'krab', shape: 'krab', body: '#F0603A', accent: '#FFD2B8' },
-  racek: { name: 'racek', shape: 'ptak', body: '#F4F6FA', accent: '#F9BA0A', flies: true },
-  'morska-zelvicka': { name: 'mořská želvička', shape: 'zelva', body: '#5FC3B0', accent: '#2E7D6E' },
-  svetluska: { name: 'světluška', shape: 'vcela', body: '#C8E86A', accent: '#3A3A2A', flies: true, glow: true },
-  mura: { name: 'můra', shape: 'motyl', body: '#B9A3D9', accent: '#EDE2FF', flies: true },
-  plch: { name: 'plch', shape: 'savec', body: '#A7A3A0', accent: '#EFEAE4', ears: 'kulate', tail: 'chlupaty' },
+  motyl: { name: 'motýl', flies: true },
+  beruska: { name: 'beruška' },
+  vcelka: { name: 'včelka', flies: true },
+  cvrcek: { name: 'cvrček' },
+  sykorka: { name: 'sýkorka', flies: true },
+  zajicek: { name: 'zajíček' },
+  vrabec: { name: 'vrabec', flies: true },
+  snek: { name: 'šnek' },
+  zizala: { name: 'žížala' },
+  jezek: { name: 'ježek' },
+  veverka: { name: 'veverka' },
+  sova: { name: 'sova', flies: true },
+  srnka: { name: 'srnka' },
+  jesterka: { name: 'ještěrka' },
+  velbloudik: { name: 'velbloudík' },
+  zelvicka: { name: 'želvička' },
+  kamzik: { name: 'kamzík' },
+  svist: { name: 'svišť' },
+  orlik: { name: 'orlík', flies: true },
+  kachnicka: { name: 'kachnička' },
+  vazka: { name: 'vážka', flies: true },
+  rybka: { name: 'rybka' },
+  krab: { name: 'krab' },
+  racek: { name: 'racek', flies: true },
+  'morska-zelvicka': { name: 'mořská želvička' },
+  svetluska: { name: 'světluška', flies: true, glow: true },
+  mura: { name: 'můra', flies: true },
+  plch: { name: 'plch' },
 };
 
 export interface FamilyInfo {

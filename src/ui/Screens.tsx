@@ -1,11 +1,12 @@
 import { PressDown } from './PressDown';
 import { Component, type ReactNode, useEffect, useState } from 'react';
-import { Animated, Easing, Platform, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Animated, Easing, Image, Platform, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
 import { FAMILY_ORDER } from '../game/catalog';
 import type { AnimalKind } from '../game/types';
 import type { WardrobeId, WardrobeSlot } from '../progression/wardrobe';
 import { Moon } from '../render/Characters';
+import { SCENE_IMAGES } from '../render/Scenery';
 import { BubbleButton } from './BubbleButton';
 import { Icon } from './Icons';
 import { MiniAnimal, MiniFamily, MiniKapka } from './Mini';
@@ -107,21 +108,62 @@ export function Ending({ album, worn, onDone, reducedMotion }: { album: AnimalKi
   );
 }
 
+async function playLandscape() {
+  if (Platform.OS !== 'web' || typeof document === 'undefined') return;
+  try {
+    if (!document.fullscreenElement) await document.documentElement.requestFullscreen?.({ navigationUI: 'hide' });
+  } catch {}
+  try {
+    const orientation = screen.orientation as ScreenOrientation & { lock?: (o: string) => Promise<void> };
+    await orientation.lock?.('landscape');
+  } catch {}
+}
+
 export function RotateNotice() {
   const { width, height } = useWindowDimensions();
-  const spin = useState(() => new Animated.Value(0))[0];
+  const turn = useState(() => new Animated.Value(0))[0];
+  const portrait = width < height;
   useEffect(() => {
-    const loop = Animated.loop(Animated.timing(spin, { toValue: 1, duration: 1800, easing: Easing.inOut(Easing.ease), useNativeDriver: native }));
+    if (!portrait) return;
+    const loop = Animated.loop(
+      Animated.sequence([
+        Animated.delay(500),
+        Animated.timing(turn, { toValue: 1, duration: 900, easing: Easing.inOut(Easing.cubic), useNativeDriver: native }),
+        Animated.delay(1100),
+        Animated.timing(turn, { toValue: 0, duration: 400, easing: Easing.inOut(Easing.cubic), useNativeDriver: native }),
+      ]),
+    );
     loop.start();
     return () => loop.stop();
-  }, [spin]);
-  if (width >= height) return null;
-  const rotate = spin.interpolate({ inputRange: [0, 0.5, 1], outputRange: ['0deg', '-90deg', '-90deg'] });
+  }, [turn, portrait]);
+  if (!portrait) return null;
+  const phoneW = Math.min(width * 0.32, 150);
+  const phoneH = phoneW * 1.9;
+  const rotate = turn.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '-90deg'] });
+  const counter = turn.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '90deg'] });
   return (
-    <View style={[StyleSheet.absoluteFill, styles.rotate]} accessibilityLabel="Otočte zařízení na šířku">
-      <Animated.View style={{ transform: [{ rotate }] }}>
-        <Icon name="otocit" size={Math.min(width, height) * 0.5} color={COLORS.primary} />
-      </Animated.View>
+    <View style={[StyleSheet.absoluteFill, styles.rotate]}>
+      <Image source={SCENE_IMAGES.louka} style={{ position: 'absolute', left: 0, top: 0, width, height }} resizeMode="cover" blurRadius={4} />
+      <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(210,240,253,0.55)' }]} />
+      <View style={{ height: phoneH + 40, alignItems: 'center', justifyContent: 'center' }} accessibilityLabel="Otočte telefon na šířku">
+        <Animated.View style={[styles.phone, { width: phoneW, height: phoneH, borderRadius: phoneW * 0.18, transform: [{ rotate }] }]}>
+          <View style={[styles.screen, { borderRadius: phoneW * 0.1 }]}>
+            <Animated.View style={{ transform: [{ rotate: counter }] }}>
+              <MiniKapka size={phoneW * 0.85} mood="mavani" />
+            </Animated.View>
+          </View>
+        </Animated.View>
+      </View>
+      <Text style={styles.rotateTitle}>Otočte telefon na šířku</Text>
+      {Platform.OS === 'web' && (
+        <>
+          <Pressable accessibilityRole="button" onPress={playLandscape} style={styles.rotateButton}>
+            <Icon name="hrat" size={26} color="#FFFFFF" />
+            <Text style={styles.rotateButtonText}>Hrát na celou obrazovku</Text>
+          </Pressable>
+          <Text style={styles.rotateHint}>Když se obraz neotočí, zapněte v telefonu automatické otáčení obrazovky, nebo použijte tlačítko.</Text>
+        </>
+      )}
     </View>
   );
 }
@@ -187,7 +229,13 @@ const styles = StyleSheet.create({
   familyRow: { position: 'absolute', left: 0, right: 0, flexDirection: 'row', justifyContent: 'center', gap: 6 },
   parade: { position: 'absolute', left: 0, right: 0, flexDirection: 'row', justifyContent: 'center', gap: 6 },
   endGo: { position: 'absolute', right: '8%', bottom: '8%' },
-  rotate: { backgroundColor: COLORS.sky, alignItems: 'center', justifyContent: 'center' },
+  rotate: { backgroundColor: COLORS.sky, alignItems: 'center', justifyContent: 'center', padding: 24, gap: 14 },
+  phone: { backgroundColor: '#23395B', padding: 8, shadowColor: '#23395B', shadowOpacity: 0.3, shadowRadius: 12, shadowOffset: { width: 0, height: 6 }, elevation: 6 },
+  screen: { flex: 1, backgroundColor: '#BFE6FD', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+  rotateTitle: { fontFamily: FONTS.extra, fontSize: 22, color: COLORS.ink, textAlign: 'center' },
+  rotateButton: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: COLORS.go, borderRadius: 18, paddingHorizontal: 22, minHeight: 56, borderBottomWidth: 5, borderColor: COLORS.goEdge },
+  rotateButtonText: { fontFamily: FONTS.extra, fontSize: 17, color: '#FFFFFF' },
+  rotateHint: { fontFamily: FONTS.regular, fontSize: 13, lineHeight: 19, color: COLORS.ink, textAlign: 'center', maxWidth: 320 },
   wipe: { flex: 1 },
   puff: { position: 'absolute', backgroundColor: '#FFFFFF', borderRadius: 999 },
 });

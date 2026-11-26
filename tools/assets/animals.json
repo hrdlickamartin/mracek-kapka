@@ -1,0 +1,40 @@
+{
+  "model": "gpt-image-1.5",
+  "settings": {
+    "background": "transparent",
+    "quality": "medium",
+    "size": "1024x1024",
+    "reference": "tools/docs/img/zviratka.png"
+  },
+  "promptTemplate": "Use the reference image only for the art style. Draw ONE {desc}, as a character for a preschool children's game: soft 3D clay plush render, chubby rounded shapes, big glossy dark eyes with two white highlights, pink cheeks, happy smile, full body, three-quarter side view facing RIGHT, whole character visible with nothing cut off, centered, fills most of the canvas. Fully transparent background, no ground, no shadow, no text, no frame.",
+  "animals": {
+    "beruska": "a cute round red ladybug with black spots and a black head",
+    "cvrcek": "a cute little green cricket with long folded back legs and long antennae",
+    "jesterka": "a cute small green lizard with a curled tail",
+    "jezek": "a cute baby hedgehog",
+    "kachnicka": "a cute yellow duckling with an orange beak",
+    "kamzik": "a cute baby chamois mountain goat with small dark curved horns",
+    "krab": "a cute red crab waving its claws",
+    "morska-zelvicka": "a cute baby sea turtle with a teal shell and flippers",
+    "motyl": "a cute baby butterfly with big rounded orange-yellow wings with soft dark spots and tiny curly antennae, flying pose",
+    "mura": "a cute fluffy lilac moth with soft rounded wings, flying pose",
+    "orlik": "a cute baby eagle with brown feathers and a white fluffy head",
+    "plch": "a cute grey dormouse with a fluffy tail",
+    "racek": "a cute round white seagull with grey wings and a yellow beak",
+    "rybka": "a cute orange fish jumping happily",
+    "snek": "a cute snail with a big orange-brown spiral shell and eye stalks",
+    "sova": "a cute round brown owl with ear tufts and big eyes",
+    "srnka": "a cute baby deer fawn with white spots",
+    "svetluska": "a cute firefly with a softly glowing yellow-green tail, flying pose",
+    "svist": "a cute chubby brown marmot standing",
+    "sykorka": "a cute round blue tit bird with a yellow belly and a blue cap",
+    "vazka": "a cute blue dragonfly with four translucent wings, flying pose",
+    "vcelka": "a cute chubby baby bee with yellow and dark brown stripes and small translucent wings, flying pose",
+    "velbloudik": "a cute baby camel with one hump",
+    "veverka": "a cute red squirrel with a big fluffy curled tail",
+    "vrabec": "a cute round brown sparrow bird",
+    "zajicek": "a cute baby bunny with long ears, light brown fur and a white fluffy tail",
+    "zelvicka": "a cute baby tortoise with a rounded brown patterned shell",
+    "zizala": "a cute pink earthworm curled in a soft S shape"
+  }
+}

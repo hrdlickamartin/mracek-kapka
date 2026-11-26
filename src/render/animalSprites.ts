@@ -1,0 +1,33 @@
+import type { ImageSourcePropType } from 'react-native';
+import type { AnimalKind } from '../game/types';
+
+export const ANIMAL_SPRITES: Record<AnimalKind, { src: ImageSourcePropType; aspect: number }> = {
+  'beruska': { src: require('../../assets/animals/beruska.png'), aspect: 1.105 },
+  'cvrcek': { src: require('../../assets/animals/cvrcek.png'), aspect: 1.040 },
+  'jesterka': { src: require('../../assets/animals/jesterka.png'), aspect: 1.179 },
+  'jezek': { src: require('../../assets/animals/jezek.png'), aspect: 0.957 },
+  'kachnicka': { src: require('../../assets/animals/kachnicka.png'), aspect: 0.693 },
+  'kamzik': { src: require('../../assets/animals/kamzik.png'), aspect: 0.742 },
+  'krab': { src: require('../../assets/animals/krab.png'), aspect: 1.502 },
+  'morska-zelvicka': { src: require('../../assets/animals/morska-zelvicka.png'), aspect: 1.310 },
+  'motyl': { src: require('../../assets/animals/motyl.png'), aspect: 1.089 },
+  'mura': { src: require('../../assets/animals/mura.png'), aspect: 1.051 },
+  'orlik': { src: require('../../assets/animals/orlik.png'), aspect: 0.772 },
+  'plch': { src: require('../../assets/animals/plch.png'), aspect: 1.014 },
+  'racek': { src: require('../../assets/animals/racek.png'), aspect: 0.845 },
+  'rybka': { src: require('../../assets/animals/rybka.png'), aspect: 1.252 },
+  'snek': { src: require('../../assets/animals/snek.png'), aspect: 1.070 },
+  'sova': { src: require('../../assets/animals/sova.png'), aspect: 0.853 },
+  'srnka': { src: require('../../assets/animals/srnka.png'), aspect: 0.745 },
+  'svetluska': { src: require('../../assets/animals/svetluska.png'), aspect: 1.086 },
+  'svist': { src: require('../../assets/animals/svist.png'), aspect: 0.747 },
+  'sykorka': { src: require('../../assets/animals/sykorka.png'), aspect: 1.017 },
+  'vazka': { src: require('../../assets/animals/vazka.png'), aspect: 1.389 },
+  'vcelka': { src: require('../../assets/animals/vcelka.png'), aspect: 0.997 },
+  'velbloudik': { src: require('../../assets/animals/velbloudik.png'), aspect: 0.905 },
+  'veverka': { src: require('../../assets/animals/veverka.png'), aspect: 1.079 },
+  'vrabec': { src: require('../../assets/animals/vrabec.png'), aspect: 1.014 },
+  'zajicek': { src: require('../../assets/animals/zajicek.png'), aspect: 0.726 },
+  'zelvicka': { src: require('../../assets/animals/zelvicka.png'), aspect: 1.073 },
+  'zizala': { src: require('../../assets/animals/zizala.png'), aspect: 0.954 },
+};

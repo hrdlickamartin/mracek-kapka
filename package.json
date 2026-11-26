@@ -40,7 +40,9 @@
     "audio:build": "python3 tools/audio/generate.py",
     "docs:build": "sh tools/docs/build.sh",
     "check": "npm run typecheck && npm run lint && npm run test && npm run check:fonts",
-    "prepare": "git config core.hooksPath .githooks || true"
+    "prepare": "git config core.hooksPath .githooks || true",
+    "assets:animals": "python3 tools/assets/animals.py build",
+    "deploy:web": "sh tools/deploy/pages.sh"
   },
   "private": true
 }
