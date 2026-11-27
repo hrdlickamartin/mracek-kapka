@@ -4,25 +4,54 @@
     "slug": "mracek-kapka",
     "version": "0.1.0",
     "orientation": "landscape",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "backgroundColor": "#D2F0FD",
     "ios": {
+      "bundleIdentifier": "cz.hrdlickamartin.mracekkapacek",
+      "buildNumber": "1",
       "supportsTablet": true,
-      "requireFullScreen": true
+      "requireFullScreen": true,
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
+      "package": "cz.hrdlickamartin.mracekkapacek",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#3BAEFD"
+      },
       "predictiveBackGestureEnabled": false
     },
     "web": {
       "name": "Mráček Kapáček",
+      "shortName": "Kapáček",
       "themeColor": "#3BAEFD",
       "backgroundColor": "#D2F0FD",
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-audio",
+      [
+        "expo-audio",
+        {
+          "microphonePermission": false,
+          "recordAudioAndroid": false,
+          "enableBackgroundPlayback": false
+        }
+      ],
       "expo-font",
-      "expo-asset"
+      "expo-asset",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 220,
+          "resizeMode": "contain",
+          "backgroundColor": "#D2F0FD"
+        }
+      ]
     ]
   }
 }

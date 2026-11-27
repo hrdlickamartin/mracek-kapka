@@ -72,6 +72,30 @@ export const WaterSource = memo(function WaterSource({ kind, x, w, ripple, time,
         </G>
       );
       break;
+    case 'studna':
+      body = (
+        <G>
+          <Path d="M-62 0 L-62 -70 L62 -70 L62 0 Z" fill="#B7B2A4" />
+          {[-40, 0, 40].map((x) => <Path key={x} d={`M${x - 18} -24 L${x + 18} -24 M${x} -70 L${x} -24`} stroke="#9A958A" strokeWidth={3} />)}
+          <Ellipse cy={-70} rx={62} ry={14} fill="#4FB8E6" />
+          <Ellipse cy={-72} rx={46} ry={8} fill="#8DD9FA" opacity={0.8 + ripple * 0.2} />
+          <Rect x={-58} y={-180} width={10} height={112} fill="#8A5A3A" />
+          <Rect x={48} y={-180} width={10} height={112} fill="#8A5A3A" />
+          <Path d="M-80 -176 L0 -214 L80 -176 Z" fill="#B5502A" />
+          <Path d="M0 -176 L0 -120" stroke="#5A4A3A" strokeWidth={3} />
+          <Path d="M-14 -120 L14 -120 L10 -96 L-10 -96 Z" fill="#A0642E" />
+        </G>
+      );
+      break;
+    case 'led':
+      body = (
+        <G>
+          <Pond w={w} ripple={ripple} time={time} deep="#7CC8EC" light="#CDEEFB" />
+          <Path d={`M${-w / 2 + 6} -6 L${-w / 4} -20 L${-w / 8} -4 Z M${w / 4} -18 L${w / 2 - 8} -8 L${w / 5} 2 Z`} fill="#FFFFFF" opacity={0.9} />
+          <Path d={`M${-w / 6} -10 L0 -4 L${w / 8} -14`} stroke="#FFFFFF" strokeWidth={2} fill="none" opacity={0.8} />
+        </G>
+      );
+      break;
     case 'rosa':
       body = (
         <G>
@@ -156,6 +180,24 @@ export const HideoutFigure = memo(function HideoutFigure({ h, time, glow }: { h:
         </G>
       );
       break;
+    case 'zavej':
+      body = (
+        <G transform={tr(0, 0, 0, 1, 1 - open * 0.25)}>
+          <Path d="M-60 0 Q-50 -50 -10 -54 Q30 -62 60 -14 Q62 0 50 0 Z" fill="#FFFFFF" stroke="#B9CCDF" strokeWidth={4} />
+          <Path d="M-40 -34 Q-16 -48 10 -44" stroke="#DCE8F3" strokeWidth={5} fill="none" strokeLinecap="round" />
+        </G>
+      );
+      break;
+    case 'kvetinac':
+      body = (
+        <G transform={tr(open * 18, 0, open * 8)}>
+          <Path d="M-38 -52 L38 -52 L30 0 L-30 0 Z" fill="#C8693A" />
+          <Rect x={-42} y={-60} width={84} height={14} rx={6} fill="#B5582E" />
+          <Circle cx={-14} cy={-70} r={16} fill="#5E9B2E" />
+          <Circle cx={14} cy={-74} r={18} fill="#4F9112" />
+        </G>
+      );
+      break;
     case 'muslicka':
       body = (
         <G transform={tr(0, 0, -open * 20)}>
@@ -226,6 +268,15 @@ export function Particles({ list, reduced }: { list: Particle[]; reduced: boolea
             return <Ellipse key={i} cx={p.x} cy={p.y} rx={p.size} ry={p.size * 0.45} fill="#6FAE3A" opacity={a} transform={`rotate(${p.life * 200} ${p.x} ${p.y})`} />;
           case 'vitr':
             return <Path key={i} d={`M${p.x - 60} ${p.y} Q${p.x} ${p.y - 18} ${p.x + 60} ${p.y}`} stroke="#FFFFFF" strokeWidth={5} fill="none" opacity={a * 0.7} strokeLinecap="round" />;
+          case 'svetluska':
+            return (
+              <G key={i} opacity={Math.min(1, p.life)}>
+                <Circle cx={p.x} cy={p.y} r={p.size * 2.4} fill="#E9FF8A" opacity={0.25} />
+                <Circle cx={p.x} cy={p.y} r={p.size * 0.7} fill="#F6FFB8" />
+              </G>
+            );
+          case 'hlina':
+            return <Circle key={i} cx={p.x} cy={p.y} r={p.size * 0.5} fill="#853B0F" opacity={a} />;
           case 'motyl':
             return (
               <G key={i} transform={tr(p.x, p.y)} opacity={a}>

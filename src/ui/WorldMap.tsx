@@ -13,12 +13,19 @@ import { Icon } from './Icons';
 import { MiniAnimal, MiniKapka, MiniPlant } from './Mini';
 import { COLORS } from './theme';
 
-const IMAGES: Partial<Record<WorldId, ImageSourcePropType>> = {
+const IMAGES: Record<WorldId, ImageSourcePropType> = {
   louka: require('../../assets/svety/svet_louka.png'),
   zahradka: require('../../assets/svety/svet_zahradka.png'),
   les: require('../../assets/svety/svet_les.png'),
   poust: require('../../assets/svety/svet_poust.png'),
   hory: require('../../assets/svety/svet_hory.png'),
+  rybnicek: require('../../assets/svety/svet_rybnicek.png'),
+  'morsky-breh': require('../../assets/svety/svet_morsky-breh.png'),
+  'nocni-zahrada': require('../../assets/svety/svet_nocni-zahrada.png'),
+  dzungle: require('../../assets/svety/svet_dzungle.png'),
+  sad: require('../../assets/svety/svet_sad.png'),
+  arktida: require('../../assets/svety/svet_arktida.png'),
+  balkon: require('../../assets/svety/svet_balkon.png'),
 };
 
 const RAINBOW = ['#ED3E1D', '#F9BA0A', '#FBE15A', '#A8C729', '#3BAEFD', '#BD8EFA'];
@@ -161,7 +168,7 @@ export function WorldMap({ save, onPlay, onHome, onEnding, onMist, reducedMotion
           const i = main.length + 1 + k;
           return (
             <View key={w.id} style={{ position: 'absolute', left: points[i].x - size / 2, top: ys(i), zIndex: firstOpen?.id === w.id ? 3 : 1 }}>
-              <Island world={w} size={size} open={worldUnlocked(save, w)} done={worldDone(save, w.id)} next={firstOpen?.id === w.id} onPress={() => setPicked(w)} onMist={onMist} />
+              <Island world={w} size={size} image={IMAGES[w.id]} open={worldUnlocked(save, w)} done={worldDone(save, w.id)} next={firstOpen?.id === w.id} onPress={() => setPicked(w)} onMist={onMist} />
               {firstOpen?.id === w.id && <HintHand x={size * 0.7} y={size * 0.62} size={Math.min(64, size * 0.4)} reducedMotion={reducedMotion} />}
             </View>
           );

@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<title>Mráček Kapáček – Rozšíření</title>
+<link rel="stylesheet" href="styl.css">
+<style>
+.poradi { counter-reset: krok; list-style: none; padding-left: 0; }
+.poradi li { counter-increment: krok; position: relative; padding: 6px 0 6px 40px; border-bottom: 1px dotted #c9d9e6; break-inside: avoid; }
+.poradi li::before { content: counter(krok); position: absolute; left: 0; top: 5px; width: 26px; height: 26px; border-radius: 50%; background: var(--nebe); color: #fff; font-weight: 900; text-align: center; line-height: 26px; font-size: 10pt; }
+.stitek { display: inline-block; border-radius: 99px; padding: 1px 9px; font-size: 8pt; font-weight: 800; margin-left: 6px; }
+.prinos { background: #eef7e1; color: #4b7a12; }
+.prace { background: #fff1d6; color: #9a6200; }
+</style>
+</head>
+<body>
+
+<section class="titulka">
+  <div>
+    <div class="obraz"><img src="img/hero.png" alt="" style="object-position: 30% 22%"></div>
+    <div class="nadpis">Rozšíření · rozbor a návrhy</div>
+    <h1>Mráček Kapáček</h1>
+    <div class="podnadpis">Jak hru dál rozšířit: současný stav, slabá místa a návrhy seřazené podle přínosu a pracnosti. Všechno platí pro děti 3–5 let, jeden prst a hru bez textu.</div>
+  </div>
+  <div class="meta"><span>8 světů × 5 obrázků</span><span>21 rostlin</span><span>28 zvířátek</span><span>12 doplňků</span><span>listopad 2026</span></div>
+</section>
+
+<section>
+<h2>Obsah</h2>
+<div class="obsah">
+  <div><b>1</b> Současný stav</div>
+  <div><b>2</b> Každý obrázek jiný</div>
+  <div><b>3</b> Nové sloveso v každém světě</div>
+  <div><b>4</b> Zvířátka, se kterými se dá něco dělat</div>
+  <div><b>5</b> Zahrádka jako místo, kam se dítě vrací</div>
+  <div><b>6</b> Hudba podle světa</div>
+  <div><b>7</b> Nové světy a zvířátka</div>
+  <div><b>8</b> Platformy a vydání</div>
+  <div><b>9</b> Technické předpoklady</div>
+  <div><b>10</b> Doporučené pořadí</div>
+</div>
+
+<p>Rozbor vychází z kódu (<code>src/game/worlds.ts</code>, <code>types.ts</code>, <code>catalog.ts</code>, <code>src/progression/</code>) a z pravidel identity hry: žádné prohrávání, žádný text pro dítě, jeden prst, dítě v každé chvíli vidí, co má udělat. Návrhy se řídí <b>Game Art Bible</b> a <b>UI Style Guide</b>; kde se dotýkají jejich obsahu, uvádí se tam po zapracování jako kánon.</p>
+
+<h2><span class="cislo">1</span>Současný stav</h2>
+<ul>
+  <li><b>Obsah:</b> 8 světů po 5 obrázcích (40 scén), 21 rostlin, 28 zvířátek, 6 členů Oblačné rodiny, 12 doplňků v šatníku, zahrádka.</li>
+  <li><b>Scény jsou ze šablony.</b> <code>buildScene</code> u každého světa jen střídá počet rostlin (3–5), stranu vody a počet schovávaček. Pozadí je jedno na svět (<code>assets/scenes/*.jpg</code>), takže 5 obrázků jednoho světa vypadá skoro stejně.</li>
+  <li><b>Hratelnost je jedna smyčka:</b> naber vodu, zalij, vyroste. Zvláštní pravidla mají jen Poušť (slunce vysušuje, duha) a Hory (vítr, sníh).</li>
+  <li><b>Nedodělky:</b> Noční zahrada má v datech mechaniku <code>noc</code>, ale engine ji neobsluhuje. Rybníček a Mořský břeh nemají vlastní pravidlo, liší se jen obrázkem. Světy rozšíření nemají ostrůvek na mapě.</li>
+  <li><b>Hudba</b> je jedna smyčka o třech vrstvách pro všechny světy.</li>
+  <li><b>Platformy:</b> jen web. Chyběl <code>eas.json</code> pro sestavení do obchodů a service worker, takže web na telefonu bez signálu neběžel, i když rodičovská zóna slibovala „funguje bez internetu“.</li>
+</ul>
+</section>
+
+<section class="kapitola">
+<h2><span class="cislo">2</span>Každý obrázek jiný <span class="stitek prinos">velký přínos</span><span class="stitek prace">střední práce</span></h2>
+<p>Největší slabina: obrázky jednoho světa splývají.</p>
+<ul>
+  <li><b>Proměnné rozložení scén:</b> pravidla <code>buildScene</code> dostanou pro každý z pěti obrázků jiný vzor: voda vlevo, vpravo i uprostřed, různé počty rostlinek a místo pro kouzelnou věc. Rozmístění dál hlídají testy (rozestupy, okraje, voda).</li>
+  <li><b>Víc pozadí:</b> 2–3 na svět (jiný výřez krajiny, ráno, odpoledne, večer). Postup v <code>tools/assets/scenes.json</code> už existuje, ~0,08 $ za obrázek.</li>
+  <li><b>Popředí a drobnosti</b> (tráva, kamínky, plůtek, kytičky) v různých kombinacích dají rozdíl skoro zadarmo.</li>
+</ul>
+
+<h2><span class="cislo">3</span>Nové sloveso v každém světě <span class="stitek prinos">velký přínos</span><span class="stitek prace">střední práce</span></h2>
+<p>Pořád jedním prstem a bez možnosti selhat:</p>
+<table>
+  <tr><th>Svět</th><th>Návrh</th></tr>
+  <tr><td><b>Noční zahrada</b></td><td>Doplnit chybějící <code>noc</code>: je šero, Kapáček kolem sebe svítí, světlušky letí za ním, po rozkvětu se rozsvítí lucerny. Klidný svět na večer.</td></tr>
+  <tr><td><b>Rybníček</b></td><td>Mlýnské kolo: déšť na kolo ho roztočí a potok sám zalije nejbližší rostlinku. Lekníny se po zalití otevřou.</td></tr>
+  <tr><td><b>Mořský břeh</b></td><td>Příliv a odliv: moře se pomalu blíží a vzdaluje. Déšť na pískový hrad ho „postaví“ a na vrcholek vyleze krab.</td></tr>
+  <tr><td><b>Les</b></td><td>Houbičky po dešti: zalitý pařez vyrazí houbičkami a mezi nimi vykoukne zvířátko.</td></tr>
+  <tr><td><b>Hory</b></td><td>Sněhulák: sníh na jedno místo se poskládá do sněhuláka se šálou.</td></tr>
+</table>
+<p>V enginu stačí rozšířit typ <code>Mechanic</code> a přidat systém do <code>systems/</code> jako u <code>slunce</code> a <code>vitr</code>. Bot v testech hlídá, že jde každá scéna dohrát.</p>
+
+<h2><span class="cislo">4</span>Zvířátka, se kterými se dá něco dělat <span class="stitek prinos">střední přínos</span><span class="stitek prace">malá práce</span></h2>
+<ul>
+  <li><b>Přání zvířátka:</b> zvířátko ze schovávačky ukáže bublinu s kytičkou; když ta rozkvete, přeběhne k ní a raduje se. Stejný obrazový jazyk jako přání Kapáčka.</li>
+  <li><b>Zvířátko v zahrádce:</b> návštěva dne si sedne na své oblíbené místo (motýl na květ, žížala do hlíny).</li>
+  <li><b>Pohyb podle druhu:</b> žížala se vyklube ze země, ptáček přiletí, zajíček přiskáče, rybka připlave, šnek přileze.</li>
+</ul>
+</section>
+
+<section class="kapitola">
+<h2><span class="cislo">5</span>Zahrádka jako místo, kam se dítě vrací <span class="stitek prinos">střední přínos</span><span class="stitek prace">malá práce</span></h2>
+<ul>
+  <li><b>Roční období podle data:</b> jaro květy a okvětní lístky, léto plné slunce, podzim padající listí, zima sníh. Nic se neodemyká a nic neuteče.</li>
+  <li><b>Výběr místa pro semínko:</b> dítě ťukne, kam semínko zasadí. Zahrádka je pak „jeho“. Když místo nevybere, semínko se samo zasadí při dalším příchodu.</li>
+  <li><b>Obrazový záznam postupu:</b> nad zahrádkou visí girlanda praporků, za každý dokončený svět jeden v jeho barvě.</li>
+</ul>
+
+<h2><span class="cislo">6</span>Hudba podle světa <span class="stitek prinos">střední přínos</span><span class="stitek prace">malá práce</span></h2>
+<p>Generátor <code>tools/audio/generate.py</code> umí vrstvy i pentatoniku. Každý svět dostane vlastní nástroj v jedné vrstvě (les dřevo, moře vlnky, noc hrací skříňka); ostatní vrstvy zůstanou společné, aby hra nenarostla o megabajty.</p>
+
+<h2><span class="cislo">7</span>Nové světy a zvířátka <span class="stitek prinos">velký přínos</span><span class="stitek prace">velká práce</span></h2>
+<p>Až po bodech 2–3, jinak bude každý nový svět jen kopií šablony.</p>
+<div class="mrizka m2">
+  <div class="karta"><h4>Džungle</h4>Obří květ, který se po dešti rozvine a přiletí papoušci. Tukan, opička, lenochod.</div>
+  <div class="karta"><h4>Sad</h4>Jabloň: déšť dozraje jablíčka a ta spadnou do košíku. Krtek, kos, ovečka.</div>
+  <div class="karta"><h4>Arktida</h4>Sněží jako v horách, ze sněhu vyroste iglú a vykoukne z něj tučňák. Medvídek, tuleň, liška.</div>
+  <div class="karta"><h4>Balkon ve městě</h4>Kaluž po dešti, ve které se koupou holubi. Kočička, muškáty, rajčátka.</div>
+</div>
+<p>Jeden svět: data ve <code>worlds.ts</code>, 3–4 nová zvířátka a rostliny, pozadí, ostrůvek na mapu, PDF. Nové světy patří do rozšíření (otevřou se po Duhové slavnosti), kampaň zůstává 25 obrázků.</p>
+
+<h2><span class="cislo">8</span>Platformy a vydání <span class="stitek prinos">velký přínos pro dosah</span></h2>
+<ul>
+  <li><b>Instalace z webu (PWA):</b> manifest a service worker. Web jde přidat na plochu, běží na celou obrazovku a bez internetu.</li>
+  <li><b>App Store a Google Play</b> přes EAS: <code>eas.json</code>, identifikátory aplikace, ikony, zásady ochrany soukromí (hra nic nesbírá), pravidla pro dětské aplikace. Odeslání potřebuje vývojářské účty.</li>
+  <li><b>Další jazyky:</b> hra nemluví, takže stačí přeložit rodičovskou zónu a obrazovku „otočte telefon“.</li>
+</ul>
+</section>
+
+<section class="kapitola">
+<h2><span class="cislo">9</span>Technické předpoklady</h2>
+<ol>
+  <li><b>Scéna jako data:</b> <code>SceneDef</code> dostane vzor rozložení, variantu pozadí a kouzelnou věc; <code>buildScene</code> zůstává jediným místem rozmístění.</li>
+  <li><b>Jeden systém pro kouzelné věci:</b> všechno, co reaguje na déšť (mlýn, hrad, pařez, sněhulák, jabloň…), sdílí jedno pravidlo: pod Kapáčkem prší, věc roste ve třech krocích, na konci odměna. Dítě se naučí jedno chování.</li>
+  <li><b>Bonus, ne podmínka:</b> nové věci nikdy neblokují rozkvět. Cíl (<code>state.goal</code>) dál vede k vodě a rostlinkám, takže navádění zůstává jednoduché.</li>
+  <li><b>Test, který dohraje každé pravidlo:</b> bot v <code>tests/engine.test.ts</code> dohrává všechny scény; nové chování dostane vlastní test.</li>
+  <li><b>Uložená hra:</b> každé nové pole projde <code>migrateSave</code>, starý postup zůstane.</li>
+</ol>
+
+<h2><span class="cislo">10</span>Doporučené pořadí</h2>
+<ol class="poradi">
+  <li>Instalace z webu a hraní bez internetu. Rychlé a hned pomůže na telefonu.</li>
+  <li>Doplnit noc v Noční zahradě a pravidla pro Rybníček a Mořský břeh.</li>
+  <li>Proměnné rozložení scén a víc pozadí.</li>
+  <li>Hudba podle světa a přání zvířátek.</li>
+  <li>Roční období a výběr místa v zahrádce.</li>
+  <li>Nové světy.</li>
+  <li>Vydání do obchodů a další jazyky.</li>
+</ol>
+
+<h2 style="margin-top:18px">Stav zapracování · listopad 2026</h2>
+<table>
+  <tr><th>Bod</th><th>Stav</th></tr>
+  <tr><td>2 · Každý obrázek jiný</td><td>Hotovo: 5 vzorů rozložení (voda vlevo, vpravo, uprostřed), 3 pozadí na svět, drobnosti v popředí podle světa.</td></tr>
+  <tr><td>3 · Nové sloveso</td><td>Hotovo: noc (šero, světlušky, lucerny), příliv, 8 kouzelných věcí jedním pravidlem (mlýn, hrad, houbičky, sněhulák, obří květ, jabloň, iglú, kaluž). Jsou to bonusy, cíl na ně neukazuje.</td></tr>
+  <tr><td>4 · Zvířátka</td><td>Hotovo: přání kytičky, příchod podle druhu (přiletí, přiskáče, vyleze, připlave, přileze), host zahrádky na svém místě.</td></tr>
+  <tr><td>5 · Zahrádka</td><td>Hotovo: roční období podle data, sázení semínek z pytlíčku (přeletem nebo ťuknutím, při odchodu se zasadí sama), praporky za dokončené světy.</td></tr>
+  <tr><td>6 · Hudba</td><td>Hotovo: druhá vrstva hudby je nástroj světa (zvonky, dřevo, kalimba, celesta, harfa, hrací skříňka, ukulele).</td></tr>
+  <tr><td>7 · Nové světy</td><td>Hotovo: Džungle, Sad, Arktida, Balkon ve městě v rozšíření; 13 zvířátek, 8 rostlin, ostrůvky všech světů rozšíření na mapě.</td></tr>
+  <tr><td>8 · Platformy</td><td>Web jako PWA (manifest, service worker, hraní bez internetu), <code>eas.json</code>, ikony, zásady soukromí, angličtina pro rodiče. Odeslání do obchodů čeká na vývojářské účty, postup v <code>docs/vydani.pdf</code>.</td></tr>
+</table>
+
+<div class="paticka">Mráček Kapáček · Rozšíření 1.0 · listopad 2026 · navazuje na <code>docs/game-art-bible.pdf</code> a <code>docs/ui-style-guide.pdf</code></div>
+</section>
+</body>
+</html>

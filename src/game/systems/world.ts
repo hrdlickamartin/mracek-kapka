@@ -1,17 +1,23 @@
-import { ANIMALS } from '../catalog';
+import { ANIMALS, animalMove } from '../catalog';
 import { GROUND_Y, KAPKA_RADIUS, SCENE_W, WIND_GUST_TIME } from '../constants';
 import type { AnimalKind, GameState, Hideout, Input, Point } from '../types';
 import { joyShower, kapkaScale } from './kapka';
 import { burst, haptic, setMood, sfx, spawn } from './effects';
+import { tapSlot } from './garden';
+import { addVisitor } from './visitors';
 
 const HIDEOUT_REACH = 105;
 const VISITOR_REACH = 90;
 const ARRIVE_TIME = 1.3;
 
-export function addVisitor(state: GameState, animal: AnimalKind, at: Point, celebrant: boolean, from?: Point) {
-  const flies = ANIMALS[animal].flies;
-  const start = from ?? (flies ? { x: at.x + (at.x < SCENE_W / 2 ? -500 : 500), y: -80 } : { x: at.x < SCENE_W / 2 ? -120 : SCENE_W + 120, y: at.y });
-  state.visitors.push({ id: state.nextId++, animal, x: start.x, y: start.y, tx: at.x, ty: at.y, arrive: 0, react: 0, celebrant });
+function arriveTime(animal: AnimalKind) {
+  return animalMove(ANIMALS[animal]) === 'leze' ? ARRIVE_TIME * 1.8 : ARRIVE_TIME;
+}
+
+function nearestThirsty(state: GameState, x: number) {
+  const thirsty = state.plants.filter((p) => p.stage < 3);
+  if (!thirsty.length) return null;
+  return thirsty.reduce((a, b) => (Math.abs(a.x - x) < Math.abs(b.x - x) ? a : b));
 }
 
 function reveal(state: GameState, hideout: Hideout) {
@@ -26,7 +32,8 @@ function reveal(state: GameState, hideout: Hideout) {
   const reward = hideout.reward;
   if (reward.type === 'animal') {
     state.found.animals.push(reward.animal);
-    addVisitor(state, reward.animal, { x: hideout.x + 60, y: hideout.y + 40 }, false, { x: hideout.x, y: hideout.y });
+    const v = addVisitor(state, reward.animal, { x: hideout.x + 60, y: hideout.y + 40 }, false, { x: hideout.x, y: hideout.y });
+    v.wish = nearestThirsty(state, hideout.x)?.id ?? null;
   } else if (reward.type === 'seed') {
     state.found.seeds.push(reward.plant);
     burst(state, 'jiskra', hideout.x, hideout.y - 20, 8, 160, 9);
@@ -70,8 +77,24 @@ export function updateHideouts(state: GameState, dt: number) {
 
 export function updateVisitors(state: GameState, dt: number) {
   for (const v of state.visitors) {
+    if (v.wish !== null && v.arrive >= 1) {
+      const plant = state.plants.find((p) => p.id === v.wish);
+      if (!plant) v.wish = null;
+      else if (plant.stage >= 3) {
+        v.wish = null;
+        v.fromX = v.x;
+        v.fromY = v.y;
+        v.tx = plant.x + (plant.x < SCENE_W / 2 ? 70 : -70);
+        v.ty = GROUND_Y + 25;
+        v.arrive = 0;
+        v.happy = 3;
+        v.react = 1;
+        sfx(state, 'zvire');
+      }
+    }
+    v.happy = Math.max(0, v.happy - dt);
     if (v.arrive < 1) {
-      v.arrive = Math.min(1, v.arrive + dt / ARRIVE_TIME);
+      v.arrive = Math.min(1, v.arrive + dt / arriveTime(v.animal));
       v.x += (v.tx - v.x) * Math.min(1, dt * 4.5);
       v.y += (v.ty - v.y) * Math.min(1, dt * 4.5);
       if (v.arrive >= 1) {
@@ -134,6 +157,15 @@ export function updateParticles(state: GameState, dt: number) {
       p.vx += Math.sin(state.time * 4 + p.hue) * 200 * dt;
     } else if (p.kind === 'vlnka') {
       p.vx *= 1 - dt * 2;
+    } else if (p.kind === 'hlina') {
+      p.vy += 520 * dt;
+    } else if (p.kind === 'svetluska') {
+      const k = state.kapka;
+      const a = state.time * 1.3 + p.hue * 0.9;
+      const tx = k.x + Math.cos(a) * (120 + (p.hue % 3) * 40);
+      const ty = k.y + Math.sin(a * 1.4) * 80;
+      p.vx += ((tx - p.x) * 3 - p.vx * 1.6) * dt;
+      p.vy += ((ty - p.y) * 3 - p.vy * 1.6) * dt;
     }
     p.x += p.vx * dt;
     p.y += p.vy * dt;
@@ -142,5 +174,7 @@ export function updateParticles(state: GameState, dt: number) {
 }
 
 export function handleInput(state: GameState, input: Input) {
-  if (input.tap) handleTap(state, input.tap);
+  if (!input.tap) return;
+  if (tapSlot(state, input.tap)) return;
+  handleTap(state, input.tap);
 }

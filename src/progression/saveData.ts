@@ -4,6 +4,21 @@ import type { WardrobeId, WardrobeSlot } from './wardrobe';
 
 export type SleepMinutes = 0 | 10 | 20 | 30;
 
+export type Lang = 'cs' | 'en';
+
+export function langOf(locale: string | undefined): Lang {
+  return locale?.toLowerCase().startsWith('en') ? 'en' : 'cs';
+}
+
+function deviceLocale(): string | undefined {
+  try {
+    const nav = (globalThis as { navigator?: { language?: string } }).navigator;
+    return nav?.language || Intl.DateTimeFormat().resolvedOptions().locale;
+  } catch {
+    return undefined;
+  }
+}
+
 export interface Settings {
   music: number;
   sfx: number;
@@ -11,6 +26,7 @@ export interface Settings {
   sleepMinutes: SleepMinutes;
   reducedMotion: boolean;
   highContrast: boolean;
+  lang: Lang;
 }
 
 export interface GardenPlant {
@@ -28,6 +44,7 @@ export interface SaveData {
   rainbow: boolean;
   seeds: PlantKind[];
   garden: GardenPlant[];
+  pouch: PlantKind[];
   owned: WardrobeId[];
   worn: Partial<Record<WardrobeSlot, WardrobeId>>;
   ending: boolean;
@@ -41,6 +58,7 @@ export const DEFAULT_SETTINGS: Settings = {
   sleepMinutes: 0,
   reducedMotion: false,
   highContrast: false,
+  lang: langOf(deviceLocale()),
 };
 
 export const DEFAULT_SAVE: SaveData = {
@@ -56,6 +74,7 @@ export const DEFAULT_SAVE: SaveData = {
     { kind: 'mak', x: GARDEN_SLOTS[3], stage: 0 },
     { kind: 'pampeliska', x: GARDEN_SLOTS[5], stage: 0 },
   ],
+  pouch: [],
   owned: [],
   worn: {},
   ending: false,
@@ -71,6 +90,7 @@ function settingsOf(raw: Partial<Settings> | undefined): Settings {
     sleepMinutes: merged.sleepMinutes,
     reducedMotion: merged.reducedMotion,
     highContrast: merged.highContrast,
+    lang: merged.lang === 'cs' || merged.lang === 'en' ? merged.lang : DEFAULT_SETTINGS.lang,
   };
 }
 
@@ -83,6 +103,7 @@ export function migrateSave(raw: unknown): SaveData {
     version: 1,
     settings: settingsOf(data.settings),
     garden: Array.isArray(data.garden) ? data.garden : DEFAULT_SAVE.garden,
+    pouch: Array.isArray(data.pouch) ? data.pouch : [],
     worn: data.worn ?? {},
   };
 }

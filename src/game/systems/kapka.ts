@@ -1,7 +1,5 @@
-import { PLANTS } from '../catalog';
 import {
   GROUND_Y,
-  GROW_TIME,
   JOY_SHOWER_TIME,
   JOY_SHOWER_USE,
   KAPKA_DAMPING,
@@ -20,7 +18,9 @@ import {
   WIND_GUST_SPEED,
 } from '../constants';
 import type { GameState, Input, Plant } from '../types';
-import { burst, cue, haptic, setMood, sfx, spawn } from './effects';
+import { burst, cue, setMood, sfx, spawn } from './effects';
+import { grow } from './growth';
+import { rainOnWonder, wonderUnder } from './wonders';
 
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
 
@@ -82,7 +82,7 @@ export function moveKapka(state: GameState, input: Input, dt: number) {
   k.moodHold = Math.max(0, k.moodHold - dt);
 }
 
-function rainParticles(state: GameState, dt: number, width: number) {
+export function rainParticles(state: GameState, dt: number, width: number) {
   const k = state.kapka;
   const snow = state.mechanics.includes('snih');
   const rate = snow ? 18 : 28;
@@ -93,27 +93,6 @@ function rainParticles(state: GameState, dt: number, width: number) {
     const y = k.y + 50 * scale;
     if (snow) spawn(state, 'vlocka', x, y, (Math.random() - 0.5) * 30, 160 + Math.random() * 60, 3.2, 9 + Math.random() * 5);
     else spawn(state, 'kapka', x, y, 0, 520 + Math.random() * 120, 1.6, 10 + Math.random() * 6);
-  }
-}
-
-function grow(state: GameState, plant: Plant, dt: number) {
-  plant.watered = 0.4;
-  plant.growth += dt / GROW_TIME;
-  if (plant.growth < 1) return;
-  plant.growth = 0;
-  plant.stage = Math.min(3, plant.stage + 1) as Plant['stage'];
-  plant.pop = 1;
-  state.events.push({ type: 'tone', plant: plant.kind, stage: plant.stage });
-  burst(state, 'list', plant.x, GROUND_Y - 40 - plant.stage * 25, 5, 160, 12);
-  haptic(state, plant.stage === 3 ? 'stredni' : 'lehka');
-  if (plant.stage === 3) {
-    state.events.push({ type: 'bloom', plant: plant.id });
-    sfx(state, 'kvet');
-    burst(state, 'jiskra', plant.x, GROUND_Y - 150, 10, 220, 10);
-    burst(state, 'pyl', plant.x, GROUND_Y - 150, 6, 90, 7, PLANTS[plant.kind].tone);
-    setMood(state, 'radost', 0.9);
-  } else {
-    sfx(state, 'pop');
   }
 }
 
@@ -153,6 +132,11 @@ export function updateWater(state: GameState, dt: number) {
         }
       }
       if (k.water <= 0.02) cue(state, 'prazdno');
+    } else if (k.water > 0.02 && wonderUnder(state)) {
+      k.raining = true;
+      k.water = Math.max(0, k.water - RAIN_USE * 0.7 * dt);
+      rainParticles(state, dt, 150);
+      rainOnWonder(state, dt);
     }
     if (sun && k.water > 0) {
       k.water = Math.max(0, k.water - SUN_DRY_RATE * dt);

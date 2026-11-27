@@ -1,4 +1,4 @@
-import type { AnimalKind, FamilyId, PlantKind, SceneDef, SceneResult, WorldId } from '../game/types';
+import type { AnimalKind, FamilyId, PlantKind, SceneDef, SceneResult, Season, WorldId } from '../game/types';
 import { GARDEN_SLOTS, MAIN_WORLDS, SCENES_PER_WORLD, sceneId, worldById, WORLDS, type WorldDef } from '../game/worlds';
 import type { GardenPlant, SaveData } from './saveData';
 import { WARDROBE, wardrobeItem, type WardrobeId } from './wardrobe';
@@ -59,14 +59,41 @@ export interface SceneSummary {
   rainbow: boolean;
 }
 
+export function freeSlots(garden: GardenPlant[]) {
+  return GARDEN_SLOTS.filter((x) => !garden.some((p) => p.x === x));
+}
+
 function plantSeeds(garden: GardenPlant[], seeds: PlantKind[]) {
   const next = [...garden];
   for (const kind of seeds) {
-    const free = GARDEN_SLOTS.find((x) => !next.some((p) => p.x === x));
+    const free = freeSlots(next)[0];
     if (free === undefined) break;
     next.push({ kind, x: free, stage: 0 });
   }
   return next;
+}
+
+export function plantPouch(save: SaveData): SaveData {
+  if (!save.pouch.length) return save;
+  return { ...save, garden: plantSeeds(save.garden, save.pouch), pouch: [] };
+}
+
+export function seedPlanted(save: SaveData, kind: PlantKind, x: number): SaveData {
+  if (save.garden.some((p) => p.x === x)) return save;
+  const index = save.pouch.indexOf(kind);
+  const pouch = index < 0 ? save.pouch : [...save.pouch.slice(0, index), ...save.pouch.slice(index + 1)];
+  return { ...save, garden: [...save.garden, { kind, x, stage: 0 }], pouch };
+}
+
+export function seasonFor(month: number): Season {
+  if (month >= 2 && month <= 4) return 'jaro';
+  if (month >= 5 && month <= 7) return 'leto';
+  if (month >= 8 && month <= 10) return 'podzim';
+  return 'zima';
+}
+
+export function worldsDone(save: SaveData): WorldDef[] {
+  return WORLDS.filter((w) => worldDone(save, w.id));
 }
 
 export function applyScene(save: SaveData, result: SceneResult): { save: SaveData; summary: SceneSummary } {
@@ -85,7 +112,7 @@ export function applyScene(save: SaveData, result: SceneResult): { save: SaveDat
     album: [...save.album, ...newAnimals],
     rainbow: save.rainbow || result.rainbow,
     seeds: [...save.seeds, ...newSeeds],
-    garden: plantSeeds(save.garden, newSeeds),
+    pouch: [...save.pouch, ...newSeeds].slice(0, freeSlots(save.garden).length),
     owned: [...save.owned, ...newItems],
   };
   const ending = !save.ending && campaignDone(next);

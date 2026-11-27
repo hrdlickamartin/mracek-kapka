@@ -5,7 +5,10 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GameScreen } from './src/GameScreen';
+import { registerServiceWorker } from './src/pwa';
 import { ErrorBoundary } from './src/ui/Screens';
+
+registerServiceWorker();
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({ Nunito_400Regular, Nunito_700Bold, Nunito_800ExtraBold, Nunito_900Black });

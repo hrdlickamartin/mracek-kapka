@@ -150,10 +150,97 @@ def music():
     write('music_bells', bells, 0.5)
 
 
+def note(data, start, freq, length, amp, partials, attack=0.008):
+    n = len(data)
+    s0 = int(start * RATE)
+    for i in range(int(length * RATE)):
+        t = i / RATE
+        env = min(1, t / attack)
+        v = sum(a * math.exp(-d * t) * math.sin(2 * math.pi * freq * h * t) for h, a, d in partials)
+        data[(s0 + i) % n] += amp * env * v
+
+
+def string(data, start, freq, length, amp, seed, damping=0.996, attack=0.004):
+    rng = random.Random(seed)
+    period = max(2, int(RATE / freq))
+    ring = [rng.uniform(-1, 1) for _ in range(period)]
+    for _ in range(3):
+        ring = [(ring[k] + ring[k - 1]) / 2 for k in range(period)]
+    n = len(data)
+    s0 = int(start * RATE)
+    total = int(length * RATE)
+    tail = int(0.05 * RATE)
+    for i in range(total):
+        k = i % period
+        v = ring[k]
+        ring[k] = damping * (v + ring[k - 1]) / 2
+        env = min(1, i / (attack * RATE)) * min(1, (total - i) / tail)
+        data[(s0 + i) % n] += amp * env * v
+
+
+def flavor_notes(chord, k):
+    notes = chord + [chord[1] * 2, chord[0] * 2]
+    return notes[k % len(notes)]
+
+
+def flavors():
+    wood = ((1, 1, 7), (3.93, 0.12, 22), (9.2, 0.03, 40))
+    d = buf(LOOP)
+    steps = [0, 2, 1, 2, 4, 2, 1, None]
+    for c, chord in enumerate(CHORDS):
+        for k, s in enumerate(steps):
+            if s is not None:
+                note(d, c * 2.0 + k * 0.25, flavor_notes(chord, s) * 2, 0.6, 0.3 if k % 2 == 0 else 0.22, wood, attack=0.01)
+    write('music_drevo', d, 0.5)
+
+    tines = ((1, 1, 4.5), (2, 0.08, 9), (5.4, 0.05, 18))
+    d = buf(LOOP)
+    rhythm = [(0.0, 0), (0.375, 2), (0.75, 1), (1.0, 3), (1.375, 2), (1.625, 4)]
+    for c, chord in enumerate(CHORDS):
+        for t, s in rhythm:
+            note(d, c * 2.0 + t, flavor_notes(chord, s) * 2, 0.9, 0.28, tines, attack=0.008)
+    write('music_kalimba', d, 0.5)
+
+    glock = ((1, 1, 5), (2, 0.15, 10), (4, 0.04, 18))
+    d = buf(LOOP)
+    for c, chord in enumerate(CHORDS):
+        for k, s in enumerate([0, 1, 2, 1]):
+            note(d, c * 2.0 + k * 0.5, flavor_notes(chord, s) * 4, 0.9, 0.24, glock, attack=0.008)
+        note(d, c * 2.0 + 1.75, flavor_notes(chord, 2) * 4, 0.6, 0.13, glock, attack=0.008)
+    write('music_celesta', d, 0.45)
+
+    harp = ((1, 1, 2.2), (2, 0.35, 4), (3, 0.12, 7))
+    d = buf(LOOP)
+    arp = [0, 1, 2, 4, 3, 4, 2, 1]
+    for c, chord in enumerate(CHORDS):
+        for k, s in enumerate(arp):
+            note(d, c * 2.0 + k * 0.25, flavor_notes(chord, s) * 2, 1.4, 0.16, harp, attack=0.012)
+    write('music_harfa', d, 0.5)
+
+    box = ((1, 1, 3), (2.0, 0.1, 7), (5.4, 0.03, 14))
+    d = buf(LOOP)
+    for c, chord in enumerate(CHORDS):
+        for k, s in enumerate([4, 2, 3, 1]):
+            note(d, c * 2.0 + k * 0.5, flavor_notes(chord, s) * 2, 1.4, 0.2, box, attack=0.01)
+    write('music_skrinka', d, 0.32)
+
+    d = buf(LOOP)
+    strums = [(0.0, 0.5), (0.5, 0.36), (0.75, 0.28), (1.0, 0.46), (1.5, 0.36), (1.75, 0.28)]
+    seed = 0
+    for c, chord in enumerate(CHORDS):
+        voicing = [chord[2], chord[0], chord[1], chord[0] * 2]
+        for t, amp in strums:
+            for v, f in enumerate(voicing):
+                seed += 1
+                string(d, c * 2.0 + t + v * 0.018, f * 2 if v == 0 else f, 0.5, amp, seed, damping=0.996)
+    write('music_ukulele', d, 0.5)
+
+
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
     tones()
     effects()
     music()
     cues()
+    flavors()
     print('hotovo:', len(os.listdir(OUT)), 'souborů')

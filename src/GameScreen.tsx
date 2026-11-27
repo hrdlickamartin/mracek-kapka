@@ -4,12 +4,12 @@ import { audio } from './audio/audio';
 import { feedback } from './audio/feedback';
 import { PLANTS, TONE_COUNT } from './game/catalog';
 import { createGame, gardenSnapshot, step } from './game/engine';
-import type { AnimalKind, GameEvent, GameState, Input, WorldId } from './game/types';
+import type { AnimalKind, GameEvent, GameState, Input, Season, WorldId } from './game/types';
 import { buildScene, GARDEN_SCENE, worldById } from './game/worlds';
 import { Live, nextFrame } from './hooks/useFrame';
 import { useGameLoop } from './hooks/useGameLoop';
 import { keyDirection, useKeyboard } from './hooks/useKeyboard';
-import { familyFound, guestOfDay, nextScene, rainbowStripes, toggleWear, type SceneSummary } from './progression/progress';
+import { familyFound, guestOfDay, nextScene, plantPouch, rainbowStripes, seasonFor, seedPlanted, toggleWear, worldsDone, type SceneSummary } from './progression/progress';
 import type { SaveData, Settings } from './progression/saveData';
 import { useProgress } from './progression/useProgress';
 import { SceneView } from './render/SceneView';
@@ -32,8 +32,8 @@ type Screen = 'uvod' | 'menu' | 'zahradka' | 'mapa' | 'scena' | 'album' | 'satni
 const PLAYING: Screen[] = ['zahradka', 'scena'];
 const MUSIC: Screen[] = ['menu', 'zahradka', 'scena', 'mapa', 'album', 'satnik', 'konec', 'uvod'];
 
-function gardenGame(save: SaveData, guest: AnimalKind | null) {
-  return createGame(GARDEN_SCENE, { mode: 'zahradka', garden: save.garden, guest });
+function gardenGame(save: SaveData, guest: AnimalKind | null, season: Season | null) {
+  return createGame(GARDEN_SCENE, { mode: 'zahradka', garden: save.garden, guest, season, pouch: save.pouch });
 }
 
 export function GameScreen() {
@@ -47,24 +47,25 @@ export function GameScreen() {
   const returnTo = useRef<Screen>('zahradka');
   const sessionStart = useRef(0);
   const guest = useRef<ReturnType<typeof guestOfDay> | undefined>(undefined);
+  const season = useRef<Season | null>(null);
   const saveRef = useRef(save);
   saveRef.current = save;
   const viewport = useViewport();
   const { keys, taps } = useKeyboard();
   const settings = save.settings;
   const screen: Screen | null = chosen ?? (loaded ? (save.introSeen ? 'menu' : 'uvod') : null);
-  if (screen === 'zahradka' && !gameRef.current) gameRef.current = gardenGame(save, null);
+  if (screen === 'zahradka' && !gameRef.current) gameRef.current = gardenGame(save, null, season.current);
 
   const enterGarden = useCallback(() => {
     if (guest.current === undefined) guest.current = guestOfDay(saveRef.current, Math.random());
-    gameRef.current = gardenGame(saveRef.current, guest.current);
+    gameRef.current = gardenGame(saveRef.current, guest.current, season.current);
   }, []);
 
   const leaveGarden = useCallback(() => {
     const g = gameRef.current;
     if (g?.mode === 'zahradka') {
       const garden = gardenSnapshot(g);
-      update((s) => ({ ...s, garden }));
+      update((s) => plantPouch({ ...s, garden }));
     }
   }, [update]);
 
@@ -83,12 +84,13 @@ export function GameScreen() {
   useEffect(() => {
     audio.init();
     sessionStart.current = Date.now();
+    season.current = seasonFor(new Date().getMonth());
   }, []);
 
   useEffect(() => {
     if (!loaded || guest.current !== undefined) return;
     guest.current = guestOfDay(saveRef.current, Math.random());
-    if (gameRef.current?.mode === 'zahradka' && guest.current) gameRef.current = gardenGame(saveRef.current, guest.current);
+    if (gameRef.current?.mode === 'zahradka' && guest.current) gameRef.current = gardenGame(saveRef.current, guest.current, season.current);
   }, [loaded]);
 
   useEffect(() => {
@@ -97,6 +99,8 @@ export function GameScreen() {
   }, [settings.music, settings.sfx, settings.haptics]);
 
   useEffect(() => {
+    const g = gameRef.current;
+    audio.setFlavor(screen === 'scena' && g?.mode === 'scena' ? worldById(g.scene.world).music : 'zvonky');
     audio.setMusic(!!screen && MUSIC.includes(screen));
     if (screen !== 'scena') audio.setBloom(screen === 'zahradka' || screen === 'konec' ? 1 : 0.4);
   }, [screen]);
@@ -129,6 +133,9 @@ export function GameScreen() {
             }
             break;
           }
+          case 'planted':
+            update((s) => seedPlanted(s, e.kind, e.x));
+            break;
           case 'haptic':
             feedback.haptic(e.strength);
             break;
@@ -205,6 +212,7 @@ export function GameScreen() {
 
   const stripes = useMemo(() => rainbowStripes(save).length, [save]);
   const family = useMemo(() => familyFound(save), [save]);
+  const flags = useMemo(() => worldsDone(save).map((w) => w.palette.accent), [save]);
 
   if (!loaded || !screen) return <View style={styles.root} />;
 
@@ -227,6 +235,7 @@ export function GameScreen() {
                   highContrast={settings.highContrast}
                   stripes={game.mode === 'zahradka' ? stripes : 0}
                   family={game.mode === 'zahradka' ? family : []}
+                  flags={game.mode === 'zahradka' ? flags : []}
                 />
               )}
             </Live>
@@ -283,9 +292,9 @@ export function GameScreen() {
       {screen === 'spanek' && <SleepScreen worn={save.worn} />}
       {screen === 'rodic' && <ParentZone save={save} onSettings={changeSettings} onReset={() => { reset(); guest.current = null; }} onClose={closeParent} />}
       {screen !== 'rodic' && screen !== 'uvod' && <ParentButton onOpen={openParent} />}
-      {gate && <ParentGate onPass={passGate} onClose={() => setGate(false)} />}
+      {gate && <ParentGate lang={settings.lang} onPass={passGate} onClose={() => setGate(false)} />}
       <Transition token={transition} reducedMotion={settings.reducedMotion} />
-      <RotateNotice />
+      <RotateNotice lang={settings.lang} />
     </View>
   );
 }

@@ -4,10 +4,12 @@ import { Animated, Easing, Image, Platform, Pressable, StyleSheet, Text, View, u
 import Svg, { Circle, Path } from 'react-native-svg';
 import { FAMILY_ORDER } from '../game/catalog';
 import type { AnimalKind } from '../game/types';
+import type { Lang } from '../progression/saveData';
 import type { WardrobeId, WardrobeSlot } from '../progression/wardrobe';
 import { Moon } from '../render/Characters';
 import { SCENE_IMAGES } from '../render/Scenery';
 import { BubbleButton } from './BubbleButton';
+import { texts } from './i18n';
 import { Icon } from './Icons';
 import { MiniAnimal, MiniFamily, MiniKapka } from './Mini';
 import { COLORS, FONTS, SIZES } from './theme';
@@ -119,7 +121,8 @@ async function playLandscape() {
   } catch {}
 }
 
-export function RotateNotice() {
+export function RotateNotice({ lang }: { lang?: Lang } = {}) {
+  const t = texts(lang);
   const { width, height } = useWindowDimensions();
   const turn = useState(() => new Animated.Value(0))[0];
   const portrait = width < height;
@@ -143,7 +146,7 @@ export function RotateNotice() {
   const counter = turn.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '90deg'] });
   return (
     <View style={[StyleSheet.absoluteFill, styles.rotate]}>
-      <Image source={SCENE_IMAGES.louka} style={{ position: 'absolute', left: 0, top: 0, width, height }} resizeMode="cover" blurRadius={4} />
+      <Image source={SCENE_IMAGES.louka[0]} style={{ position: 'absolute', left: 0, top: 0, width, height }} resizeMode="cover" blurRadius={4} />
       <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(210,240,253,0.55)' }]} />
       <View style={{ height: phoneH + 40, alignItems: 'center', justifyContent: 'center' }} accessibilityLabel="Otočte telefon na šířku">
         <Animated.View style={[styles.phone, { width: phoneW, height: phoneH, borderRadius: phoneW * 0.18, transform: [{ rotate }] }]}>
@@ -154,14 +157,14 @@ export function RotateNotice() {
           </View>
         </Animated.View>
       </View>
-      <Text style={styles.rotateTitle}>Otočte telefon na šířku</Text>
+      <Text style={styles.rotateTitle}>{t.rotateTitle}</Text>
       {Platform.OS === 'web' && (
         <>
           <Pressable accessibilityRole="button" onPress={playLandscape} style={styles.rotateButton}>
             <Icon name="hrat" size={26} color="#FFFFFF" />
-            <Text style={styles.rotateButtonText}>Hrát na celou obrazovku</Text>
+            <Text style={styles.rotateButtonText}>{t.rotateButton}</Text>
           </Pressable>
-          <Text style={styles.rotateHint}>Když se obraz neotočí, zapněte v telefonu automatické otáčení obrazovky, nebo použijte tlačítko.</Text>
+          <Text style={styles.rotateHint}>{t.rotateHint}</Text>
         </>
       )}
     </View>

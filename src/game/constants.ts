@@ -33,3 +33,11 @@ export const HINT_TIMES = [4, 8, 12, 30] as const;
 export const CUE_COOLDOWN = 20;
 
 export const MAX_DT = 0.05;
+
+export const TIDE_AMP = 0.2;
+export const TIDE_PERIOD = 18;
+export const WONDER_ZONE = 95;
+export const WONDER_GROW = 1.1;
+export const NIGHT_DARK = 0.5;
+export const SEED_DROP_TIME = 0.5;
+export const SLOT_REACH = 80;

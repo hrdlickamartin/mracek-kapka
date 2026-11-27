@@ -23,7 +23,7 @@ export function Menu({ save, onPlay, onGarden, onMap, onAlbum, onWardrobe, reduc
   const playY = height * 0.7;
   return (
     <View style={StyleSheet.absoluteFill}>
-      <Image source={SCENE_IMAGES.louka} style={{ position: 'absolute', left: 0, top: 0, width, height }} resizeMode="cover" />
+      <Image source={SCENE_IMAGES.louka[0]} style={{ position: 'absolute', left: 0, top: 0, width, height }} resizeMode="cover" />
       <Svg style={StyleSheet.absoluteFill} width={width} height={height}>
         <Zofka x={width * 0.8} y={height * 0.86} hop={0} time={t} scale={height / 900} />
       </Svg>

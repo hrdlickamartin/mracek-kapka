@@ -1,0 +1,20 @@
+{
+  "name": "Mráček Kapáček",
+  "short_name": "Kapáček",
+  "description": "Hra pro děti 3–5 let: mráček Kapáček zalévá kytičky. Bez reklam, bez nákupů, bez textu.",
+  "lang": "cs",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "landscape",
+  "theme_color": "#3BAEFD",
+  "background_color": "#D2F0FD",
+  "categories": ["games", "kids", "education"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

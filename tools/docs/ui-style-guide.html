@@ -258,10 +258,13 @@
 <h2 style="margin-top:18px"><span class="cislo">10</span>HUD a zpětná vazba ve scéně</h2>
 <p>Klasický HUD neexistuje. Ve scéně jsou jen <b>dvě trvalá tlačítka</b>: Domů (vlevo nahoře, podržet 1 s) a malá ikona rodičovské zóny (vpravo nahoře, podržet 3 s). Vše ostatní je přímo ve světě.</p>
 <h3>Co mám právě udělat</h3>
-<p>Dítě vidí svůj další krok pořád, ne až po nečinnosti. Cíl počítá engine (<code>state.goal</code>) podle situace: když má Kapáček málo vody nebo se právě nasává, je cílem voda, jinak nejbližší žíznivá rostlinka.</p>
+<p>Dítě vidí svůj další krok pořád, ne až po nečinnosti. Cíl počítá engine (<code>state.goal</code>) podle situace: v zahrádce nejdřív volné místo pro semínko, jinak voda, když má Kapáček málo vody nebo se právě nasává, a jinak nejbližší žíznivá rostlinka.</p>
 <ul>
-  <li><b>Šipka nad cílem</b> poskakuje (modrá u vody, žlutá u rostlinky) a pod cílem se z kroužku šíří vlna. Zmizí, jakmile Kapáček dělá, co má (nasává se, prší).</li>
-  <li><b>Přání Kapáčka</b>: myšlenková bublina u Kapáčka ukazuje kapičku, nebo kytičku. Je to totéž co šipka, jen řečeno postavou.</li>
+  <li><b>Šipka nad cílem</b> poskakuje (modrá u vody, žlutá u rostlinky, zelená u místa pro semínko) a pod cílem se z kroužku šíří vlna. Zmizí, jakmile Kapáček dělá, co má (nasává se, prší).</li>
+  <li><b>Přání Kapáčka</b>: myšlenková bublina u Kapáčka ukazuje kapičku, kytičku nebo semínko. Je to totéž co šipka, jen řečeno postavou.</li>
+  <li><b>Kouzelné věci</b> (mlýn, hrad z písku, sněhulák…) mají nad sebou bublinu s kapkou a hvězdičkami. Šipka na ně neukazuje, jsou to objevy navíc a nikdy neblokují dokončení obrázku.</li>
+  <li><b>Přání zvířátka:</b> zvířátko ze schovávačky ukáže bublinu s kytičkou, kterou má rádo. Když rozkvete, přiběhne k ní a raduje se.</li>
+  <li><b>Noc</b> je jen šero: šipka, přání, Kapáček a bubliny leží nad ním a kolem Kapáčka, vody a cíle je světlo.</li>
   <li>V menu, na mapě, ve výběru obrázku a ve slavnosti ukáže <b>animovaná ručička</b>, kam ťuknout (Hrát, další ostrov, další obrázek, Pokračovat).</li>
   <li>V režimu Méně pohybu šipka ani ručička neposkakují, jen zůstanou na místě.</li>
 </ul>
@@ -312,7 +315,7 @@
       <div class="p" style="left:34%;right:12%;top:8%;height:14%;border-radius:99px;background:linear-gradient(90deg,#ed3e1d,#f9ba0a,#fbcc03,#a8c729,#3baefd,#bd8efa);opacity:.45;color:#fff">duha nad zahrádkou (pruhy za světy)</div>
       <div class="p" style="left:18%;right:18%;top:40%;height:30%;border-radius:40px;background:#a8c729;color:#fff">zahrádka s rostlinkami a zvířátky</div>
     </div>
-    <h4>Moje zahrádka (domov)</h4><p>Volně hratelná zahrádka. Nahoře duha, která roste s příběhem, u obzoru nalezená Oblačná rodina, v trávě návštěva dne. Jediné tlačítko je Domů vlevo nahoře (podržet 1 s), aby nic nezakrývalo jezírko a rostlinky. Když rozkvetou všechny kytičky, přijde malá slavnost: host zahrádky tančí, padají konfety a objeví se velké tlačítko Hrát s ručičkou, které pustí další obrázek. Úplně rozkvetlá zahrádka začne při dalším příchodu znovu od semínek, aby bylo pořád co zalévat.</p>
+    <h4>Moje zahrádka (domov)</h4><p>Volně hratelná zahrádka. Nahoře duha, která roste s příběhem, u obzoru nalezená Oblačná rodina, v trávě návštěva dne. Jediné tlačítko je Domů vlevo nahoře (podržet 1 s), aby nic nezakrývalo jezírko a rostlinky. <b>Sázení:</b> nová semínka nosí Kapáček v pytlíčku pod sebou. Volná místa jsou kopečky hlíny se zeleným přerušovaným kroužkem a šipka cíle ukazuje na nejbližší; stačí nad místo doletět a chvilku počkat, nebo na něj ťuknout. Když dítě odejde dřív, semínka se zasadí sama. <b>Roční období</b> podle data mění jen výzdobu (okvětní lístky, motýli, listí, sníh; v zimě Kapáček sněží). Host dne sedí na svém oblíbeném místě (motýl na květu, žížala v hlíně). Nad zahrádkou visí <b>praporky</b>, jeden za každý dokončený svět v jeho barvě. Když rozkvetou všechny kytičky a nic nezbývá zasadit, přijde malá slavnost: host zahrádky tančí, padají konfety a objeví se velké tlačítko Hrát s ručičkou, které pustí další obrázek. Úplně rozkvetlá zahrádka začne při dalším příchodu znovu od semínek, aby bylo pořád co zalévat.</p>
   </div>
   <div>
     <div class="obrazovka" style="background:linear-gradient(160deg,#d2f0fd,#e9f7e0)">
@@ -323,7 +326,7 @@
       <div class="p kv" style="left:66%;top:28%;width:15%;aspect-ratio:1;background:#e6ebf6;color:#8798b5">mlha</div>
       <div class="p" style="left:30%;top:16%;width:12%;height:14%;border-radius:50%;background:#fff;box-shadow:0 3px 0 #c9d6ea;font-size:6pt">Kapáček</div>
     </div>
-    <h4>Mapa údolí</h4><p>Ostrůvky světů spojené tečkovanou řekou. Kapáček čeká u dalšího místa. Ťuknutí na ostrůvek otevře výběr pěti scén (stejná mapa, přiblížená). Neobjevené části jsou v mlze, žádné zámky.</p>
+    <h4>Mapa údolí</h4><p>Ostrůvky světů spojené tečkovanou řekou. Kapáček čeká u dalšího místa. Ťuknutí na ostrůvek otevře výběr pěti scén (stejná mapa, přiblížená). Neobjevené části jsou v mlze, žádné zámky. Za Duhovou slavností pokračuje řeka k sedmi světům rozšíření, každý má vlastní ostrůvek.</p>
   </div>
   <div>
     <div class="obrazovka">
@@ -383,13 +386,14 @@
 </div>
 
 <h2 style="margin-top:18px"><span class="cislo">12</span>Postup bez čísel</h2>
-<div class="navrh">Dlouhodobou motivaci nesou příběh a sbírky z Art Bible: nalezení členové <b>Oblačné rodiny</b>, <b>duha</b> nad zahrádkou (pruh za každý svět), <b>album</b>, <b>šatník</b> a <b>Moje zahrádka</b>. Všechno je vidět jako obraz, nic se nepočítá.</div>
+<div class="pravidlo">Dlouhodobou motivaci nesou příběh a sbírky z Art Bible: nalezení členové <b>Oblačné rodiny</b>, <b>duha</b> nad zahrádkou (pruh za každý svět), <b>album</b>, <b>šatník</b> a <b>Moje zahrádka</b>. Všechno je vidět jako obraz, nic se nepočítá.</div>
 <table>
   <tr><th>Úroveň</th><th>Vizuál postupu</th></tr>
   <tr><td>Scéna</td><td>rozkvetlé rostlinky v krajině; po dokončení scény se miniatura na mapě vybarví</td></tr>
   <tr><td>Svět</td><td>pět miniatur kolem ostrůvku na mapě; když jsou všechny barevné, objeví se člen rodiny (na Louce slaví Žabka Žofka)</td></tr>
   <tr><td>Kampaň</td><td>duha nad zahrádkou (pět pruhů, jeden za svět) a rodinná fotka; pátý pruh otevře most na Duhovou slavnost</td></tr>
   <tr><td>Sbírky</td><td>zaplněné samolepky v albu, doplňky v šatníku, nové rostliny v zahrádce</td></tr>
+  <tr><td>Všechny světy</td><td>praporky nad zahrádkou, jeden za každý dokončený svět včetně rozšíření; žádná prázdná místa ani počty</td></tr>
 </table>
 </section>
 
@@ -414,7 +418,7 @@
 <h3>Zvukové vrstvy</h3>
 <table>
   <tr><th>Vrstva</th><th>Obsah</th><th>Pravidlo</th></tr>
-  <tr><td>Hudba</td><td>klidná smyčka světa; s každou rozkvetlou rostlinkou přibude nástroj</td><td>−18 LUFS, bez náhlých nástupů</td></tr>
+  <tr><td>Hudba</td><td>klidná smyčka o třech vrstvách; s rozkvětem přibývají. Druhá vrstva je nástroj světa: zvonky (louka, zahrádka), dřevo (les, sad, džungle), kalimba (poušť), celesta (hory, Arktida), harfa (rybníček, moře), hrací skříňka (noc), ukulele (balkon)</td><td>−18 LUFS, bez náhlých nástupů; nástroj se při změně světa plynule vymění</td></tr>
   <tr><td>Zvukové signály</td><td>zvonková nápověda (dva tóny), objev ze schovávačky (třpytivé arpeggio), prázdný mráček (měkký sestup), „hihi“ a „juuu“ Kapáčka</td><td>stejný signál nejvýš jednou za 20 s, nikdy nehodnotí výkon</td></tr>
   <tr><td>Efekty světa</td><td>déšť, nasávání, rozkvět (tón rostlinky), zvířátka</td><td>tóny rostlinek v jedné stupnici (pentatonika C dur), nikdy disonance</td></tr>
   <tr><td>Efekty UI</td><td>„blup“ tlačítka, šustnutí stránky, „vžum“ přechodu</td><td>krátké (&lt; 300 ms), měkké, bez pípání</td></tr>
@@ -459,7 +463,8 @@
   <li><b>Zvuk:</b> hlasitost hudby a efektů zvlášť; haptika zap./vyp.</li>
   <li><b>Připomínka spánku:</b> vypnuto / 10 / 20 / 30 min. Po uplynutí Kapáček zívne a hra se uspí (ne nečekaně uprostřed slavnosti).</li>
   <li><b>Méně pohybu</b> (kapitola 13) a <b>vyšší kontrast</b> (světlá záře kolem interaktivních objektů).</li>
-  <li><b>O hře:</b> bez reklam, bez nákupů, bez sběru dat, funguje offline; kontakt na vývojáře.</li>
+  <li><b>Jazyk:</b> čeština / angličtina, jen text pro rodiče (i brána a „otočte telefon“); výchozí podle zařízení.</li>
+  <li><b>O hře:</b> bez reklam, nákupů a sběru dat, funguje offline (web po prvním spuštění); odkaz na zásady soukromí.</li>
   <li><b>Začít znovu:</b> vymaže postup, chráněno dalším potvrzením s textem.</li>
 </ul>
 <p>Rozvržení: jeden sloupec, max. šířka 640 pt, nadpis 20 pt, popisky 15 pt, text 12 pt, ovládací prvky 44–52 pt. Velké tlačítko „Zpět do hry“ vlevo dole.</p>
@@ -485,7 +490,7 @@
   <tr><td>iPhone 15</td><td>852 × 393 pt</td><td>~19,5:9</td><td>víc krajiny po stranách; tlačítka min. 72 pt</td></tr>
   <tr><td>Samsung S21 FE</td><td>800 × 360 dp</td><td>20:9</td><td>Kapáček 22 % výšky; hrací pás zabírá 60 % výšky</td></tr>
   <tr><td>Kompaktní telefon</td><td>740 × 320 dp</td><td>~21:9</td><td>trvalá tlačítka v rohu zůstávají 54 pt; mapa ukáže 3–4 ostrůvky a posouvá se tažením</td></tr>
-  <tr><td>Web (prohlížeč)</td><td>libovolná</td><td>—</td><td>plátno 16:9 se škálováním, kurzor = prst. Na výšku animovaný telefon, který se otáčí, krátký text pro rodiče a tlačítko „Hrát na celou obrazovku“ (celá obrazovka + zámek orientace na šířku; Chrome na Androidu ho podporuje v režimu celé obrazovky, iOS Safari ne)</td></tr>
+  <tr><td>Web (prohlížeč)</td><td>libovolná</td><td>—</td><td>plátno 16:9 se škálováním, kurzor = prst. Na výšku animovaný telefon, který se otáčí, krátký text pro rodiče a tlačítko „Hrát na celou obrazovku“ (celá obrazovka + zámek orientace na šířku; Chrome na Androidu ho podporuje v režimu celé obrazovky, iOS Safari ne); jako PWA jde na plochu a funguje offline</td></tr>
 </table>
 <p>Na telefonech se hrací objekty nezmenšují pod minimální velikosti z kapitoly 5; plátno se škáluje podle výšky a vedlejší krajina se jen přidá po stranách.</p>
 

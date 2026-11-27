@@ -50,6 +50,39 @@ function Flower({ kind }: { kind: PlantKind }): ReactNode {
           <Petals count={8} length={40} width={14} color="#FFF6C9" center="#FFE27A" centerSize={10} y={-115} />
         </G>
       );
+    case 'polarni-mak':
+      return <Petals count={5} length={34} width={17} color="#FBE15A" center="#E7A800" centerSize={9} y={-84} />;
+    case 'lomikamen':
+      return (
+        <G>
+          {[-18, 0, 18].map((dx, i) => (
+            <Petals key={dx} count={5} length={18} width={8} color={i === 1 ? '#EC8FBB' : '#F6B6D2'} center="#FBCC03" centerSize={4} y={-74 + Math.abs(dx) * 0.4} />
+          )).map((p, i) => (
+            <G key={i} transform={`translate(${[-18, 0, 18][i]} ${0})`}>{p}</G>
+          ))}
+        </G>
+      );
+    case 'orchidej':
+      return (
+        <G transform={`translate(${0} ${-118})`}>
+          {[0, 72, 144, 216, 288].map((a) => (
+            <Ellipse key={a} cx={0} cy={-18} rx={13} ry={20} fill="#E9A3DE" transform={`rotate(${a})`} />
+          ))}
+          <Path d="M-14 4 Q0 30 14 4 Q0 12 -14 4 Z" fill="#B0459E" />
+          <Circle r={7} fill="#FBE15A" />
+        </G>
+      );
+    case 'muskat':
+      return (
+        <G transform={`translate(${0} ${-112})`}>
+          {[[0, 0], [-16, 8], [16, 8], [-10, -14], [12, -14], [0, 18], [-22, -4], [22, -4]].map(([x, y], i) => (
+            <Circle key={i} cx={x} cy={y} r={11} fill={i % 2 ? '#ED3E1D' : '#F2622E'} />
+          ))}
+          {[[-6, -4], [8, 6], [-2, 12]].map(([x, y], i) => (
+            <Circle key={`s${i}`} cx={x} cy={y} r={3} fill="#FBE15A" />
+          ))}
+        </G>
+      );
     case 'nocni-fialka':
       return <Petals count={5} length={36} width={16} color="#9C7BEA" center="#FFE27A" centerSize={7} y={-105} />;
     case 'pobrezni-ruze':
@@ -196,6 +229,79 @@ function Special({ kind, stage }: { kind: PlantKind; stage: number }): ReactNode
           {s === 2 && <Ellipse cy={-20} rx={9} ry={13} fill="#F7A6C8" />}
         </G>
       );
+    case 'heliconie': {
+      const h = [10, 60, 100, 130][s];
+      return (
+        <G>
+          <Path d={`M0 0 L0 ${-h}`} stroke={STEM} strokeWidth={7} strokeLinecap="round" />
+          <Leaf x={0} y={-10} angle={-150} size={1 + s * 0.3} />
+          <Leaf x={0} y={-16} angle={-30} size={1 + s * 0.3} />
+          {s >= 2 &&
+            Array.from({ length: s === 2 ? 2 : 5 }, (_, i) => (
+              <G key={i} transform={`translate(${0} ${-h + 14 + i * 20}) rotate(${i % 2 ? 20 : -20}) scale(${i % 2 ? -1 : 1} 1)`}>
+                <Path d="M0 0 Q26 -4 34 -22 Q16 -10 0 -8 Z" fill={s >= 3 ? '#F2622E' : '#7DB84A'} />
+                {s >= 3 && <Path d="M26 -10 Q32 -16 34 -22 Q24 -18 22 -12 Z" fill="#FBE15A" />}
+              </G>
+            ))}
+        </G>
+      );
+    }
+    case 'jablicko': {
+      const h = [10, 50, 90, 120][s];
+      const r = [0, 24, 46, 62][s];
+      return (
+        <G>
+          <Path d={`M0 0 Q4 ${-h / 2} 0 ${-h}`} stroke="#8A5A3A" strokeWidth={10 + s * 2} fill="none" strokeLinecap="round" />
+          {s >= 1 && <Circle cy={-h - r * 0.3} r={r} fill={LEAF} />}
+          {s >= 1 && <Circle cx={-r * 0.4} cy={-h - r * 0.6} r={r * 0.6} fill={LEAF_LIGHT} opacity={0.7} />}
+          {s === 2 && [[-20, -h], [16, -h - 20], [4, -h + 14]].map(([x, y], i) => <Circle key={i} cx={x} cy={y} r={6} fill="#FFFFFF" />)}
+          {s >= 3 && [[-30, -h + 4], [22, -h - 26], [6, -h + 18], [-12, -h - 40], [34, -h + 8]].map(([x, y], i) => (
+            <G key={i} transform={`translate(${x} ${y})`}>
+              <Circle r={10} fill="#E5322A" />
+              <Circle cx={-3} cy={-3} r={3} fill="#FFFFFF" opacity={0.5} />
+            </G>
+          ))}
+        </G>
+      );
+    }
+    case 'tykev':
+      return (
+        <G>
+          <Path d={`M-40 -4 Q-10 -20 30 -6`} stroke={STEM} strokeWidth={5} fill="none" />
+          {[-34, -6, 22].slice(0, s + 1).map((x) => (
+            <Ellipse key={x} cx={x} cy={-18} rx={14 + s * 3} ry={10 + s * 2} fill={LEAF} />
+          ))}
+          {s === 2 && <Petals count={5} length={14} width={7} color="#FBCC03" center="#F39B05" centerSize={4} y={-30} />}
+          {s >= 3 && (
+            <G transform={`translate(${12} ${-26})`}>
+              {[-18, -6, 6, 18].map((x) => (
+                <Ellipse key={x} cx={x * 0.9} cy={0} rx={13} ry={24} fill={x % 12 ? '#F39B05' : '#F7A928'} />
+              ))}
+              <Rect x={-3} y={-30} width={6} height={10} rx={3} fill="#5E9B2E" />
+            </G>
+          )}
+        </G>
+      );
+    case 'rajce': {
+      const h = [10, 50, 80, 110][s];
+      return (
+        <G>
+          <Rect x={10} y={-h - 10} width={6} height={h + 10} rx={3} fill="#B08458" />
+          <Path d={`M0 0 Q-6 ${-h / 2} 4 ${-h}`} stroke={STEM} strokeWidth={6} fill="none" strokeLinecap="round" />
+          {Array.from({ length: Math.max(1, s + 1) }, (_, i) => (
+            <Leaf key={i} x={0} y={-12 - i * 24} angle={i % 2 ? -25 : -155} size={0.7 + s * 0.15} />
+          ))}
+          {s === 2 && [[-14, -50], [14, -70]].map(([x, y], i) => <Circle key={i} cx={x} cy={y} r={7} fill="#A8C729" />)}
+          {s >= 3 && [[-16, -46], [14, -66], [-10, -84], [18, -32]].map(([x, y], i) => (
+            <G key={i} transform={`translate(${x} ${y})`}>
+              <Circle r={11} fill="#E5322A" />
+              <Path d="M-5 -10 L0 -6 L5 -10" stroke="#4F9112" strokeWidth={3} fill="none" />
+              <Circle cx={-4} cy={-3} r={3} fill="#FFFFFF" opacity={0.5} />
+            </G>
+          ))}
+        </G>
+      );
+    }
     case 'orobinec':
       return (
         <G>
@@ -214,10 +320,10 @@ function Special({ kind, stage }: { kind: PlantKind; stage: number }): ReactNode
   }
 }
 
-const SPECIAL: PlantKind[] = ['mrkev', 'jahoda', 'houba', 'kapradi', 'boruvky', 'kaktus', 'palma', 'mech', 'leknin', 'orobinec'];
+const SPECIAL: PlantKind[] = ['mrkev', 'jahoda', 'houba', 'kapradi', 'boruvky', 'kaktus', 'palma', 'mech', 'leknin', 'orobinec', 'heliconie', 'jablicko', 'tykev', 'rajce'];
 
 function Generic({ kind, stage, droop }: { kind: PlantKind; stage: number; droop: boolean }) {
-  const tall = kind === 'slunecnice' ? 160 : kind === 'horska-kvetinka' ? 80 : kind === 'morska-levandule' ? 80 : 118;
+  const tall = kind === 'slunecnice' ? 160 : kind === 'horska-kvetinka' || kind === 'morska-levandule' || kind === 'polarni-mak' ? 80 : kind === 'lomikamen' ? 70 : 118;
   const d = droop ? 25 : 0;
   if (stage === 1) {
     return (

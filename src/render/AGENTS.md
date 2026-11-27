@@ -11,12 +11,15 @@ Vstupem je `GameState`, výstupem jeden strom `react-native-svg`. Render stav je
 
 Pořadí potomků určuje překrytí:
 
-1. `Backdrop` – malované pozadí světa (`SCENE_IMAGES`, `preserveAspectRatio="xMidYMid slice"` přes `view`);
+1. `Backdrop` – malované pozadí světa (`SCENE_IMAGES[scenery][scene.backdrop]`, 3 varianty na svět, `preserveAspectRatio="xMidYMid slice"` přes `view`);
 2. sluníčko Hřejík (jen poušť), duha nad zahrádkou, duha z pouště;
 3. `Dryness` – vybledlá kopie pozadí s filtrem barev a maskou, která se kolem rostlinek s fází > 0 otevírá; průhlednost podle `state.bloom`;
-4. zdroj vody, schovávačky, rostlinky, cíl (`GoalMarker`), Žofka, rodina;
+   pak praporky zahrádky (`Garland`), drobnosti v popředí (`Decor`), roční období (`SeasonLayer`);
+4. zdroj vody, schovávačky, kouzelná věc (`WonderFigure`), místa pro semínka (`SeedSlots`), rostlinky, lucerny v noci, Žofka, **šero noci (`NightShade`)**, cíl (`GoalMarker`) a třpytka kouzelné věci (`WonderSparkle`), rodina;
 5. paprsky slavnosti, zvířátka, srdíčka a noty, hvězdičky;
-6. Kapáček a jeho přání (`Wish`), částice, Fuk při větru, ručička nápovědy, konfety.
+6. přání zvířátek (`Bubble` s kytičkou), srdíčka spokojených zvířátek, Kapáček s pytlíčkem semínek (`SeedCarry`) a jeho přání (`Wish`), částice, Fuk při větru, ručička nápovědy, konfety.
+
+Co dítě potřebuje vidět, aby vědělo, co dělat (cíl, přání, Kapáček), musí ležet nad šerem noci.
 
 Nový prvek zařaď podle toho, co má překrývat; interaktivní věci patří nad `Dryness`.
 
@@ -26,11 +29,13 @@ Nový prvek zařaď podle toho, co má překrývat; interaktivní věci patří 
 |---|---|
 | `Kapka.tsx` | `KapkaFigure`: tělo z kruhů, oči, pusa a ručičky podle `Mood`, doplňky ze šatníku; `CloudBody`/`CloudDefs` sdílí rodina |
 | `Plant.tsx` | `PlantFigure`: 4 fáze, svěšené listy při žízni, bublina s kapičkou, `pop` při růstu, `dance` ve slavnosti |
-| `Animal.tsx` | `AnimalFigure`: sprite z `animalSprites.ts` + poskok (`react`), tanec (`dance`), vznášení létajících, dýchání; `animalHeight` určuje velikost |
+| `Animal.tsx` | `AnimalFigure`: sprite z `animalSprites.ts` + poskok (`react`), tanec (`dance`), vznášení létajících, dýchání, příchod podle `move` (`arrive`: skoky, vylézání ze země, kolébání); `animalHeight` určuje velikost |
 | `Characters.tsx` | Žofka, Oblačná rodina, Fuk, sluníčko, měsíc, ručička nápovědy |
 | `Props.tsx` | zdroje vody, schovávačky, částice, duha |
-| `Guide.tsx` | `GoalMarker` (poskakující šipka a vlna u cíle), `Wish` (myšlenková bublina Kapáčka) |
+| `Guide.tsx` | `GoalMarker` (poskakující šipka a vlna u cíle), `Wish` (myšlenková bublina Kapáčka: kapka, kytička, semínko), `Bubble`, `SeedIcon`, `FlowerIcon` |
 | `Party.tsx` | slavnost: `Rays`, `Confetti`, `Joy` (srdíčka a noty), `Stars` |
+| `Wonder.tsx` | `WonderFigure` – 8 kouzelných věcí po 4 fázích (mlýn, hrad z písku, houbičky, sněhulák, obří květ, jabloň, iglú, kaluž), `WonderSparkle` – bublina „chce vodu“ |
+| `Ambience.tsx` | `NightShade`, `Lantern`, `SeasonLayer`, `Garland`, `Decor`, `SeedSlots`, `SeedCarry` |
 | `Scenery.tsx` | `SCENE_IMAGES`, `Backdrop`, `Dryness` |
 | `animalSprites.ts` | **generovaný** skriptem `tools/assets/animals.py`, ručně neupravuj |
 | `svg.ts` | `tr(x, y, rotate, sx, sy)` – skládání `transform` |

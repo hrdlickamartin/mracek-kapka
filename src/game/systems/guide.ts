@@ -1,9 +1,13 @@
 import { CELEBRATION_TIME, GROUND_Y, HINT_TIMES, SCENE_W } from '../constants';
-import type { GameState, Point } from '../types';
+import type { GameState, Goal, Point } from '../types';
 import { burst, cue, haptic, setMood, sfx } from './effects';
-import { addVisitor } from './world';
+import { addVisitor } from './visitors';
 
-function hintGoal(state: GameState): { point: Point; kind: 'voda' | 'rostlina' } | null {
+function hintGoal(state: GameState): { point: Point; kind: Goal['kind'] } | null {
+  if (state.mode === 'zahradka' && state.pouch.length && state.slots.length) {
+    const slot = state.slots.reduce((a, b) => (Math.abs(a - state.kapka.x) < Math.abs(b - state.kapka.x) ? a : b));
+    return { point: { x: slot, y: GROUND_Y - 60 }, kind: 'seminko' };
+  }
   const thirsty = state.plants.filter((p) => p.stage < 3);
   if (state.kapka.water < 0.2 || (state.kapka.sipping && state.kapka.water < 1)) return { point: { x: state.source.x, y: GROUND_Y - 40 }, kind: 'voda' };
   if (!thirsty.length) return null;
@@ -31,7 +35,7 @@ export function updateHints(state: GameState, active: boolean, dt: number) {
   const k = state.kapka;
   state.goal =
     goal && state.phase === 'hraje' && !k.asleep
-      ? { kind: goal.kind, x: goal.point.x, y: goal.point.y, busy: goal.kind === 'voda' ? k.sipping : k.raining }
+      ? { kind: goal.kind, x: goal.point.x, y: goal.point.y, busy: goal.kind === 'voda' ? k.sipping : goal.kind === 'seminko' ? state.planting > 0 : k.raining }
       : null;
   if (state.tutorial !== null && state.phase !== 'hraje') state.tutorial = null;
   if (state.tutorial !== null) {
@@ -112,7 +116,7 @@ function gardenParty(state: GameState) {
 export function updateCelebration(state: GameState, dt: number) {
   state.phaseTime += dt;
   if (state.phase === 'hraje') {
-    if (!state.plants.length || state.plants.some((p) => p.stage < 3)) return;
+    if (!state.plants.length || state.plants.some((p) => p.stage < 3) || state.pouch.length) return;
     if (state.mode === 'zahradka') {
       gardenParty(state);
       return;

@@ -36,7 +36,15 @@ export type PlantKind =
   | 'pobrezni-ruze'
   | 'morska-levandule'
   | 'mesicnice'
-  | 'nocni-fialka';
+  | 'nocni-fialka'
+  | 'orchidej'
+  | 'heliconie'
+  | 'jablicko'
+  | 'tykev'
+  | 'polarni-mak'
+  | 'lomikamen'
+  | 'muskat'
+  | 'rajce';
 
 export type AnimalKind =
   | 'motyl'
@@ -66,7 +74,20 @@ export type AnimalKind =
   | 'morska-zelvicka'
   | 'svetluska'
   | 'mura'
-  | 'plch';
+  | 'plch'
+  | 'papousek'
+  | 'tukan'
+  | 'opicka'
+  | 'lenochod'
+  | 'krtek'
+  | 'kos'
+  | 'ovecka'
+  | 'tucnak'
+  | 'medvidek'
+  | 'tulen'
+  | 'liska'
+  | 'holub'
+  | 'kocicka';
 
 export type WorldId =
   | 'louka'
@@ -76,20 +97,28 @@ export type WorldId =
   | 'hory'
   | 'rybnicek'
   | 'morsky-breh'
-  | 'nocni-zahrada';
+  | 'nocni-zahrada'
+  | 'dzungle'
+  | 'sad'
+  | 'arktida'
+  | 'balkon';
 
 export type FamilyId = 'babicka-perinka' | 'mlhulka' | 'duhacek' | 'deda-vlocka' | 'mama-bublinka' | 'tata-brucik';
 
-export type SourceKind = 'jezirko' | 'potok' | 'sud' | 'oaza' | 'vodopad' | 'rybnik' | 'more' | 'rosa';
+export type SourceKind = 'jezirko' | 'potok' | 'sud' | 'oaza' | 'vodopad' | 'rybnik' | 'more' | 'rosa' | 'studna' | 'led';
 
-export type HideoutKind = 'ker' | 'parez' | 'kamen' | 'krtina' | 'okno' | 'dutina' | 'muslicka' | 'leknin-list';
+export type HideoutKind = 'ker' | 'parez' | 'kamen' | 'krtina' | 'okno' | 'dutina' | 'muslicka' | 'leknin-list' | 'zavej' | 'kvetinac';
 
 export type Reward =
   | { type: 'animal'; animal: AnimalKind }
   | { type: 'seed'; plant: PlantKind }
   | { type: 'motyli' };
 
-export type Mechanic = 'slunce' | 'vitr' | 'snih' | 'noc';
+export type Mechanic = 'slunce' | 'vitr' | 'snih' | 'noc' | 'priliv';
+
+export type WonderKind = 'mlyn' | 'hrad' | 'houby' | 'snehulak' | 'obri-kvet' | 'jablon' | 'iglu' | 'kaluz';
+
+export type Season = 'jaro' | 'leto' | 'podzim' | 'zima';
 
 export interface SceneDef {
   id: string;
@@ -102,6 +131,20 @@ export interface SceneDef {
   mechanics: Mechanic[];
   family: FamilyId | null;
   tutorial: boolean;
+  backdrop: number;
+  wonder: { kind: WonderKind; x: number; animal: AnimalKind } | null;
+}
+
+export interface Wonder {
+  kind: WonderKind;
+  animal: AnimalKind;
+  x: number;
+  y: number;
+  stage: 0 | 1 | 2 | 3;
+  growth: number;
+  pop: number;
+  wet: number;
+  done: number;
 }
 
 export interface Kapka {
@@ -155,9 +198,13 @@ export interface Visitor {
   arrive: number;
   react: number;
   celebrant: boolean;
+  fromX: number;
+  fromY: number;
+  wish: number | null;
+  happy: number;
 }
 
-export type ParticleKind = 'kapka' | 'vlocka' | 'rozprsk' | 'jiskra' | 'pyl' | 'list' | 'vlnka' | 'vitr' | 'motyl';
+export type ParticleKind = 'kapka' | 'vlocka' | 'rozprsk' | 'jiskra' | 'pyl' | 'list' | 'vlnka' | 'vitr' | 'motyl' | 'svetluska' | 'hlina';
 
 export interface Particle {
   kind: ParticleKind;
@@ -198,6 +245,7 @@ export type GameEvent =
   | { type: 'tone'; plant: PlantKind; stage: number }
   | { type: 'haptic'; strength: 'lehka' | 'stredni' }
   | { type: 'bloom'; plant: number }
+  | { type: 'planted'; kind: PlantKind; x: number }
   | { type: 'found'; reward: Reward }
   | { type: 'rainbow' }
   | { type: 'celebrate'; animal: AnimalKind; family: FamilyId | null }
@@ -216,7 +264,7 @@ export interface SceneResult {
 export type Mode = 'scena' | 'zahradka';
 
 export interface Goal {
-  kind: 'voda' | 'rostlina';
+  kind: 'voda' | 'rostlina' | 'seminko';
   x: number;
   y: number;
   busy: boolean;
@@ -228,7 +276,14 @@ export interface GameState {
   time: number;
   kapka: Kapka;
   plants: Plant[];
-  source: { kind: SourceKind; x: number; w: number; ripple: number };
+  source: { kind: SourceKind; x: number; w: number; base: number; ripple: number };
+  wonder: Wonder | null;
+  dark: number;
+  tide: number;
+  season: Season | null;
+  pouch: PlantKind[];
+  slots: number[];
+  planting: number;
   hideouts: Hideout[];
   visitors: Visitor[];
   particles: Particle[];

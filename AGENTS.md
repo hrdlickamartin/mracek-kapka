@@ -1,6 +1,6 @@
 # Mráček Kapáček
 
-Hra pro děti 3–5 let (Expo SDK 58, React Native 0.88, React 19, TypeScript) pro iOS, Android a web. Hlavní postava, mráček Kapáček, nabírá vodu, zalévá rostlinky a ty rostou ve čtyřech fázích. Za rozkvetlý obrázek přiletí zvířátko a dítě dostane odměnu. Kolem toho je 5 světů kampaně, 3 světy rozšíření, album, Moje zahrádka, šatník, Oblačná rodina a Duhová slavnost.
+Hra pro děti 3–5 let (Expo SDK 58, React Native 0.88, React 19, TypeScript) pro iOS, Android a web. Hlavní postava, mráček Kapáček, nabírá vodu, zalévá rostlinky a ty rostou ve čtyřech fázích. Za rozkvetlý obrázek přiletí zvířátko a dítě dostane odměnu. Kolem toho je 5 světů kampaně, 7 světů rozšíření (Rybníček, Mořský břeh, Noční zahrada, Džungle, Sad, Arktida, Balkon), album, Moje zahrádka, šatník, Oblačná rodina a Duhová slavnost.
 
 Web: https://hrdlickamartin.github.io/mracek-kapka/ · repo `hrdlickamartin/mracek-kapka` (`main` = zdroj, `gh-pages` = statický build).
 
@@ -10,6 +10,8 @@ Web: https://hrdlickamartin.github.io/mracek-kapka/ · repo `hrdlickamartin/mrac
 
 - `game-art-bible.pdf` – styl, paleta, postavy, světy, efekty, animace, specifikace assetů;
 - `ui-style-guide.pdf` – principy rozhraní, dotyky, obrazovky, navádění, zvuk, rodičovská zóna, kontrolní seznam;
+- `rozsireni.pdf` – rozbor a plán rozšíření (proměnné scény, kouzelné věci, noc, příliv, zvířátka, zahrádka, hudba, nové světy, PWA, vydání);
+- `vydani.pdf` – vydání do App Store a Google Play: identita, EAS, texty CZ/EN, věk, soukromí, snímky, kroky pro vlastníka účtů;
 - `mracek-kapka.pdf` – první koncept, v detailech zastaralý. Když se rozchází s bible nebo guidem, platí bible a guide.
 
 Když změníš chování nebo vzhled, který PDF popisuje, uprav HTML v `tools/docs/` a přegeneruj PDF (postup v [`tools/AGENTS.md`](tools/AGENTS.md)). Kód a PDF se nesmí rozejít.
@@ -61,7 +63,9 @@ useGameLoop (rAF) → step(state, input, dt) → GameEvent[] → GameScreen.hand
 
 ## Nasazení webu
 
-`npm run deploy:web` (skript `tools/deploy/pages.sh`): ověří čistý pracovní strom, dočasně přidá `baseUrl: "/mracek-kapka"` do `app.json`, udělá `expo export`, vrátí `app.json`, nahraje build do `gh-pages` s `.nojekyll` a počká, až Pages servírují nový `index-<hash>.js` (cache až 10 minut). Pak web otevři a zkontroluj konzoli.
+`npm run deploy:web` (skript `tools/deploy/pages.sh`): ověří čistý pracovní strom, dočasně přidá `baseUrl: "/mracek-kapka"` do `app.json`, udělá `expo export`, vrátí `app.json`, vygeneruje `sw.js` se seznamem všech souborů exportu (`tools/deploy/precache.mjs`), nahraje build do `gh-pages` s `.nojekyll` a počká, až Pages servírují nový `index-<hash>.js` (cache až 10 minut). Pak web otevři a zkontroluj konzoli.
+
+Web je PWA: `public/` (manifest, ikony, vlastní `index.html`, `soukromi.html`) se kopíruje do exportu, cesty jsou relativní (`./`), protože podcesta existuje jen při nasazení. Service worker registruje `src/pwa.ts` jen na webu a mimo `__DEV__`; po první návštěvě má v cache celou hru a funguje bez internetu. HTML jde ze sítě (nová verze se projeví po jednom načtení), hashované soubory z cache. Offline ověření: export s dočasným `baseUrl`, `node tools/deploy/precache.mjs <dist>`, servírovat pod `/mracek-kapka/`, počkat na `navigator.serviceWorker.controller`, pak `context.setOffline(true)` (nebo vypnout server), reload a vstoupit do scény.
 
 ## Expo
 

@@ -28,43 +28,71 @@ export const PLANTS: Record<PlantKind, PlantInfo> = {
   'morska-levandule': { name: 'mořská levandule', tone: 3, color: '#A98BF0' },
   mesicnice: { name: 'měsíčnice', tone: 8, color: '#FFF6C9' },
   'nocni-fialka': { name: 'noční fialka', tone: 5, color: '#9C7BEA' },
+  orchidej: { name: 'orchidej', tone: 6, color: '#D873C8' },
+  heliconie: { name: 'helikónie', tone: 2, color: '#F2622E' },
+  jablicko: { name: 'jabloňka', tone: 4, color: '#E5322A' },
+  tykev: { name: 'dýně', tone: 1, color: '#F39B05' },
+  'polarni-mak': { name: 'polární mák', tone: 5, color: '#FBE15A' },
+  lomikamen: { name: 'lomikámen', tone: 7, color: '#EC8FBB' },
+  muskat: { name: 'muškát', tone: 3, color: '#ED3E1D' },
+  rajce: { name: 'rajčátko', tone: 6, color: '#E5322A' },
 };
+
+export type AnimalMove = 'leti' | 'skace' | 'leze' | 'vyleze' | 'plave' | 'chodi';
 
 export interface AnimalInfo {
   name: string;
   flies?: boolean;
   glow?: boolean;
+  move?: AnimalMove;
+}
+
+export function animalMove(info: AnimalInfo): AnimalMove {
+  return info.move ?? (info.flies ? 'leti' : 'chodi');
 }
 
 export const ANIMALS: Record<AnimalKind, AnimalInfo> = {
   motyl: { name: 'motýl', flies: true },
-  beruska: { name: 'beruška' },
+  beruska: { name: 'beruška', move: 'leze' },
   vcelka: { name: 'včelka', flies: true },
-  cvrcek: { name: 'cvrček' },
+  cvrcek: { name: 'cvrček', move: 'skace' },
   sykorka: { name: 'sýkorka', flies: true },
-  zajicek: { name: 'zajíček' },
+  zajicek: { name: 'zajíček', move: 'skace' },
   vrabec: { name: 'vrabec', flies: true },
-  snek: { name: 'šnek' },
-  zizala: { name: 'žížala' },
-  jezek: { name: 'ježek' },
-  veverka: { name: 'veverka' },
+  snek: { name: 'šnek', move: 'leze' },
+  zizala: { name: 'žížala', move: 'vyleze' },
+  jezek: { name: 'ježek', move: 'chodi' },
+  veverka: { name: 'veverka', move: 'skace' },
   sova: { name: 'sova', flies: true },
   srnka: { name: 'srnka' },
-  jesterka: { name: 'ještěrka' },
+  jesterka: { name: 'ještěrka', move: 'leze' },
   velbloudik: { name: 'velbloudík' },
-  zelvicka: { name: 'želvička' },
-  kamzik: { name: 'kamzík' },
-  svist: { name: 'svišť' },
+  zelvicka: { name: 'želvička', move: 'leze' },
+  kamzik: { name: 'kamzík', move: 'skace' },
+  svist: { name: 'svišť', move: 'vyleze' },
   orlik: { name: 'orlík', flies: true },
-  kachnicka: { name: 'kachnička' },
+  kachnicka: { name: 'kachnička', move: 'plave' },
   vazka: { name: 'vážka', flies: true },
-  rybka: { name: 'rybka' },
-  krab: { name: 'krab' },
+  rybka: { name: 'rybka', move: 'plave' },
+  krab: { name: 'krab', move: 'leze' },
   racek: { name: 'racek', flies: true },
-  'morska-zelvicka': { name: 'mořská želvička' },
+  'morska-zelvicka': { name: 'mořská želvička', move: 'plave' },
   svetluska: { name: 'světluška', flies: true, glow: true },
   mura: { name: 'můra', flies: true },
-  plch: { name: 'plch' },
+  plch: { name: 'plch', move: 'skace' },
+  papousek: { name: 'papoušek', flies: true },
+  tukan: { name: 'tukan', flies: true },
+  opicka: { name: 'opička', move: 'skace' },
+  lenochod: { name: 'lenochod', move: 'leze' },
+  krtek: { name: 'krtek', move: 'vyleze' },
+  kos: { name: 'kos', flies: true },
+  ovecka: { name: 'ovečka' },
+  tucnak: { name: 'tučňák', move: 'plave' },
+  medvidek: { name: 'lední medvídek' },
+  tulen: { name: 'tuleň', move: 'plave' },
+  liska: { name: 'polární liška', move: 'skace' },
+  holub: { name: 'holub', flies: true },
+  kocicka: { name: 'kočička', move: 'skace' },
 };
 
 export interface FamilyInfo {

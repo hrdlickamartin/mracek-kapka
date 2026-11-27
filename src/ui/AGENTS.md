@@ -8,11 +8,11 @@ Prezentační komponenty. Data a callbacky dostávají z `src/GameScreen.tsx`, s
 |---|---|---|
 | úvod | `Screens.tsx` `Intro` | jen poprvé, ťuknutí probudí Kapáčka |
 | menu (domov) | `Menu.tsx` | velké Hrát = další neodehraný obrázek (`nextScene`), čtyři menší tlačítka, ručička na Hrát |
-| scéna a zahrádka | `GameScreen` + `TouchSurface` + `Hud.tsx` | Domů (54, v rohu) se drží 1 s; zahrádka má po rozkvetu slavnost a tlačítko Hrát |
+| scéna a zahrádka | `GameScreen` + `TouchSurface` + `Hud.tsx` | Domů (54, v rohu) se drží 1 s; zahrádka má sázení semínek (cíl z enginu), roční období podle data, praporky za dokončené světy, po rozkvetu slavnost a tlačítko Hrát |
 | slavnost | `Celebration.tsx` | samolepky vyskočí a kývají se, Pokračovat čeká |
-| mapa a výběr obrázku | `WorldMap.tsx` | ostrovy z `assets/svety/`, mlha místo zámků, ručička na další krok |
+| mapa a výběr obrázku | `WorldMap.tsx` | ostrovy z `assets/svety/` (všech 12 světů), mlha místo zámků, ručička na další krok |
 | album, šatník | `Album.tsx`, `Wardrobe.tsx` | samolepky a doplňky reagují na ťuknutí |
-| rodiče | `Parents.tsx` | brána (podržet 3 s + úloha), nastavení; jediné místo s textem |
+| rodiče | `Parents.tsx` | brána (podržet 3 s + úloha), nastavení včetně jazyka, odkaz na zásady soukromí (`Linking.openURL`, jen tady); jediné místo s textem |
 | spánek, konec, otočte telefon | `Screens.tsx` | `RotateNotice` má tlačítko na celou obrazovku |
 
 ## Dotyky
@@ -29,7 +29,7 @@ Každá obrazovka, na které má dítě něco udělat, ukazuje další krok: `Hi
 
 ## Text a písmo
 
-Dítě text nevidí. Text smí: logo v úvodu, `Parents.tsx` a `RotateNotice` (čte rodič). Písmo je Nunito (`FONTS` v `theme.ts`), načtené v `App.tsx`; `npm run check:fonts` ověřuje českou diakritiku.
+Dítě text nevidí. Text smí: logo v úvodu, `Parents.tsx` a `RotateNotice` (čte rodič). Jejich texty jsou v `i18n.ts` (`texts(lang)`, slovníky `cs` a `en`, `en` má typ `cs`, takže chybějící klíč neprojde typy); nový text pro rodiče přidej do obou. `ParentGate` a `RotateNotice` berou volitelné `lang` (bez něj jazyk zařízení). `accessibilityLabel` zůstávají česky. Písmo je Nunito (`FONTS` v `theme.ts`), načtené v `App.tsx`; `npm run check:fonts` ověřuje českou diakritiku.
 
 ## Orientace a web
 

@@ -1,5 +1,6 @@
 import { type AudioPlayer, createAudioPlayer, setAudioModeAsync } from 'expo-audio';
 import type { SfxName } from '../game/types';
+import type { MusicFlavor } from '../game/worlds';
 
 const SFX: Record<SfxName, number> = {
   blup: require('../../assets/audio/blup.wav'),
@@ -34,7 +35,18 @@ const TONES: number[] = [
   require('../../assets/audio/tone_8.wav'),
 ];
 
-const LAYERS: number[] = [require('../../assets/audio/music_pad.wav'), require('../../assets/audio/music_pluck.wav'), require('../../assets/audio/music_bells.wav')];
+const PAD = require('../../assets/audio/music_pad.wav');
+const BELLS = require('../../assets/audio/music_bells.wav');
+
+const FLAVORS: Record<MusicFlavor, number> = {
+  zvonky: require('../../assets/audio/music_pluck.wav'),
+  drevo: require('../../assets/audio/music_drevo.wav'),
+  kalimba: require('../../assets/audio/music_kalimba.wav'),
+  celesta: require('../../assets/audio/music_celesta.wav'),
+  harfa: require('../../assets/audio/music_harfa.wav'),
+  skrinka: require('../../assets/audio/music_skrinka.wav'),
+  ukulele: require('../../assets/audio/music_ukulele.wav'),
+};
 
 const MUSIC_MAX = 0.45;
 
@@ -42,6 +54,8 @@ class AudioManager {
   private sfx = new Map<SfxName, AudioPlayer>();
   private tones = new Map<number, AudioPlayer>();
   private layers: AudioPlayer[] = [];
+  private flavors = new Map<MusicFlavor, AudioPlayer>();
+  private flavor: MusicFlavor = 'zvonky';
   private unlocked = false;
   private playing = false;
   private musicLevel = 0.75;
@@ -101,12 +115,7 @@ class AudioManager {
     if (!this.unlocked) return;
     try {
       if (!this.layers.length) {
-        this.layers = LAYERS.map((src) => {
-          const p = createAudioPlayer(src);
-          p.loop = true;
-          p.volume = 0;
-          return p;
-        });
+        this.layers = [this.loopPlayer(PAD), this.flavorPlayer(this.flavor), this.loopPlayer(BELLS)];
       }
       if (on && !this.playing) {
         this.layers.forEach((p) => {
@@ -122,6 +131,24 @@ class AudioManager {
     } catch {}
   }
 
+  setFlavor(flavor: MusicFlavor) {
+    if (flavor === this.flavor) return;
+    this.flavor = flavor;
+    if (!this.layers.length) return;
+    try {
+      const old = this.layers[1];
+      const next = this.flavorPlayer(flavor);
+      this.layers[1] = next;
+      this.applyMusic();
+      if (this.playing) {
+        next.seekTo(this.layers[0].currentTime);
+        next.play();
+      }
+      old.pause();
+      old.volume = 0;
+    } catch {}
+  }
+
   setBloom(bloom: number) {
     if (Math.abs(bloom - this.bloom) < 0.01) return;
     this.bloom = bloom;
@@ -131,6 +158,22 @@ class AudioManager {
   pauseAll() {
     this.layers.forEach((p) => p.pause());
     this.playing = false;
+  }
+
+  private loopPlayer(src: number) {
+    const p = createAudioPlayer(src);
+    p.loop = true;
+    p.volume = 0;
+    return p;
+  }
+
+  private flavorPlayer(flavor: MusicFlavor) {
+    let p = this.flavors.get(flavor);
+    if (!p) {
+      p = this.loopPlayer(FLAVORS[flavor]);
+      this.flavors.set(flavor, p);
+    }
+    return p;
   }
 
   private applyMusic() {

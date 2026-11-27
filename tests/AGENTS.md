@@ -10,8 +10,9 @@
   - 4 fáze růstu a tón za každou fázi; po slavnosti hra čeká; `complete` přijde hned na začátku slavnosti;
   - slunce nesníží vodu pod nulu, vítr posune nejvýš o 10 % šířky;
   - schovávačka se odhalí ťuknutím, nápověda přichází postupně, po 30 s Kapáček usne a dotek ho probudí;
-  - výuka vede k vodě a pak k rostlince; v poušti vznikne duha; cíl (`state.goal`) ukazuje správný další krok.
-- `progress.test.ts`: odemykání od začátku, **celá kampaň botem** (rodina, 5 pruhů duhy, celý šatník, album, rozšíření, zahrádka max. 7), idempotence `applyScene`, šatník, návštěva dne, migrace poškozeného save.
+  - výuka vede k vodě a pak k rostlince; v poušti vznikne duha; cíl (`state.goal`) ukazuje správný další krok;
+  - vzory rozložení (voda uprostřed, 3 varianty pozadí, kouzelná věc stranou), mlýn dokončený deštěm, kouzelná věc jako bonus (cíl na ni neukazuje), šero noci a světlušky, příliv v mezích a při nasávání stojí, přání zvířátka, příchod podle druhu, sázení semínek přeletem i ťuknutím, zima a místo hosta v zahrádce.
+- `progress.test.ts`: odemykání od začátku, **celá kampaň botem** (rodina, 5 pruhů duhy, celý šatník, album, rozšíření, semínka v pytlíčku a po zasazení zahrádka max. 7), idempotence `applyScene`, šatník, návštěva dne, migrace poškozeného save.
 
 ## Psaní testů
 

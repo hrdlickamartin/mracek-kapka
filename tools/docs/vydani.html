@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<title>Mráček Kapáček – Vydání</title>
+<link rel="stylesheet" href="styl.css">
+<style>
+.text-obchod { background: #fff; border: 1.5px solid #d6e6f2; border-radius: 12px; padding: 10px 14px; margin: 6px 0 10px; break-inside: avoid; font-size: 9.5pt; }
+.text-obchod p { margin: 0 0 6px; }
+.delka { float: right; font-size: 7.5pt; font-weight: 800; color: #6b7f99; }
+.zaskrt { list-style: none; padding-left: 0; }
+.zaskrt li { padding: 4px 0 4px 26px; position: relative; break-inside: avoid; }
+.zaskrt li::before { content: ""; position: absolute; left: 0; top: 7px; width: 14px; height: 14px; border: 2px solid var(--nebe); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<section class="titulka">
+  <div>
+    <div class="obraz"><img src="img/hero.png" alt="" style="object-position: 30% 22%"></div>
+    <div class="nadpis">Vydání · App Store, Google Play a web</div>
+    <h1>Mráček Kapáček</h1>
+    <div class="podnadpis">Podklady pro vydání do obchodů: identita aplikace, texty v češtině a angličtině, kategorie a věk, soukromí, snímky obrazovky a kontrolní seznam kroků, které musí udělat vlastník účtů.</div>
+  </div>
+  <div class="meta"><span>iOS · Android · web (PWA)</span><span>3–5 let</span><span>bez dat, reklam a nákupů</span><span>listopad 2026</span></div>
+</section>
+
+<section>
+<h2>Obsah</h2>
+<div class="obsah">
+  <div><b>1</b> Identita aplikace</div>
+  <div><b>2</b> Sestavení (EAS)</div>
+  <div><b>3</b> Texty pro obchody</div>
+  <div><b>4</b> Kategorie a věkové hodnocení</div>
+  <div><b>5</b> Soukromí a dětské zásady</div>
+  <div><b>6</b> Snímky obrazovky a grafika</div>
+  <div><b>7</b> Web (PWA)</div>
+  <div><b>8</b> Co musí udělat vlastník</div>
+</div>
+
+<h2><span class="cislo">1</span>Identita aplikace</h2>
+<table>
+  <tr><th>Položka</th><th>Hodnota</th><th>Kde</th></tr>
+  <tr><td>Název</td><td>Mráček Kapáček</td><td><code>app.json</code> <code>expo.name</code></td></tr>
+  <tr><td>Bundle ID (iOS) / package (Android)</td><td><code>cz.hrdlickamartin.mracekkapacek</code></td><td><code>ios.bundleIdentifier</code>, <code>android.package</code></td></tr>
+  <tr><td>Verze pro uživatele</td><td>0.1.0 (před vydáním zvednout na 1.0.0)</td><td><code>expo.version</code></td></tr>
+  <tr><td>Číslo sestavení</td><td>začíná na 1, dál zvyšuje EAS</td><td><code>ios.buildNumber</code>, <code>android.versionCode</code>, <code>eas.json</code> <code>appVersionSource: remote</code></td></tr>
+  <tr><td>Orientace</td><td>jen na šířku, iPad na celou obrazovku</td><td><code>orientation</code>, <code>ios.requireFullScreen</code></td></tr>
+  <tr><td>Ikona</td><td>Kapáček na modrém nebi, 1024 × 1024 bez průhlednosti</td><td><code>assets/icon.png</code></td></tr>
+  <tr><td>Adaptivní ikona (Android)</td><td>Kapáček na průhledném pozadí, podklad <code>#3BAEFD</code></td><td><code>assets/adaptive-icon.png</code></td></tr>
+  <tr><td>Úvodní obrazovka</td><td>Kapáček na <code>#D2F0FD</code>, šířka 220</td><td>plugin <code>expo-splash-screen</code>, <code>assets/splash-icon.png</code></td></tr>
+  <tr><td>Oprávnění</td><td>žádný mikrofon, žádné přehrávání na pozadí</td><td>plugin <code>expo-audio</code>: <code>microphonePermission: false</code>, <code>recordAudioAndroid: false</code>, <code>enableBackgroundPlayback: false</code></td></tr>
+  <tr><td>Šifrování</td><td>nepoužívá vlastní šifrování (export compliance)</td><td><code>ios.config.usesNonExemptEncryption: false</code></td></tr>
+</table>
+<p>Ikony a úvodní obrázek se generují z vektorového Kapáčka skriptem <code>python3 tools/assets/icons.py</code> (headless Chrome + PIL), který zároveň vyrobí ikony webu do <code>public/icons/</code>.</p>
+</section>
+
+<section class="kapitola">
+
+<h2><span class="cislo">2</span>Sestavení (EAS)</h2>
+<table>
+  <tr><th>Profil</th><th>Účel</th><th>Výstup</th></tr>
+  <tr><td><code>development</code></td><td>vývojové sestavení s <code>expo-dev-client</code>, instalace do zařízení týmu</td><td>iOS interní, Android APK</td></tr>
+  <tr><td><code>preview</code></td><td>zkouška celé hry na telefonu a tabletu před vydáním</td><td>iOS interní (ad hoc), Android <b>APK</b></td></tr>
+  <tr><td><code>production</code></td><td>sestavení do obchodů, číslo sestavení se samo zvyšuje</td><td>iOS IPA, Android <b>AAB</b> (<code>app-bundle</code>)</td></tr>
+</table>
+<pre>eas build --profile preview --platform android
+eas build --profile production --platform all
+eas submit --profile production --platform ios
+eas submit --profile production --platform android</pre>
+
+<h2><span class="cislo">3</span>Texty pro obchody</h2>
+<p>Limity: App Store název a podtitul 30 znaků, propagační text 170, popis 4000, klíčová slova 100. Google Play název 30, krátký popis 80, dlouhý popis 4000.</p>
+
+<h3>Čeština</h3>
+<div class="text-obchod"><span class="delka">25 znaků</span><b>Podtitul (App Store):</b> Zalévej kytičky s mráčkem</div>
+<div class="text-obchod"><span class="delka">75 znaků</span><b>Krátký popis (Google Play):</b> Klidná hra pro děti 3–5 let: mráček zalévá kytičky. Bez reklam a bez textu.</div>
+<div class="text-obchod"><b>Klíčová slova:</b> děti,předškolák,mráček,kytičky,zvířátka,zahrádka,batole,klidná hra,bez reklam,offline</div>
+<div class="text-obchod">
+  <b>Dlouhý popis:</b>
+  <p>Mráček Kapáček je klidná hra pro nejmenší od 3 do 5 let, kterou dítě zvládne samo jedním prstem.</p>
+  <p>Dítě vede usměvavého mráčka k vodě, nabere ji a zalévá rostlinky. Ty rostou ve čtyřech fázích od semínka až po rozkvetlý květ. Když celý obrázek rozkvete, přiletí zvířátko a dítě dostane samolepku do alba.</p>
+  <p>• Pět světů kampaně a po Duhové slavnosti další světy k objevování<br>• Album zvířátek, vlastní zahrádka se semínky a šatník pro Kapáčka<br>• Oblačná rodina, která se postupně schází<br>• Hra nemluví a nemá text: co dělat, ukazují obrázky, pohyb, hudba a zvuky</p>
+  <p>Hra se nedá prohrát. Nemá skóre, časovače, měnu ani zámky. Nemá reklamy ani nákupy, nesbírá žádná data a funguje bez internetu. Postup se ukládá sám.</p>
+  <p>Pro rodiče: nastavení hlasitosti, vibrací, připomínky spánku, méně pohybu a vyššího kontrastu je za jednoduchou bránou pro dospělé.</p>
+</div>
+
+<h3>English</h3>
+<div class="text-obchod"><span class="delka">26 znaků</span><b>Subtitle (App Store):</b> Water flowers with a cloud</div>
+<div class="text-obchod"><span class="delka">71 znaků</span><b>Short description (Google Play):</b> Calm game for kids 3–5: a little cloud waters flowers. No ads, no text.</div>
+<div class="text-obchod"><b>Keywords:</b> kids,preschool,toddler,cloud,flowers,animals,garden,calm game,no ads,offline</div>
+<div class="text-obchod">
+  <b>Full description:</b>
+  <p>Mráček Kapáček (Little Cloud Kapáček) is a calm game for the youngest players aged 3 to 5 that a child can play alone with one finger.</p>
+  <p>The child guides a smiling little cloud to the water, fills it up and waters the plants. They grow in four stages from a seed to a flower in full bloom. When the whole picture blossoms, an animal arrives and the child gets a sticker for the album.</p>
+  <p>• Five campaign worlds, and more worlds to discover after the Rainbow Festival<br>• Animal album, a garden of their own with seeds, and a wardrobe for Kapáček<br>• The Cloud Family that gathers along the way<br>• The game does not speak and has no text: pictures, movement, music and sounds show what to do</p>
+  <p>There is no losing. No score, timers, currency or locks. No ads or purchases, no data collection, and it works offline. Progress saves automatically.</p>
+  <p>For parents: music and sound volume, vibration, a bedtime reminder, reduced motion and higher contrast, behind a simple adult gate. The parents' area is available in Czech and English.</p>
+</div>
+
+<h2><span class="cislo">4</span>Kategorie a věkové hodnocení</h2>
+<table>
+  <tr><th>Obchod</th><th>Nastavení</th></tr>
+  <tr><td><b>App Store</b></td><td>Primární kategorie Games (podkategorie Family a Educational), sekundární Education. Kategorie <b>Kids</b>, věkové pásmo <b>5 a mladší</b>. Věkové hodnocení z dotazníku: 4+ (žádný nevhodný obsah).</td></tr>
+  <tr><td><b>Google Play</b></td><td>Kategorie Hry → Pro celou rodinu (Educational / Casual). Cílová skupina <b>5 let a mladší</b> (případně i 6–8 let). Dotazník IARC: očekávané PEGI 3 / Everyone. Aplikace spadá pod <b>Families Policy</b>.</td></tr>
+  <tr><td><b>Obsah</b></td><td>Bez násilí, strachu, reklam, nákupů, chatu, odkazů ven pro dítě a sběru dat. Odkaz na zásady ochrany soukromí je jen v rodičovské zóně za bránou.</td></tr>
+</table>
+
+<h2><span class="cislo">5</span>Soukromí a dětské zásady</h2>
+<ul>
+  <li><b>Zásady ochrany soukromí:</b> <code>https://hrdlickamartin.github.io/mracek-kapka/soukromi.html</code> (česky i anglicky, zdroj <code>public/soukromi.html</code>, nasazuje se s webem). Kontakt: GitHub repozitář.</li>
+  <li><b>App Store – App Privacy:</b> „Data Not Collected“. Aplikace nemá analytiku, reklamní SDK ani účty.</li>
+  <li><b>Google Play – Data safety:</b> sbíraná data: žádná; sdílená data: žádná; šifrování při přenosu: netýká se; žádost o smazání: data jsou jen v zařízení (Vymazat postup v rodičovské zóně).</li>
+  <li><b>Kids Category / Families:</b> žádné reklamy ani reklamní ID, žádné nákupy, odkazy ven a nastavení jen za bránou pro dospělé (podržet 3 s + úloha). Na Androidu se nežádá o mikrofon ani službu na popředí.</li>
+  <li><b>Uložený postup</b> je v AsyncStorage (na webu <code>localStorage</code>) pod klíčem <code>mracek-kapka-save-v1</code>.</li>
+</ul>
+</section>
+
+<section class="kapitola">
+<h2><span class="cislo">6</span>Snímky obrazovky a grafika</h2>
+<p>Snímky na šířku, bez textu přes obrázek (dítě text nevidí a obchody to u dětských aplikací oceňují). Aktuální rozměry ověř v App Store Connect a Play Console před nahráním.</p>
+<table>
+  <tr><th>Obchod</th><th>Zařízení</th><th>Rozměr (na šířku)</th></tr>
+  <tr><td>App Store</td><td>iPhone 6,9″</td><td>2868 × 1320 (nebo 2796 × 1290)</td></tr>
+  <tr><td>App Store</td><td>iPad 13″</td><td>2752 × 2064 (nebo 2732 × 2048)</td></tr>
+  <tr><td>Google Play</td><td>telefon</td><td>16:9, např. 1920 × 1080, 2–8 snímků</td></tr>
+  <tr><td>Google Play</td><td>tablet 7″ a 10″</td><td>16:10 nebo 16:9, např. 2560 × 1600</td></tr>
+  <tr><td>Google Play</td><td>ikona / hlavní obrázek</td><td>512 × 512 (z <code>assets/icon.png</code>) / 1024 × 500</td></tr>
+</table>
+<h3>Seznam snímků</h3>
+<ol class="poradi">
+  <li>Menu: Kapáček nad loukou, velké tlačítko Hrát a ručička.</li>
+  <li>Scéna louky: Kapáček prší na rostlinku, šipka a přání v bublině.</li>
+  <li>Rozkvetlý obrázek a přilétající zvířátko.</li>
+  <li>Slavnost se samolepkami.</li>
+  <li>Mapa světů s ostrůvky a mlhou.</li>
+  <li>Album zvířátek.</li>
+  <li>Moje zahrádka.</li>
+  <li>Šatník a Oblačná rodina.</li>
+</ol>
+<p>Snímky jde pořídit z webu v prohlížeči (viz „Ověření v prohlížeči“ v <code>AGENTS.md</code>) s oknem v poměru cílového zařízení a <code>deviceScaleFactor</code> tak, aby vyšel požadovaný rozměr.</p>
+
+<h2><span class="cislo">7</span>Web (PWA)</h2>
+<ul>
+  <li>Manifest <code>public/manifest.webmanifest</code>: název Mráček Kapáček, krátký název Kapáček, celá obrazovka (záložně standalone), na šířku, ikony 192 a 512 px.</li>
+  <li>Service worker vzniká při nasazení (<code>tools/deploy/precache.mjs</code> ze šablony <code>tools/deploy/sw.js</code>): po první návštěvě stáhne celou hru včetně zvuků, pozadí a spritů. HTML jde vždy nejdřív ze sítě, aby děti dostaly novou verzi; hashované soubory z cache.</li>
+  <li>Na iPhonu a iPadu: Safari → Sdílet → Přidat na plochu. Na Androidu: Chrome → Nainstalovat aplikaci.</li>
+</ul>
+</section>
+
+<section class="kapitola">
+<h2><span class="cislo">8</span>Co musí udělat vlastník</h2>
+<div class="pozor">Nic z toho neudělá skript ani agent: jde o účty, platby, smlouvy a prohlášení, za které ručí vlastník aplikace.</div>
+<h3>Účty a nástroje</h3>
+<ul class="zaskrt">
+  <li>Apple Developer Program (99 USD ročně) a přístup do App Store Connect.</li>
+  <li>Google Play Console (jednorázově 25 USD), ověření identity; u nového osobního účtu povinné uzavřené testování (aktuální podmínky v Play Console).</li>
+  <li>Účet Expo, <code>npm i -g eas-cli</code>, <code>eas login</code>, <code>eas init</code> (doplní <code>extra.eas.projectId</code> do <code>app.json</code>).</li>
+</ul>
+<h3>Sestavení a odeslání</h3>
+<ul class="zaskrt">
+  <li>Zvednout <code>version</code> v <code>app.json</code> na 1.0.0 a commitnout.</li>
+  <li><code>eas build --profile preview</code>, vyzkoušet na telefonu i tabletu (orientace, zvuk, rodičovská zóna, odkaz na soukromí).</li>
+  <li><code>eas build --profile production --platform all</code> (EAS vytvoří certifikáty a keystore, keystore si zálohuj).</li>
+  <li>V App Store Connect založit aplikaci se stejným bundle ID; v Play Console aplikaci s balíčkem <code>cz.hrdlickamartin.mracekkapacek</code>.</li>
+  <li><code>eas submit --profile production</code> pro iOS (TestFlight) a Android (první nahrání AAB může vyžadovat ruční upload nebo service account klíč pro Play).</li>
+</ul>
+<h3>Prohlášení v obchodech</h3>
+<ul class="zaskrt">
+  <li>App Store: App Privacy = Data Not Collected; Kids Category, pásmo 5 a mladší; věkový dotazník; export compliance (bez šifrování).</li>
+  <li>Google Play: Cílová skupina a obsah (5 a mladší) → Families Policy; formulář <b>Data safety</b> (žádná data); dotazník IARC; reklamy: ne; přístup do aplikace: bez přihlášení.</li>
+  <li>URL zásad ochrany soukromí v obou obchodech; ověřit, že po nasazení webu stránka běží.</li>
+  <li>Texty z kapitoly 3, snímky z kapitoly 6, ikona 512 × 512 a hlavní obrázek 1024 × 500 pro Google Play.</li>
+  <li>Kontaktní e-mail podpory (obchody ho vyžadují; GitHub stačí jako odkaz na podporu, e-mail je povinný údaj účtu).</li>
+</ul>
+
+<div class="paticka">Mráček Kapáček · Vydání 1.0 · listopad 2026 · navazuje na <code>docs/ui-style-guide.pdf</code></div>
+</section>
+</body>
+</html>

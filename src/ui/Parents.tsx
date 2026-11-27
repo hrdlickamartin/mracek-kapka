@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Linking, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Svg, { Circle, G, Path } from 'react-native-svg';
-import type { SaveData, Settings, SleepMinutes } from '../progression/saveData';
+import type { Lang, SaveData, Settings, SleepMinutes } from '../progression/saveData';
+import { LANGS, texts } from './i18n';
 import { COLORS, FONTS } from './theme';
 
-const ORDINALS = ['první', 'druhou', 'třetí', 'čtvrtou', 'pátou'];
+const PRIVACY_URL = 'https://hrdlickamartin.github.io/mracek-kapka/soukromi.html';
 const COLORS_TASK = ['#ED3E1D', '#F9BA0A', '#BD8EFA', '#3BAEFD', '#EC8FBB'];
 
 function Flower({ color }: { color: string }) {
@@ -20,14 +21,15 @@ function Flower({ color }: { color: string }) {
   );
 }
 
-export function ParentGate({ onPass, onClose }: { onPass: () => void; onClose: () => void }) {
+export function ParentGate({ lang, onPass, onClose }: { lang?: Lang; onPass: () => void; onClose: () => void }) {
+  const t = texts(lang);
   const [task] = useState(() => Math.floor(Math.random() * 5));
   const [colors] = useState(() => [...COLORS_TASK].sort(() => Math.random() - 0.5));
   return (
     <View style={styles.overlay}>
       <View style={styles.gate}>
-        <Text style={styles.h1}>Pro rodiče</Text>
-        <Text style={styles.text}>Ťukněte na {ORDINALS[task]} kytičku zleva.</Text>
+        <Text style={styles.h1}>{t.parents}</Text>
+        <Text style={styles.text}>{t.gateTask(task)}</Text>
         <View style={styles.flowers}>
           {colors.map((c, i) => (
             <Pressable key={c} accessibilityRole="button" accessibilityLabel={`Kytička ${i + 1}`} onPress={() => (i === task ? onPass() : onClose())} style={styles.flowerBtn}>
@@ -36,7 +38,7 @@ export function ParentGate({ onPass, onClose }: { onPass: () => void; onClose: (
           ))}
         </View>
         <Pressable accessibilityRole="button" onPress={onClose} style={styles.secondary}>
-          <Text style={styles.secondaryText}>Zpět do hry</Text>
+          <Text style={styles.secondaryText}>{t.backToGame}</Text>
         </Pressable>
       </View>
     </View>
@@ -62,16 +64,16 @@ function Steps({ value, onChange, label }: { value: number; onChange: (v: number
   );
 }
 
-function Toggle({ value, onChange, label }: { value: boolean; onChange: (v: boolean) => void; label: string }) {
+function Toggle({ value, onChange, label, on, off }: { value: boolean; onChange: (v: boolean) => void; label: string; on: string; off: string }) {
   return (
     <Pressable accessibilityRole="switch" accessibilityState={{ checked: value }} accessibilityLabel={label} onPress={() => onChange(!value)} style={[styles.toggle, value && styles.toggleOn]}>
       <View style={[styles.knob, value && styles.knobOn]} />
-      <Text style={[styles.toggleText, value && { color: '#FFFFFF' }]}>{value ? 'zap.' : 'vyp.'}</Text>
+      <Text style={[styles.toggleText, value && { color: '#FFFFFF' }]}>{value ? on : off}</Text>
     </Pressable>
   );
 }
 
-function Choice<T extends number>({ options, value, onChange, format }: { options: T[]; value: T; onChange: (v: T) => void; format: (v: T) => string }) {
+function Choice<T extends number | string>({ options, value, onChange, format }: { options: T[]; value: T; onChange: (v: T) => void; format: (v: T) => string }) {
   return (
     <View style={styles.choices}>
       {options.map((o) => (
@@ -85,38 +87,45 @@ function Choice<T extends number>({ options, value, onChange, format }: { option
 
 export function ParentZone({ save, onSettings, onReset, onClose }: { save: SaveData; onSettings: (s: Partial<Settings>) => void; onReset: () => void; onClose: () => void }) {
   const s = save.settings;
+  const t = texts(s.lang);
   const [confirm, setConfirm] = useState(false);
   return (
     <View style={[StyleSheet.absoluteFill, { backgroundColor: COLORS.paper }]}>
       <ScrollView contentContainerStyle={styles.page}>
-        <Text style={styles.h1}>Pro rodiče</Text>
-        <Text style={styles.h2}>Zvuk</Text>
-        <Row label="Hlasitost hudby"><Steps label="Hudba" value={s.music} onChange={(v) => onSettings({ music: v })} /></Row>
-        <Row label="Hlasitost efektů"><Steps label="Efekty" value={s.sfx} onChange={(v) => onSettings({ sfx: v })} /></Row>
-        <Row label="Vibrace"><Toggle label="Vibrace" value={s.haptics} onChange={(v) => onSettings({ haptics: v })} /></Row>
-        <Text style={styles.h2}>Hraní</Text>
-        <Row label="Připomínka spánku">
-          <Choice<SleepMinutes> options={[0, 10, 20, 30]} value={s.sleepMinutes} onChange={(v) => onSettings({ sleepMinutes: v })} format={(v) => (v ? `${v} min` : 'vyp.')} />
+        <Text style={styles.h1}>{t.parents}</Text>
+        <Text style={styles.h2}>{t.sound}</Text>
+        <Row label={t.music}><Steps label="Hudba" value={s.music} onChange={(v) => onSettings({ music: v })} /></Row>
+        <Row label={t.sfx}><Steps label="Efekty" value={s.sfx} onChange={(v) => onSettings({ sfx: v })} /></Row>
+        <Row label={t.haptics}><Toggle label="Vibrace" on={t.on} off={t.off} value={s.haptics} onChange={(v) => onSettings({ haptics: v })} /></Row>
+        <Text style={styles.h2}>{t.play}</Text>
+        <Row label={t.sleep}>
+          <Choice<SleepMinutes> options={[0, 10, 20, 30]} value={s.sleepMinutes} onChange={(v) => onSettings({ sleepMinutes: v })} format={(v) => (v ? t.minutes(v) : t.off)} />
         </Row>
-        <Row label="Méně pohybu"><Toggle label="Méně pohybu" value={s.reducedMotion} onChange={(v) => onSettings({ reducedMotion: v })} /></Row>
-        <Row label="Vyšší kontrast"><Toggle label="Vyšší kontrast" value={s.highContrast} onChange={(v) => onSettings({ highContrast: v })} /></Row>
-        <Text style={styles.h2}>O hře</Text>
-        <Text style={styles.text}>Mráček Kapáček je hra pro děti od 3 do 5 let. Nemá reklamy ani nákupy, nesbírá žádná data a funguje bez internetu. Hra se ukládá sama a postup se nikdy neztratí, ani když dítě aplikaci zavře. Nedá se prohrát, nemá skóre ani časové limity.</Text>
-        <Text style={styles.text}>Hra nemluví. Co má dítě udělat, ukazují obrázky, pohyb, hudba a zvuky.</Text>
-        <Text style={styles.h2}>Začít znovu</Text>
+        <Row label={t.reducedMotion}><Toggle label="Méně pohybu" on={t.on} off={t.off} value={s.reducedMotion} onChange={(v) => onSettings({ reducedMotion: v })} /></Row>
+        <Row label={t.highContrast}><Toggle label="Vyšší kontrast" on={t.on} off={t.off} value={s.highContrast} onChange={(v) => onSettings({ highContrast: v })} /></Row>
+        <Row label={t.language}>
+          <Choice<Lang> options={LANGS.map((l) => l.id)} value={s.lang} onChange={(v) => onSettings({ lang: v })} format={(v) => LANGS.find((l) => l.id === v)?.name ?? v} />
+        </Row>
+        <Text style={styles.h2}>{t.about}</Text>
+        <Text style={styles.text}>{t.aboutText} {Platform.OS === 'web' ? t.aboutWeb : t.aboutOffline}</Text>
+        <Text style={styles.text}>{t.aboutVoice}</Text>
+        <Pressable accessibilityRole="link" onPress={() => Linking.openURL(s.lang === 'en' ? `${PRIVACY_URL}#en` : PRIVACY_URL)} style={styles.secondary}>
+          <Text style={styles.secondaryText}>{t.privacy}</Text>
+        </Pressable>
+        <Text style={styles.h2}>{t.startOver}</Text>
         {!confirm ? (
           <Pressable accessibilityRole="button" onPress={() => setConfirm(true)} style={styles.secondary}>
-            <Text style={styles.secondaryText}>Vymazat postup</Text>
+            <Text style={styles.secondaryText}>{t.erase}</Text>
           </Pressable>
         ) : (
           <View style={styles.confirm}>
-            <Text style={styles.text}>Opravdu smazat celý postup? Album, zahrádka a šatník začnou od začátku.</Text>
+            <Text style={styles.text}>{t.eraseConfirm}</Text>
             <View style={{ flexDirection: 'row', gap: 12 }}>
               <Pressable accessibilityRole="button" onPress={() => { onReset(); setConfirm(false); }} style={[styles.secondary, { borderColor: '#B8321D' }]}>
-                <Text style={[styles.secondaryText, { color: '#B8321D' }]}>Ano, smazat</Text>
+                <Text style={[styles.secondaryText, { color: '#B8321D' }]}>{t.eraseYes}</Text>
               </Pressable>
               <Pressable accessibilityRole="button" onPress={() => setConfirm(false)} style={styles.secondary}>
-                <Text style={styles.secondaryText}>Ne, nechat</Text>
+                <Text style={styles.secondaryText}>{t.eraseNo}</Text>
               </Pressable>
             </View>
           </View>
@@ -127,7 +136,7 @@ export function ParentZone({ save, onSettings, onReset, onClose }: { save: SaveD
         <Svg width={22} height={22} viewBox="0 0 48 48">
           <Path d="M30 10 L14 24 L30 38" stroke="#FFFFFF" strokeWidth={7} fill="none" strokeLinecap="round" strokeLinejoin="round" />
         </Svg>
-        <Text style={styles.backText}>Zpět do hry</Text>
+        <Text style={styles.backText}>{t.backToGame}</Text>
       </Pressable>
     </View>
   );

@@ -19,6 +19,7 @@ trap restore EXIT
 node -e "const f='app.json';const d=JSON.parse(require('fs').readFileSync(f));d.expo.experiments={...(d.expo.experiments||{}),baseUrl:'/mracek-kapka'};require('fs').writeFileSync(f,JSON.stringify(d,null,2)+'\n')"
 npx expo export --platform web --output-dir "$WORK/web" > "$WORK/export.log" 2>&1 || { tail -20 "$WORK/export.log"; exit 1; }
 restore
+node tools/deploy/precache.mjs "$WORK/web"
 
 HASH=$(grep -o 'index-[a-f0-9]*\.js' "$WORK/web/index.html" | head -1)
 SOURCE=$(git rev-parse --short HEAD)

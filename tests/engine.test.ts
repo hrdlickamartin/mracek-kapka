@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { KAPKA_FINGER_OFFSET, SCENE_W } from '../src/game/constants';
 import { createGame, step } from '../src/game/engine';
+import { addVisitor } from '../src/game/systems/visitors';
 import { GARDEN_SCENE, sceneById, scenesOf, WORLDS } from '../src/game/worlds';
 import type { GameEvent, GameState, Input } from '../src/game/types';
 
@@ -174,4 +175,136 @@ test('úplně rozkvetlá zahrádka začne při dalším příchodu znovu od sem�
   assert.ok(state.plants.every((p) => p.stage === 0));
   const partial = createGame(GARDEN_SCENE, { mode: 'zahradka', garden: [{ ...garden[0] }, { ...garden[1], stage: 1 as const }] });
   assert.deepEqual(partial.plants.map((p) => p.stage), [3, 1]);
+});
+
+function hover(x: number): (s: GameState) => Input {
+  return () => ({ pointer: { x, y: 320 + KAPKA_FINGER_OFFSET }, tap: null });
+}
+
+test('každý svět má scénu s vodou uprostřed a kouzelná věc stojí stranou od rostlin i vody', () => {
+  for (const world of WORLDS) {
+    const scenes = scenesOf(world);
+    assert.ok(scenes.some((s) => s.source.x === SCENE_W / 2), `${world.id} nemá vodu uprostřed`);
+    assert.equal(new Set(scenes.map((s) => s.backdrop)).size, 3, `${world.id} nestřídá pozadí`);
+    for (const scene of scenes) {
+      if (!scene.wonder) continue;
+      for (const p of scene.plants) assert.ok(Math.abs(p.x - scene.wonder.x) >= 200, `${scene.id} kouzelná věc u rostliny`);
+      assert.ok(Math.abs(scene.wonder.x - scene.source.x) > scene.source.w / 2 + 50 + 95, `${scene.id} kouzelná věc u vody`);
+      for (const h of scene.hideouts) assert.ok(Math.abs(h.x - scene.wonder.x) > 180, `${scene.id} schovávačka u kouzelné věci`);
+    }
+    if (world.wonder) assert.ok(scenes.filter((s) => s.wonder).length >= 2, `${world.id} má málo kouzelných věcí`);
+  }
+});
+
+test('déšť nad mlýnem ho roztočí, přivolá kachničku a potok zalije rostlinku', () => {
+  const scene = scenesOf(WORLDS.find((w) => w.id === 'rybnicek')!).find((s) => s.wonder)!;
+  const state = createGame(scene);
+  state.kapka.water = 1;
+  state.kapka.x = scene.wonder!.x;
+  const events = play(state, 5, hover(scene.wonder!.x));
+  assert.equal(state.wonder!.stage, 3);
+  assert.ok(state.found.animals.includes('kachnicka'));
+  assert.ok(state.visitors.some((v) => v.animal === 'kachnicka'));
+  assert.ok(state.plants.some((p) => p.stage >= 1), 'potok zalil rostlinku');
+  assert.ok(events.some((e) => e.type === 'sfx' && e.name === 'objev'));
+});
+
+test('kouzelná věc je bonus: cíl dál vede jen k vodě a rostlinkám', () => {
+  const scene = scenesOf(WORLDS.find((w) => w.id === 'morsky-breh')!).find((s) => s.wonder)!;
+  const state = createGame(scene);
+  for (let i = 0; i < 300; i++) {
+    step(state, botInput(state), DT);
+    if (state.goal) assert.ok(state.goal.kind === 'voda' || state.goal.kind === 'rostlina');
+  }
+});
+
+test('v noci je šero, které s rozkvětem slábne, a za Kapáčkem letí světlušky', () => {
+  const state = createGame(scenesOf(WORLDS.find((w) => w.id === 'nocni-zahrada')!)[0]);
+  step(state, idle(), DT);
+  const start = state.dark;
+  assert.ok(start > 0.3);
+  assert.ok(state.particles.some((p) => p.kind === 'svetluska'));
+  for (const p of state.plants) p.stage = 2;
+  step(state, idle(), DT);
+  assert.ok(state.dark < start);
+});
+
+test('příliv mění šířku moře jen do 20 % a při nasávání se zastaví', () => {
+  const scene = scenesOf(WORLDS.find((w) => w.id === 'morsky-breh')!)[0];
+  const state = createGame(scene);
+  const widths: number[] = [];
+  for (let i = 0; i < 600; i++) {
+    step(state, idle(), DT);
+    widths.push(state.source.w);
+  }
+  assert.ok(Math.max(...widths) <= scene.source.w * 1.2 + 0.01 && Math.min(...widths) >= scene.source.w * 0.8 - 0.01);
+  assert.ok(Math.max(...widths) - Math.min(...widths) > scene.source.w * 0.3);
+  state.kapka.x = scene.source.x;
+  play(state, 0.2, hover(scene.source.x));
+  const held = state.source.w;
+  play(state, 0.5, hover(scene.source.x));
+  assert.ok(state.kapka.sipping || state.kapka.water >= 1);
+  if (state.kapka.sipping) assert.equal(state.source.w, held);
+});
+
+test('zvířátko ze schovávačky si přeje kytičku a po jejím rozkvětu k ní přiběhne', () => {
+  const scene = sceneById('louka-3');
+  const state = createGame(scene);
+  const hideout = state.hideouts.find((h) => h.reward.type === 'animal')!;
+  step(state, { pointer: null, tap: { x: hideout.x, y: hideout.y } }, DT);
+  const v = state.visitors[0];
+  assert.ok(v.wish !== null);
+  play(state, 3, idle);
+  const plant = state.plants.find((p) => p.id === v.wish)!;
+  plant.stage = 3;
+  step(state, idle(), DT);
+  assert.equal(v.wish, null);
+  assert.ok(v.happy > 0);
+  assert.ok(Math.abs(v.tx - plant.x) < 100);
+});
+
+test('zvířátka přicházejí podle druhu: žížala ze země, rybka z vody', () => {
+  const state = createGame(sceneById('louka-1'));
+  const worm = addVisitor(state, 'zizala', { x: 900, y: 820 }, false);
+  assert.equal(worm.fromX, 900);
+  assert.ok(worm.fromY > 820);
+  const fish = addVisitor(state, 'rybka', { x: 900, y: 820 }, false);
+  assert.equal(fish.fromX, state.source.x);
+});
+
+test('v zahrádce Kapáček zasadí semínko z pytlíčku na volné místo a cíl ho tam vede', () => {
+  const state = createGame(GARDEN_SCENE, { mode: 'zahradka', garden: [{ kind: 'mak', x: 500, stage: 3 }], pouch: ['jahoda'] });
+  step(state, idle(), DT);
+  assert.equal(state.goal?.kind, 'seminko');
+  const slot = state.goal!.x;
+  state.kapka.x = slot;
+  const events = play(state, 2, hover(slot));
+  assert.ok(events.some((e) => e.type === 'planted' && e.kind === 'jahoda' && e.x === slot));
+  assert.equal(state.pouch.length, 0);
+  assert.ok(state.plants.some((p) => p.kind === 'jahoda' && p.x === slot));
+  assert.notEqual(state.goal?.kind, 'seminko');
+});
+
+test('ťuknutí na volné místo v zahrádce zasadí semínko a slavnost počká, dokud se nezasadí', () => {
+  const state = createGame(GARDEN_SCENE, { mode: 'zahradka', garden: [{ kind: 'mak', x: 500, stage: 3 }], pouch: ['jahoda'] });
+  play(state, 1, idle);
+  assert.equal(state.phase, 'hraje');
+  assert.equal(state.pouch.length, 1, 'bez doteku se nic nezasadí');
+  state.kapka.x = state.slots[0];
+  play(state, 2, idle);
+  assert.equal(state.pouch.length, 1, 'ani když Kapáček stojí nad hlínou');
+  const slot = state.slots[0];
+  step(state, { pointer: null, tap: { x: slot, y: 800 } }, DT);
+  assert.equal(state.pouch.length, 0);
+});
+
+test('v zimě v zahrádce Kapáček sněží a host si sedne na své místo', () => {
+  const state = createGame(GARDEN_SCENE, { mode: 'zahradka', garden: [{ kind: 'mak', x: 650, stage: 3 }, { kind: 'jahoda', x: 950, stage: 0 }], season: 'zima', guest: 'motyl' });
+  assert.ok(state.mechanics.includes('snih'));
+  assert.equal(state.season, 'zima');
+  const guest = state.visitors[0];
+  assert.equal(guest.x, 650);
+  assert.ok(guest.y < 700, 'motýl sedí na květu');
+  const scene = createGame(sceneById('louka-1'), { season: 'zima' });
+  assert.equal(scene.season, null);
 });
