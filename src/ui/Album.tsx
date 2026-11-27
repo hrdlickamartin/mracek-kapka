@@ -26,7 +26,7 @@ function Sticker({ kind, owned, size }: { kind: AnimalKind; owned: boolean; size
     return (
       <View style={[styles.slot, { width: size, height: size }]} accessibilityLabel="Prázdné místo">
         <View style={{ opacity: 0.18 }}>
-          <MiniAnimal size={size * 0.8} kind={kind} />
+          <MiniAnimal size={size * 0.8} kind={kind} room />
         </View>
       </View>
     );
@@ -42,7 +42,7 @@ function Sticker({ kind, owned, size }: { kind: AnimalKind; owned: boolean; size
       }}
       style={[styles.sticker, { width: size, height: size, transform: [{ rotate: `${(kind.length % 5) - 2}deg` }] }]}
     >
-      <MiniAnimal size={size * 0.85} kind={kind} react={react} time={time} />
+      <MiniAnimal size={size * 0.85} kind={kind} react={react} time={time} room />
     </PressDown>
   );
 }

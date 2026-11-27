@@ -23,9 +23,9 @@ export function MiniKapka({ size, mood = 'zakladni', worn = {}, time = 0 }: { si
   );
 }
 
-export function MiniAnimal({ size, kind, react = 0, time = 0 }: { size: number; kind: AnimalKind; react?: number; time?: number }) {
+export function MiniAnimal({ size, kind, react = 0, time = 0, room = false }: { size: number; kind: AnimalKind; react?: number; time?: number; room?: boolean }) {
   return (
-    <MiniSvg size={size} box={[-105, -140, 210, 152]}>
+    <MiniSvg size={size} box={room ? [-110, -200, 220, 214] : [-105, -140, 210, 152]}>
       <AnimalFigure kind={kind} x={0} y={0} react={react} time={time} />
     </MiniSvg>
   );
